@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>楽天トラベル スーパーSALE 2026年6月 | 訴求情報まとめ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red:    #BF0000;
+      --red-l:  #E60026;
+      --red-bg: #FFF5F5;
+      --gold:   #D4A800;
+      --teal:   #5BC8CC;
+      --teal-d: #3AABB0;
+      --gray:   #F5F5F7;
+      --font: 'Noto Sans JP', sans-serif;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: var(--font); background: var(--gray); color: #222; min-height: 100vh; }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--red);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(191,0,0,.35);
+    }
+    .logo { font-size: 1rem; font-weight: 900; color: #fff; display: flex; align-items: center; gap: .5rem; letter-spacing: .04em; }
+    .logo-badge { background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.35); color: #fff; font-size: .72rem; font-weight: 700; padding: .18rem .65rem; border-radius: 1rem; }
+    .header-link { color: rgba(255,255,255,.85); text-decoration: none; font-size: .82rem; font-weight: 700; border: 1px solid rgba(255,255,255,.35); padding: .28rem .9rem; border-radius: 1.5rem; transition: background .2s; }
+    .header-link:hover { background: rgba(255,255,255,.15); }
+
+    /* ── SUB-NAV ── */
+    .sub-nav {
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 56px;
+      z-index: 90;
+      box-shadow: 0 1px 4px rgba(0,0,0,.04);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .sub-nav-item { display: inline-flex; align-items: center; gap: .3rem; text-decoration: none; color: #777; font-size: .8rem; font-weight: 700; padding: .72rem 1rem; border-bottom: 2.5px solid transparent; white-space: nowrap; transition: color .15s; }
+    .sub-nav-item:hover { color: var(--red); }
+    .sub-nav-item.active { color: var(--red); border-bottom-color: var(--red); }
+
+    /* ── MAIN ── */
+    main { max-width: 820px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+    /* ── HERO ── */
+    .hero { background: linear-gradient(135deg, #BF0000 0%, #E60026 55%, #FF4444 100%); border-radius: 1.2rem; padding: 2.2rem 2rem; margin-bottom: 2rem; color: #fff; position: relative; overflow: hidden; box-shadow: 0 6px 28px rgba(191,0,0,.3); }
+    .hero::before { content:''; position:absolute; top:-40px; right:-40px; width:220px; height:220px; border-radius:50%; background:rgba(255,255,255,.07); }
+    .hero::after  { content:''; position:absolute; bottom:-60px; left:-30px; width:180px; height:180px; border-radius:50%; background:rgba(255,255,255,.05); }
+    .hero-eyebrow { font-size:.78rem; font-weight:700; letter-spacing:.1em; color:rgba(255,255,255,.75); margin-bottom:.4rem; }
+    .hero-title { font-size:clamp(1.5rem,4vw,2.2rem); font-weight:900; line-height:1.3; margin-bottom:.6rem; }
+    .hero-title .pct { font-size:1.6em; color:#FFE566; }
+    .hero-sub { font-size:.92rem; color:rgba(255,255,255,.85); line-height:1.6; margin-bottom:1.4rem; }
+    .hero-cta { display:inline-flex; align-items:center; gap:.5rem; background:#fff; color:var(--red); font-weight:900; font-size:.95rem; padding:.65rem 1.6rem; border-radius:2rem; text-decoration:none; box-shadow:0 3px 12px rgba(0,0,0,.2); transition:transform .15s, box-shadow .15s; }
+    .hero-cta:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,.25); }
+    .hero-note { margin-top:.75rem; font-size:.74rem; color:rgba(255,255,255,.65); }
+
+    /* ── SECTION TITLE ── */
+    .section-title { display:flex; align-items:center; gap:.6rem; font-size:1.1rem; font-weight:900; color:#111; margin-bottom:1rem; padding-bottom:.5rem; border-bottom:2px solid #e0e0e0; }
+    .section-title .dot { width:8px; height:8px; border-radius:50%; background:var(--red); flex-shrink:0; }
+
+    /* ── TIMELINE ── */
+    .timeline-wrap { background:#fff; border-radius:1rem; padding:1.5rem; margin-bottom:2rem; box-shadow:0 2px 10px rgba(0,0,0,.06); }
+    .timeline { position:relative; display:flex; flex-direction:column; }
+    .timeline::before { content:''; position:absolute; left:7.5rem; top:0; bottom:0; width:2px; background:linear-gradient(to bottom,#BF0000,#5BC8CC); }
+    .tl-item { display:flex; gap:1.2rem; position:relative; padding-bottom:1.5rem; }
+    .tl-item:last-child { padding-bottom:0; }
+    .tl-date { min-width:7rem; text-align:right; flex-shrink:0; }
+    .tl-date-main { font-size:.92rem; font-weight:900; color:#111; line-height:1.2; }
+    .tl-date-sub  { font-size:.72rem; color:#aaa; font-weight:700; line-height:1.4; }
+    .tl-dot-wrap { display:flex; flex-direction:column; align-items:center; width:1rem; flex-shrink:0; position:relative; z-index:1; }
+    .tl-dot { width:14px; height:14px; border-radius:50%; border:2.5px solid #fff; box-shadow:0 0 0 2.5px currentColor; flex-shrink:0; margin-top:.1rem; }
+    .tl-body { flex:1; padding-top:.05rem; }
+    .tl-phase { font-size:.7rem; font-weight:700; letter-spacing:.08em; padding:.12rem .55rem; border-radius:1rem; display:inline-block; margin-bottom:.3rem; }
+    .tl-title  { font-size:.98rem; font-weight:900; color:#111; line-height:1.4; }
+    .tl-detail { font-size:.8rem; color:#666; margin-top:.2rem; line-height:1.5; }
+    .tl-end-time { font-size:.8rem; color:#aaa; font-weight:700; margin-top:.25rem; }
+    .tl-sub-list { margin-top:.45rem; display:flex; flex-direction:column; gap:.28rem; }
+    .tl-sub-item { display:flex; align-items:baseline; gap:.5rem; font-size:.8rem; }
+    .tl-sub-date  { font-weight:900; color:#2A9AA0; min-width:4.5rem; flex-shrink:0; }
+    .tl-sub-range { color:#555; }
+    .tl-sub-note  { font-size:.7rem; color:#aaa; }
+
+    /* ── POINT CARDS ── */
+    .points-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; margin-bottom:2rem; }
+    .point-card { background:#fff; border-radius:1rem; padding:1.2rem 1.1rem; box-shadow:0 2px 10px rgba(0,0,0,.06); border-top:3px solid var(--red); transition:transform .15s,box-shadow .15s; }
+    .point-card:hover { transform:translateY(-3px); box-shadow:0 6px 20px rgba(0,0,0,.1); }
+    .point-num   { font-size:.72rem; font-weight:900; color:var(--red); letter-spacing:.06em; margin-bottom:.35rem; }
+    .point-title { font-size:1rem; font-weight:900; color:#111; line-height:1.4; margin-bottom:.45rem; }
+    .point-pct   { font-size:1.5rem; font-weight:900; color:var(--red); line-height:1; }
+    .point-body  { font-size:.82rem; color:#555; line-height:1.6; }
+
+    /* ── CAMPAIGN CARDS ── */
+    .campaign-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:2rem; }
+    .campaign-card  { background:#fff; border-radius:1rem; padding:1.2rem 1.1rem; box-shadow:0 2px 10px rgba(0,0,0,.06); }
+    .campaign-cat   { font-size:.72rem; font-weight:700; letter-spacing:.06em; color:#fff; background:var(--red); display:inline-block; padding:.12rem .65rem; border-radius:1rem; margin-bottom:.55rem; }
+    .campaign-cat.overseas { background:var(--teal-d); }
+    .campaign-title { font-size:.95rem; font-weight:900; color:#111; line-height:1.4; margin-bottom:.35rem; }
+    .campaign-body  { font-size:.8rem; color:#555; line-height:1.6; }
+    .campaign-body .hl { font-weight:900; color:var(--red); }
+
+    /* ── TICKET CARDS ── */
+    .tickets-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:.9rem; margin-bottom:.75rem; }
+    .ticket-card { background:#fff; border-radius:.9rem; padding:1rem; box-shadow:0 2px 8px rgba(0,0,0,.06); display:flex; flex-direction:column; gap:.5rem; transition:transform .15s,box-shadow .15s; }
+    .ticket-card:hover { transform:translateY(-2px); box-shadow:0 5px 16px rgba(0,0,0,.1); }
+    .ticket-top { display:flex; align-items:center; gap:.35rem; flex-wrap:wrap; min-height:1.5rem; }
+    .badge-disc { font-size:.7rem; font-weight:900; padding:.12rem .55rem; border-radius:1rem; white-space:nowrap; }
+    .badge-disc.d30  { background:var(--red); color:#fff; }
+    .badge-disc.d20  { background:#C85000; color:#fff; }
+    .badge-disc.d10  { background:#9A6800; color:#fff; }
+    .badge-disc.sale { background:var(--teal-d); color:#fff; }
+    .ticket-name     { font-size:.83rem; font-weight:700; color:#111; line-height:1.55; }
+    .ticket-coupons  { display:flex; gap:.3rem; flex-wrap:wrap; }
+    .badge-coupon    { font-size:.65rem; font-weight:700; background:#F0F0F5; color:#555; padding:.1rem .45rem; border-radius:.75rem; }
+    .ticket-link { display:block; margin-top:auto; text-decoration:none; font-size:.8rem; font-weight:900; color:var(--red); border:1.5px solid var(--red); padding:.3rem .85rem; border-radius:1.5rem; text-align:center; transition:background .15s,color .15s; }
+    .ticket-link:hover { background:var(--red); color:#fff; }
+    .tickets-note { font-size:.74rem; color:#aaa; font-weight:700; margin-bottom:2rem; padding:0 .2rem; }
+
+    /* ── BANNER SECTION ── */
+    .banner-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; margin-bottom:.5rem; }
+    .banner-card { background:#fff; border-radius:1rem; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,.06); text-decoration:none; display:flex; flex-direction:column; transition:transform .15s,box-shadow .15s; border:2px solid transparent; }
+    .banner-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,.1); border-color:var(--red); }
+    .banner-img-wrap { width:100%; aspect-ratio:16/5; background:linear-gradient(135deg,#fce8e8 0%,#f0d0d0 100%); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+    .banner-real-img { width:100%; height:100%; object-fit:cover; display:none; }
+    .banner-real-img.loaded { display:block; }
+    .banner-placeholder { display:flex; flex-direction:column; align-items:center; gap:.3rem; color:#ccc; }
+    .banner-placeholder .bp-icon  { font-size:2rem; }
+    .banner-placeholder .bp-label { font-size:.72rem; font-weight:700; }
+    .banner-body { padding:.85rem 1rem; }
+    .banner-title { font-size:.92rem; font-weight:900; color:#111; margin-bottom:.2rem; }
+    .banner-meta  { font-size:.76rem; color:#888; line-height:1.5; }
+    .banner-footer-row { padding:.65rem 1rem; border-top:1px solid #f0f0f0; display:flex; align-items:center; justify-content:space-between; }
+    .banner-notion-label { font-size:.72rem; color:#bbb; font-weight:700; }
+    .banner-notion-btn   { font-size:.78rem; font-weight:900; color:var(--red); }
+    .banner-add-note { font-size:.74rem; color:#aaa; font-weight:700; margin-bottom:2rem; padding:.3rem .2rem; }
+
+    /* ── LINK BLOCK ── */
+    .link-block { background:#fff; border-radius:1rem; padding:1.4rem 1.5rem; box-shadow:0 2px 10px rgba(0,0,0,.06); margin-bottom:2rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .link-block-label { font-size:.8rem; font-weight:700; color:#999; margin-bottom:.25rem; }
+    .link-block-url   { font-size:.82rem; color:var(--red); word-break:break-all; font-weight:700; }
+    .link-btn { flex-shrink:0; background:var(--red); color:#fff; text-decoration:none; padding:.5rem 1.3rem; border-radius:2rem; font-size:.85rem; font-weight:900; white-space:nowrap; transition:background .15s; }
+    .link-btn:hover { background:#8B0000; }
+
+    /* ── SERVICE GRID ── */
+    .service-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:.75rem; margin-bottom:2rem; }
+    .service-card { background:#fff; border-radius:.85rem; padding:1rem; box-shadow:0 2px 8px rgba(0,0,0,.05); text-align:center; transition:transform .15s; }
+    .service-card:hover { transform:translateY(-2px); }
+    .service-icon { font-size:1.5rem; margin-bottom:.35rem; }
+    .service-name { font-size:.8rem; font-weight:700; color:#666; margin-bottom:.25rem; }
+    .service-pct  { font-size:1.2rem; font-weight:900; color:var(--red); }
+
+    /* ── PAGE NAV ── */
+    .page-nav-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:2rem; }
+    .page-nav-card { background:#fff; border-radius:1rem; padding:1.2rem 1.1rem; text-decoration:none; display:flex; align-items:center; gap:.9rem; box-shadow:0 2px 10px rgba(0,0,0,.06); border:2px solid #f0f0f0; transition:border-color .15s,transform .15s; }
+    .page-nav-card:hover { border-color:var(--red); transform:translateY(-2px); }
+    .page-nav-icon  { font-size:2rem; flex-shrink:0; }
+    .page-nav-body  { flex:1; min-width:0; }
+    .page-nav-title { font-size:.95rem; font-weight:900; color:#111; }
+    .page-nav-desc  { font-size:.76rem; color:#888; margin-top:.15rem; line-height:1.4; }
+    .page-nav-arrow { font-size:1rem; color:var(--red); flex-shrink:0; font-weight:900; }
+
+    /* ── INFO NOTE ── */
+    .info-note { background:#FFF9E0; border-left:3px solid var(--gold); border-radius:0 .75rem .75rem 0; padding:.9rem 1.1rem; font-size:.82rem; color:#7A5800; line-height:1.7; }
+
+    /* ── PHASE LINK CARDS ── */
+    .pls-section { margin-bottom: 2rem; }
+    .pls-phase-block { margin-bottom: 1.4rem; }
+    .pls-header { display:flex; align-items:center; gap:.55rem; margin-bottom:.7rem; }
+    .pls-badge { font-size:.72rem; font-weight:900; padding:.18rem .7rem; border-radius:1rem; white-space:nowrap; }
+    .pls-badge.b-ann  { background:#FFF0E0; color:#B86000; }
+    .pls-badge.b-pre  { background:#FFF0F5; color:#BF0000; }
+    .pls-badge.b-main { background:#FFF5F5; color:#BF0000; }
+    .pls-date { font-size:.75rem; color:#aaa; font-weight:700; }
+    .lc-row { display:grid; grid-template-columns:repeat(auto-fill,minmax(148px,1fr)); gap:.7rem; }
+    .lc { background:#fff; border-radius:.9rem; overflow:hidden; text-decoration:none; box-shadow:0 2px 8px rgba(0,0,0,.06); transition:transform .15s,box-shadow .15s; display:flex; flex-direction:column; }
+    .lc:hover { transform:translateY(-2px); box-shadow:0 5px 16px rgba(0,0,0,.12); }
+    .lc-body { padding:1rem .9rem .65rem; flex:1; }
+    .lc-icon { width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; margin-bottom:.55rem; }
+    .lc-icon.ic-red    { background:#FFEAEA; }
+    .lc-icon.ic-orange { background:#FFF3E0; }
+    .lc-icon.ic-teal   { background:#E8F8F8; }
+    .lc-icon.ic-gold   { background:#FFF8D0; }
+    .lc-icon.ic-blue   { background:#EAF2FF; }
+    .lc-icon.ic-green  { background:#E8F8EC; }
+    .lc-num   { font-size:.66rem; font-weight:900; color:#ccc; letter-spacing:.06em; margin-bottom:.2rem; }
+    .lc-title { font-size:.82rem; font-weight:900; color:#111; line-height:1.45; margin-bottom:.4rem; }
+    .lc-disc  { font-size:1.05rem; font-weight:900; color:var(--red); line-height:1.1; }
+    .lc-disc.d-gold  { color:#B07000; }
+    .lc-disc.d-teal  { color:var(--teal-d); }
+    .lc-note  { font-size:.64rem; color:#bbb; line-height:1.4; margin-top:.2rem; }
+    .lc-foot  { padding:.45rem .9rem .6rem; border-top:1px solid #f5f5f5; display:flex; align-items:center; justify-content:flex-end; }
+    .lc-open  { font-size:.72rem; font-weight:900; color:var(--red); }
+
+    footer { text-align:center; padding:2rem; font-size:.75rem; color:#bbb; font-weight:700; }
+
+    @media (max-width: 580px) {
+      header { padding: 0 1rem; }
+      .sub-nav { padding: 0 .5rem; }
+      main { padding: 1.2rem 1rem 4rem; }
+      .hero { padding: 1.6rem 1.3rem; }
+      .campaign-grid { grid-template-columns: 1fr; }
+      .timeline::before { left: 6rem; }
+      .tl-date { min-width: 5.5rem; }
+      .page-nav-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    楽天トラベル スーパーSALE
+    <span class="logo-badge">2026年6月</span>
+  </div>
+  <a class="header-link" href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" target="_blank" rel="noopener">公式ページへ →</a>
+</header>
+
+<!-- SUB-NAV -->
+<nav class="sub-nav">
+  <a href="rakuten-supersale.html"          class="sub-nav-item active">📋 TOP 概要</a>
+  <a href="rakuten-supersale-schedule.html" class="sub-nav-item">📅 投稿スケジュール</a>
+  <a href="rakuten-supersale-hotels.html"   class="sub-nav-item">🏨 人気ホテル一覧</a>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">RAKUTEN TRAVEL SUPER SALE 2026</div>
+    <div class="hero-title">旅行予約が毎日<br>最大<span class="pct">30%</span>OFF</div>
+    <div class="hero-sub">
+      楽天トラベル スーパーSALEが6月4日(木)20時より開幕！<br>
+      初めてのアプリ予約なら最大<strong>35%OFF</strong>でさらにお得。
+    </div>
+    <a class="hero-cta" href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" target="_blank" rel="noopener">▶ 今すぐチェックする</a>
+    <div class="hero-note">* メイン訴求の最大割引率が20%→30%OFFに拡大</div>
+  </div>
+
+  <!-- 開催スケジュール -->
+  <div class="section-title"><span class="dot"></span>開催スケジュール</div>
+  <div class="timeline-wrap">
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-date">
+          <div class="tl-date-main">5/31(日)</div>
+          <div class="tl-date-sub">10:00〜</div>
+        </div>
+        <div class="tl-dot-wrap"><div class="tl-dot" style="color:#E08030;background:#E08030;"></div></div>
+        <div class="tl-body">
+          <span class="tl-phase" style="background:#FFF0E0;color:#B86000;">告知期間スタート</span>
+          <div class="tl-title">スーパーSALE 告知開始</div>
+          <div class="tl-detail">SNS・各チャネルで開幕予告を投稿するタイミング</div>
+          <div class="tl-end-time">〜 6/4(木) 19:59 まで</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">
+          <div class="tl-date-main">6/1(月)</div>
+          <div class="tl-date-sub">10:00〜</div>
+        </div>
+        <div class="tl-dot-wrap"><div class="tl-dot" style="color:#E60026;background:#E60026;"></div></div>
+        <div class="tl-body">
+          <span class="tl-phase" style="background:#FFF0F5;color:#BF0000;">先行SALE</span>
+          <div class="tl-title">先行セール開始</div>
+          <div class="tl-detail">チェーンスペシャルオファー（全会員）最大<strong>33%OFF</strong> 開始</div>
+          <div class="tl-end-time">〜 6/4(木) 19:59 まで</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">
+          <div class="tl-date-main">6/4(木)</div>
+          <div class="tl-date-sub">20:00〜</div>
+        </div>
+        <div class="tl-dot-wrap"><div class="tl-dot" style="color:#BF0000;background:#BF0000;"></div></div>
+        <div class="tl-body">
+          <span class="tl-phase" style="background:#FFF5F5;color:#BF0000;">🎉 本SALE 開幕</span>
+          <div class="tl-title">スーパーSALE 本番スタート！</div>
+          <div class="tl-detail">毎日最大<strong>30%OFF</strong> ／ テーマパーク提携ホテル最大23%OFF<br>ポイントバックキャンペーン エントリー受付開始</div>
+          <div class="tl-end-time">〜 6/20(土) 23:59 まで</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">
+          <div class="tl-date-main">5と0の日</div>
+          <div class="tl-date-sub">各72時間</div>
+        </div>
+        <div class="tl-dot-wrap"><div class="tl-dot" style="color:#5BC8CC;background:#5BC8CC;"></div></div>
+        <div class="tl-body">
+          <span class="tl-phase" style="background:#E8F8F8;color:#2A9AA0;">5と0のつく日 特別開催</span>
+          <div class="tl-title">72時間 × 4回 開催</div>
+          <div class="tl-sub-list">
+            <div class="tl-sub-item">
+              <span class="tl-sub-date">6/5(金)</span>
+              <span class="tl-sub-range">00:00 〜 6/7(日) 23:59</span>
+            </div>
+            <div class="tl-sub-item">
+              <span class="tl-sub-date">6/10(水)</span>
+              <span class="tl-sub-range">00:00 〜 6/12(金) 23:59</span>
+            </div>
+            <div class="tl-sub-item">
+              <span class="tl-sub-date">6/15(月)</span>
+              <span class="tl-sub-range">00:00 〜 6/17(水) 23:59</span>
+            </div>
+            <div class="tl-sub-item">
+              <span class="tl-sub-date">6/20(土)</span>
+              <span class="tl-sub-range">00:00 〜 23:59</span>
+              <span class="tl-sub-note">SALE最終日のため終了まで</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-date">
+          <div class="tl-date-main">6/20(土)</div>
+          <div class="tl-date-sub">23:59 終了</div>
+        </div>
+        <div class="tl-dot-wrap"><div class="tl-dot" style="color:#999;background:#999;"></div></div>
+        <div class="tl-body">
+          <span class="tl-phase" style="background:#F0F0F0;color:#666;">最終日</span>
+          <div class="tl-title">スーパーSALE 終了</div>
+          <div class="tl-detail">ラストコール投稿を忘れずに</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 公式URL -->
+  <div class="link-block">
+    <div>
+      <div class="link-block-label">公式イベントURL（アフィリエイトリンク）</div>
+      <div class="link-block-url">https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten</div>
+    </div>
+    <a class="link-btn" href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" target="_blank" rel="noopener">開く →</a>
+  </div>
+
+  <!-- 施策別リンク一覧 -->
+  <div class="section-title"><span class="dot"></span>施策別リンク一覧</div>
+  <div class="pls-section">
+
+    <!-- 告知期間 -->
+    <div class="pls-phase-block">
+      <div class="pls-header">
+        <span class="pls-badge b-ann">告知期間</span>
+        <span class="pls-date">5/31(日) 〜</span>
+      </div>
+      <div class="lc-row">
+
+        <a class="lc" href="https://search.travel.rakuten.co.jp/ds/undated/search?f_dai=japan&f_sort=hotel&f_page=1&f_hyoji=30&f_tab=hotel&f_cd=02&f_layout=grid&f_campaign=17ss2606cp_12&f_charge_users=2&scid=af_trv_2026uurakuten" target="_blank" rel="noopener">
+          <div class="lc-body">
+            <div class="lc-icon ic-red">🏨</div>
+            <div class="lc-num">LINK ①</div>
+            <div class="lc-title">[対象者限定]<br>ホテル</div>
+            <div class="lc-disc">最大30%OFF</div>
+            <div class="lc-note">対象者限定プラン</div>
+          </div>
+          <div class="lc-foot"><span class="lc-open">開く →</span></div>
+        </a>
+
+        <a class="lc" href="https://search.travel.rakuten.co.jp/ds/undated/search?f_dai=japan&f_sort=hotel&f_page=1&f_hyoji=30&f_tab=hotel&f_cd=02&f_layout=grid&f_campaign=17ss2606cp_20&f_charge_users=2&scid=af_trv_2026uurakuten" target="_blank" rel="noopener">
+          <div class="lc-body">
+            <div class="lc-icon ic-orange">🎢</div>
+            <div class="lc-num">LINK ②</div>
+            <div class="lc-title">テーマパーク<br>提携ホテル</div>
+            <div class="lc-disc">最大33%OFF</div>
+          </div>
+          <div class="lc-foot"><span class="lc-open">開く →</span></div>
+        </a>
+
+        <a class="lc" href="https://search.travel.rakuten.co.jp/ds/undated/search?f_dai=japan&f_sort=hotel&f_page=1&f_hyoji=30&f_tab=hotel&f_cd=02&f_layout=grid&f_campaign=17ss2606cp_11&f_charge_users=2&scid=af_trv_2026uurakuten" target="_blank" rel="noopener">
+          <div class="lc-body">
+            <div class="lc-icon ic-teal">🏩</div>
+            <div class="lc-num">LINK ③</div>
+            <div class="lc-title">チェーンホテル</div>
+            <div class="lc-disc">最大33%OFF</div>
+          </div>
+          <div class="lc-foot"><span class="lc-open">開く →</span></div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- 先行SALE -->
+    <div class="pls-phase-block">
+      <div class="pls-header">
+        <span class="pls-badge b-pre">先行SALE</span>
+        <span class="pls-date">6/1(月) 10:00 〜</span>
+      </div>
+      <div class="lc-row">
+
+        <a class="lc" href="https://search.travel.rakuten.co.jp/ds/undated/search?f_dai=japan&f_sort=hotel&f_page=1&f_hyoji=30&f_tab=hotel&f_cd=02&f_layout=grid&f_campaign=17ss260650_14&f_charge_users=2&scid=af_trv_2026uurakuten" target="_blank" rel="noopener">
+          <div class="lc-body">
+            <div class="lc-icon ic-gold">🏷️</div>
+            <div class="lc-num">LINK ⑥</div>
+            <div class="lc-title">半額プラン</div>
+            <div class="lc-disc d-gold">最大50%OFF</div>
+            <div class="lc-note">プラン公開：6/1 10:00</div>
+          </div>
+          <div class="lc-foot"><span class="lc-open">開く →</span></div>
+        </a>
+
+        <a class="lc" href="https://travel.rakuten.co.jp/special/special-offers/chain/202606/?scid=af_trv_2026uurakuten" target="_blank" rel="noopener">
+          <div class="lc-body">
+            <div class="lc-icon ic-teal">⛓️</div>
+            <div class="lc-num">LINK +</div>
+            <div class="lc-title">チェーン<br>スペシャルオファー</div>
+            <div class="lc-disc">最大28%OFF</div>
+            <div class="lc-note">LP表記 ※SALEページは33%</div>
+          </div>
+          <div class="lc-foot"><span class="lc-open">開く →</span></div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- 本番SALE -->
+    <div class="pls-phase-block">
+      <div class="pls-header">
+        <span class="pls-badge b-main">本番SALE</span>
+        <span class="pls-date">6/4(木) 20:00 〜</span>
+      </div>
+      <div class="lc-row">
+
+        <a class="lc" href="https://event.travel.rakuten.co.jp/special/sales/coupon/4000.html?scid=af_trv_2026uurakuten" target="_blank" rel="noopener">
+          <div class="lc-body">
+            <div class="lc-icon ic-red">🎫</div>
+            <div class="lc-num">LINK ⑦</div>
+            <div class="lc-title">割引クーポン</div>
+            <div class="lc-disc">最大4,000円OFF</div>
+            <div class="lc-note">ページ公開：6/4 20:00</div>
+          </div>
+          <div class="lc-foot"><span class="lc-open">開く →</span></div>
+        </a>
+
+        <a class="lc" href="https://travel.rakuten.co.jp/superdeal/special/ss2606/index.html?scid=af_trv_2026uurakuten" target="_blank" rel="noopener">
+          <div class="lc-body">
+            <div class="lc-icon ic-blue">💰</div>
+            <div class="lc-num">LINK ⑧</div>
+            <div class="lc-title">Rakuten<br>スーパーDEAL</div>
+            <div class="lc-disc d-teal">30%ポイント還元</div>
+          </div>
+          <div class="lc-foot"><span class="lc-open">開く →</span></div>
+        </a>
+
+        <a class="lc" href="https://search.travel.rakuten.co.jp/ds/undated/search?f_dai=japan&f_sort=hotel&f_page=1&f_hyoji=30&f_tab=hotel&f_cd=02&f_layout=grid&f_campaign=17ss2606lm_14&f_charge_users=2&scid=af_trv_2026uurakuten" target="_blank" rel="noopener">
+          <div class="lc-body">
+            <div class="lc-icon ic-green">⏰</div>
+            <div class="lc-num">LINK ⑨</div>
+            <div class="lc-title">期間限定プラン</div>
+            <div class="lc-disc">限定特価</div>
+            <div class="lc-note">公開：6/4 20:00</div>
+          </div>
+          <div class="lc-foot"><span class="lc-open">開く →</span></div>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 訴求ポイント 3選 -->
+  <div class="section-title"><span class="dot"></span>🌟 訴求ポイント 3選</div>
+  <div class="points-grid">
+
+    <div class="point-card">
+      <div class="point-num">POINT 01</div>
+      <div class="point-title">5と0のつく日<br>72時間に延長！</div>
+      <div class="point-body">3月に引き続き6月も延長開催。スーパーSALE期中含む6月中は、5と0のつく日が<strong>48h → 72h</strong>になります。</div>
+    </div>
+
+    <div class="point-card">
+      <div class="point-num">POINT 02</div>
+      <div class="point-title">テーマパーク<br>提携ホテル</div>
+      <div class="point-pct">最大23%OFF</div>
+      <div class="point-body" style="margin-top:.35rem;">SALE開催期間中に「テーマパークスペシャルオファー」を同時開催。</div>
+    </div>
+
+    <div class="point-card">
+      <div class="point-num">POINT 03</div>
+      <div class="point-title">チェーンスペシャル<br>ホテル</div>
+      <div class="point-pct">最大33%OFF</div>
+      <div class="point-body" style="margin-top:.35rem;">先行セール開始日から全会員向けのチェーンスペシャルオファーを開催。</div>
+    </div>
+
+  </div>
+
+  <!-- キャンペーン -->
+  <div class="section-title"><span class="dot"></span>開催キャンペーン</div>
+  <div class="campaign-grid">
+    <div class="campaign-card">
+      <span class="campaign-cat">国内宿泊</span>
+      <div class="campaign-title">エントリー＆ご旅行で<br>最大全額ポイントバック</div>
+      <div class="campaign-body">抽選で<span class="hl">2,500名様</span>に最大全額ポイントバック！<br>楽天モバイルご利用で<span class="hl">当選確率2倍</span>に。</div>
+    </div>
+    <div class="campaign-card">
+      <span class="campaign-cat overseas">海外旅行</span>
+      <div class="campaign-title">エントリー＆対象ホテル予約で<br>ポイント還元</div>
+      <div class="campaign-body">エントリー＆予約で<span class="hl">+15%ポイント還元</span><br>ポイントUPプランなら<span class="hl">最大35%還元</span><br><span style="font-size:.72rem;color:#aaa;">*ポイント20%プラン利用時</span></div>
+    </div>
+  </div>
+
+  <!-- 観光体験チケット -->
+  <div class="section-title"><span class="dot"></span>楽天トラベル 観光体験チケット</div>
+  <div class="info-note" style="margin-bottom:1rem;">
+    <strong>メイン訴求：</strong>「最大30%OFF！さらにお得な割引商品販売中！」
+  </div>
+  <div class="tickets-grid">
+
+    <div class="ticket-card">
+      <div class="ticket-top"><span class="badge-disc d30">SALE 30%OFF</span></div>
+      <div class="ticket-name">大磯ロングビーチ（大磯プリンスホテル内）前売りチケット</div>
+      <div class="ticket-coupons">
+        <span class="badge-coupon">国内30%(リワード)</span>
+        <span class="badge-coupon">国内5%・10%</span>
+      </div>
+      <a href="https://experiences.travel.rakuten.co.jp/experiences/62585" class="ticket-link" target="_blank" rel="noopener">詳細・予約 →</a>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-top"><span class="badge-disc d20">SALE 20%OFF</span></div>
+      <div class="ticket-name">VIE presents ZEN NIGHT 京都 東福寺 夜間プレミアム拝観 入場チケット</div>
+      <div class="ticket-coupons">
+        <span class="badge-coupon">国内30%(リワード)</span>
+        <span class="badge-coupon">国内5%・10%</span>
+      </div>
+      <a href="https://experiences.travel.rakuten.co.jp/experiences/60743" class="ticket-link" target="_blank" rel="noopener">詳細・予約 →</a>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-top"><span class="badge-disc sale">フェス</span></div>
+      <div class="ticket-name">[7/24〜26] FUJI ROCK FESTIVAL '26 Eチケット</div>
+      <div class="ticket-coupons"><span class="badge-coupon">国内5%・10%</span></div>
+      <a href="https://experiences.travel.rakuten.co.jp/experiences/62510" class="ticket-link" target="_blank" rel="noopener">詳細・予約 →</a>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-top"><span class="badge-disc sale">フェス</span></div>
+      <div class="ticket-name">『OSAKA GIGANTIC MUSIC FESTIVAL 2026 -THANKS 10TH GIGA-』入場Eチケット</div>
+      <div class="ticket-coupons"><span class="badge-coupon">国内5%・10%</span></div>
+      <a href="https://experiences.travel.rakuten.co.jp/experiences/62579" class="ticket-link" target="_blank" rel="noopener">詳細・予約 →</a>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-top"><span class="badge-disc d10">SALE 10%OFF</span></div>
+      <div class="ticket-name">新江ノ島水族館 入場Eチケット</div>
+      <div class="ticket-coupons">
+        <span class="badge-coupon">国内30%(リワード)</span>
+        <span class="badge-coupon">国内5%・10%</span>
+      </div>
+      <a href="https://experiences.travel.rakuten.co.jp/experiences/34960" class="ticket-link" target="_blank" rel="noopener">詳細・予約 →</a>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-top"><span class="badge-disc sale">体験</span></div>
+      <div class="ticket-name">JUNGLIA OKINAWA（ジャングリア沖縄）Eチケット</div>
+      <div class="ticket-coupons"><span class="badge-coupon">国内5%・10%</span></div>
+      <a href="https://experiences.travel.rakuten.co.jp/experiences/62313" class="ticket-link" target="_blank" rel="noopener">詳細・予約 →</a>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-top"><span class="badge-disc sale">体験</span></div>
+      <div class="ticket-name">鴨川シーワールド 入館チケット（即日発券）</div>
+      <div class="ticket-coupons"><span class="badge-coupon">国内5%・10%</span></div>
+      <a href="https://experiences.travel.rakuten.co.jp/experiences/62352" class="ticket-link" target="_blank" rel="noopener">詳細・予約 →</a>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-top"><span class="badge-disc sale">展覧会</span></div>
+      <div class="ticket-name">展覧会「ピカソ meets ポール・スミス 遊び心の冒険へ」入場チケット</div>
+      <div class="ticket-coupons"><span class="badge-coupon">国内5%・10%</span></div>
+      <a href="https://experiences.travel.rakuten.co.jp/experiences/62478" class="ticket-link" target="_blank" rel="noopener">詳細・予約 →</a>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-top"><span class="badge-disc sale">体験</span></div>
+      <div class="ticket-name">東京サマーランド 感謝デー チケット 予約</div>
+      <div class="ticket-coupons"><span class="badge-coupon">国内5%・10%</span></div>
+      <a href="https://experiences.travel.rakuten.co.jp/experiences/51601" class="ticket-link" target="_blank" rel="noopener">詳細・予約 →</a>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-top"><span class="badge-disc d10">SALE 10%OFF</span></div>
+      <div class="ticket-name">キッザニア東京 入場予約 eチケット</div>
+      <div class="ticket-coupons">
+        <span class="badge-coupon">国内30%(リワード)</span>
+        <span class="badge-coupon">国内5%・10%</span>
+      </div>
+      <a href="https://experiences.travel.rakuten.co.jp/experiences/40115" class="ticket-link" target="_blank" rel="noopener">詳細・予約 →</a>
+    </div>
+
+    <div class="ticket-card">
+      <div class="ticket-top"><span class="badge-disc sale">体験</span></div>
+      <div class="ticket-name">飯能 ムーミンバレーパーク 1デーパス 前売りEチケット</div>
+      <div class="ticket-coupons"><span class="badge-coupon">国内5%・10%</span></div>
+      <a href="https://experiences.travel.rakuten.co.jp/experiences/25531" class="ticket-link" target="_blank" rel="noopener">詳細・予約 →</a>
+    </div>
+
+  </div>
+  <div class="tickets-note">クーポン「国内30%(リワード)」または「国内5%・10%」を使用してください</div>
+
+  <!-- バナー素材 -->
+  <div class="section-title"><span class="dot"></span>バナー素材</div>
+  <div class="banner-grid">
+
+    <!-- 本番バナー（画像URLが決まったら img の src="" に追加） -->
+    <a href="https://uuum.notion.site/6-SALE-36cafaceb26180be8a39e501f38dbb51" class="banner-card" target="_blank" rel="noopener">
+      <div class="banner-img-wrap">
+        <img src="" alt="本番バナー" class="banner-real-img"
+          onload="this.classList.add('loaded');this.previousElementSibling && (this.previousElementSibling.style.display='none')"
+          onerror="this.style.display='none'">
+        <div class="banner-placeholder">
+          <div class="bp-icon">🖼</div>
+          <div class="bp-label">画像URL準備中</div>
+        </div>
+      </div>
+      <div class="banner-body">
+        <div class="banner-title">本番バナー</div>
+        <div class="banner-meta">6月スーパーSALE 本番用バナー素材<br>Notionでダウンロード・共有</div>
+      </div>
+      <div class="banner-footer-row">
+        <span class="banner-notion-label">Notion</span>
+        <span class="banner-notion-btn">バナーを確認 →</span>
+      </div>
+    </a>
+
+    <!-- 告知期間バナー（画像URLが決まったら img の src="" に追加） -->
+    <a href="https://uuum.notion.site/6-36dafaceb26180cab116e6612c8a403f" class="banner-card" target="_blank" rel="noopener">
+      <div class="banner-img-wrap">
+        <img src="" alt="告知期間バナー" class="banner-real-img"
+          onload="this.classList.add('loaded');this.previousElementSibling && (this.previousElementSibling.style.display='none')"
+          onerror="this.style.display='none'">
+        <div class="banner-placeholder">
+          <div class="bp-icon">🖼</div>
+          <div class="bp-label">画像URL準備中</div>
+        </div>
+      </div>
+      <div class="banner-body">
+        <div class="banner-title">告知期間バナー</div>
+        <div class="banner-meta">6月スーパーSALE 告知期間用バナー素材<br>Notionでダウンロード・共有</div>
+      </div>
+      <div class="banner-footer-row">
+        <span class="banner-notion-label">Notion</span>
+        <span class="banner-notion-btn">バナーを確認 →</span>
+      </div>
+    </a>
+
+  </div>
+  <div class="banner-add-note">※ 追加バナーのNotionリンクが届いたらここに追加予定</div>
+
+  <!-- その他サービス -->
+  <div class="section-title"><span class="dot"></span>その他サービスもおトク！</div>
+  <div class="service-grid">
+    <div class="service-card">
+      <div class="service-icon">✈️</div>
+      <div class="service-name">楽パック（交通＋宿）</div>
+      <div class="service-pct">最大30,000円</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚗</div>
+      <div class="service-name">レンタカー</div>
+      <div class="service-pct">最大45%OFF</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚌</div>
+      <div class="service-name">高速バス</div>
+      <div class="service-pct">最大1,000円</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌏</div>
+      <div class="service-name">海外旅行</div>
+      <div class="service-pct">最大50,000円</div>
+    </div>
+  </div>
+
+  <!-- 関連ページ -->
+  <div class="section-title"><span class="dot"></span>関連ページ</div>
+  <div class="page-nav-grid">
+    <a href="rakuten-supersale-schedule.html" class="page-nav-card">
+      <div class="page-nav-icon">📅</div>
+      <div class="page-nav-body">
+        <div class="page-nav-title">毎日の投稿スケジュール</div>
+        <div class="page-nav-desc">5/31〜6/20 の訴求コピー案を日別に確認</div>
+      </div>
+      <div class="page-nav-arrow">→</div>
+    </a>
+    <a href="rakuten-supersale-hotels.html" class="page-nav-card">
+      <div class="page-nav-icon">🏨</div>
+      <div class="page-nav-body">
+        <div class="page-nav-title">人気ホテル一覧</div>
+        <div class="page-nav-desc">去年のスーパーSALEで売れたホテルをチェック</div>
+      </div>
+      <div class="page-nav-arrow">→</div>
+    </a>
+  </div>
+
+</main>
+
+<footer>楽天トラベル スーパーSALE 訴求情報まとめ ／ 内部共有用資料</footer>
+
+</body>
+</html>

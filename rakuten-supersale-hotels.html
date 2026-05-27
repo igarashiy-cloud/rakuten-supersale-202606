@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>人気ホテル一覧 | 楽天トラベル スーパーSALE 2026年6月</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red:    #BF0000;
+      --red-l:  #E60026;
+      --red-bg: #FFF5F5;
+      --gold:   #D4A800;
+      --teal:   #5BC8CC;
+      --teal-d: #3AABB0;
+      --gray:   #F5F5F7;
+      --font: 'Noto Sans JP', sans-serif;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: var(--font); background: var(--gray); color: #222; min-height: 100vh; }
+
+    /* ── HEADER ── */
+    header { background: var(--red); padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(191,0,0,.35); }
+    .logo { font-size: 1rem; font-weight: 900; color: #fff; display: flex; align-items: center; gap: .5rem; letter-spacing: .04em; }
+    .logo-badge { background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.35); color: #fff; font-size: .72rem; font-weight: 700; padding: .18rem .65rem; border-radius: 1rem; }
+    .header-link { color: rgba(255,255,255,.85); text-decoration: none; font-size: .82rem; font-weight: 700; border: 1px solid rgba(255,255,255,.35); padding: .28rem .9rem; border-radius: 1.5rem; transition: background .2s; }
+    .header-link:hover { background: rgba(255,255,255,.15); }
+
+    /* ── SUB-NAV ── */
+    .sub-nav { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 0 1.5rem; display: flex; align-items: center; position: sticky; top: 56px; z-index: 90; box-shadow: 0 1px 4px rgba(0,0,0,.04); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .sub-nav-item { display: inline-flex; align-items: center; gap: .3rem; text-decoration: none; color: #777; font-size: .8rem; font-weight: 700; padding: .72rem 1rem; border-bottom: 2.5px solid transparent; white-space: nowrap; transition: color .15s; }
+    .sub-nav-item:hover { color: var(--red); }
+    .sub-nav-item.active { color: var(--red); border-bottom-color: var(--red); }
+
+    /* ── MAIN ── */
+    main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+    /* ── PAGE HERO ── */
+    .page-hero { background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%); border-radius: 1.2rem; padding: 2rem 2rem; margin-bottom: 1.5rem; color: #fff; position: relative; overflow: hidden; box-shadow: 0 6px 28px rgba(0,0,0,.2); }
+    .page-hero::before { content:''; position:absolute; top:-30px; right:-30px; width:160px; height:160px; border-radius:50%; background:rgba(255,255,255,.04); }
+    .page-hero-eyebrow { font-size:.72rem; font-weight:700; letter-spacing:.12em; color:rgba(255,255,255,.55); margin-bottom:.35rem; }
+    .page-hero-title { font-size:clamp(1.3rem,3vw,1.8rem); font-weight:900; line-height:1.3; margin-bottom:.5rem; }
+    .page-hero-title .year { color:#FFE566; }
+    .page-hero-sub { font-size:.85rem; color:rgba(255,255,255,.75); line-height:1.6; }
+
+    /* ── DATA COMING BANNER ── */
+    .data-banner { background: #FFF9E0; border: 1.5px solid var(--gold); border-radius: 1rem; padding: 1.1rem 1.3rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: .9rem; }
+    .data-banner-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .data-banner-text { font-size: .85rem; font-weight: 700; color: #7A5800; line-height: 1.6; }
+    .data-banner-text strong { display: block; font-size: .95rem; margin-bottom: .15rem; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center; }
+    .filter-label { font-size: .78rem; font-weight: 700; color: #aaa; margin-right: .25rem; }
+    .filter-btn { background: #fff; border: 1.5px solid #ddd; color: #666; font-family: var(--font); font-size: .78rem; font-weight: 700; padding: .35rem .9rem; border-radius: 2rem; cursor: pointer; transition: all .15s; white-space: nowrap; }
+    .filter-btn:hover { border-color: var(--red); color: var(--red); }
+    .filter-btn.active { border-color: var(--red); background: var(--red); color: #fff; }
+
+    /* ── HOTEL GRID ── */
+    .hotels-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+
+    /* ── HOTEL CARD ── */
+    .hotel-card { background: #fff; border-radius: 1rem; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.06); transition: transform .15s, box-shadow .15s; }
+    .hotel-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+    .hotel-card.placeholder { opacity: .75; }
+
+    .hotel-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .hotel-img-placeholder { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #eee 0%, #ddd 100%); display: flex; align-items: center; justify-content: center; }
+    .hotel-img-placeholder .ph-icon { font-size: 2rem; color: #ccc; }
+
+    .hotel-body { padding: 1rem; }
+    .hotel-badges { display: flex; gap: .35rem; flex-wrap: wrap; margin-bottom: .5rem; }
+    .badge-area { font-size: .68rem; font-weight: 700; background: #F0F0F5; color: #555; padding: .1rem .45rem; border-radius: .75rem; }
+    .badge-rank { font-size: .68rem; font-weight: 900; background: var(--gold); color: #fff; padding: .1rem .45rem; border-radius: .75rem; }
+    .badge-discount { font-size: .68rem; font-weight: 900; background: var(--red); color: #fff; padding: .1rem .45rem; border-radius: .75rem; }
+    .badge-new { font-size: .68rem; font-weight: 900; background: var(--teal-d); color: #fff; padding: .1rem .45rem; border-radius: .75rem; }
+
+    .hotel-name { font-size: .9rem; font-weight: 900; color: #111; line-height: 1.45; margin-bottom: .35rem; }
+    .hotel-name.placeholder-text { background: #eee; border-radius: .3rem; color: transparent; user-select: none; }
+
+    .hotel-meta { display: flex; align-items: center; gap: .6rem; margin-bottom: .5rem; }
+    .hotel-rating { display: flex; align-items: center; gap: .2rem; }
+    .hotel-rating .stars { color: #F5D04A; font-size: .8rem; }
+    .hotel-rating .score { font-size: .78rem; font-weight: 900; color: #333; }
+    .hotel-reviews { font-size: .72rem; color: #aaa; font-weight: 700; }
+
+    .hotel-price-row { display: flex; align-items: baseline; gap: .4rem; margin-bottom: .75rem; }
+    .hotel-price-label { font-size: .72rem; color: #aaa; font-weight: 700; }
+    .hotel-price { font-size: 1.1rem; font-weight: 900; color: var(--red); }
+    .hotel-price-unit { font-size: .72rem; color: #aaa; font-weight: 700; }
+    .hotel-price.placeholder-text { background: #eee; border-radius: .3rem; color: transparent; min-width: 6rem; display: inline-block; }
+
+    .hotel-btn { display: block; text-align: center; text-decoration: none; background: var(--red); color: #fff; font-size: .82rem; font-weight: 900; padding: .5rem; border-radius: .65rem; transition: background .15s; }
+    .hotel-btn:hover { background: #8B0000; }
+    .hotel-btn.placeholder-btn { background: #ddd; color: transparent; pointer-events: none; }
+
+    /* ── SECTION TITLE ── */
+    .section-title { display:flex; align-items:center; gap:.6rem; font-size:1.1rem; font-weight:900; color:#111; margin-bottom:1rem; padding-bottom:.5rem; border-bottom:2px solid #e0e0e0; }
+    .section-title .dot { width:8px; height:8px; border-radius:50%; background:var(--red); flex-shrink:0; }
+
+    footer { text-align:center; padding:2rem; font-size:.75rem; color:#bbb; font-weight:700; }
+
+    @media (max-width: 580px) {
+      header { padding: 0 1rem; }
+      .sub-nav { padding: 0 .5rem; }
+      main { padding: 1.2rem 1rem 4rem; }
+      .page-hero { padding: 1.4rem 1.3rem; }
+      .hotels-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 400px) {
+      .hotels-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    楽天トラベル スーパーSALE
+    <span class="logo-badge">2026年6月</span>
+  </div>
+  <a class="header-link" href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" target="_blank" rel="noopener">公式ページへ →</a>
+</header>
+
+<!-- SUB-NAV -->
+<nav class="sub-nav">
+  <a href="rakuten-supersale.html"          class="sub-nav-item">📋 TOP 概要</a>
+  <a href="rakuten-supersale-schedule.html" class="sub-nav-item">📅 投稿スケジュール</a>
+  <a href="rakuten-supersale-hotels.html"   class="sub-nav-item active">🏨 人気ホテル一覧</a>
+</nav>
+
+<main>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-eyebrow">LAST YEAR'S TOP HOTELS</div>
+    <div class="page-hero-title">去年のスーパーSALE<br>人気ホテル <span class="year">2025年版</span></div>
+    <div class="page-hero-sub">昨年のスーパーSALEで売れたホテルをエリア別にまとめています。今年のSALEで訴求する際の参考にしてください。</div>
+  </div>
+
+  <!-- DATA COMING BANNER -->
+  <div class="data-banner">
+    <div class="data-banner-icon">📋</div>
+    <div class="data-banner-text">
+      <strong>ホテルデータ 準備中</strong>
+      ホテル名・エリア・割引率・予約リンクが決まり次第このページに追加します。カードのデザインはすでに準備済みです。
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <span class="filter-label">エリア</span>
+    <button class="filter-btn active">すべて</button>
+    <button class="filter-btn">北海道・東北</button>
+    <button class="filter-btn">関東</button>
+    <button class="filter-btn">東海・北陸</button>
+    <button class="filter-btn">関西</button>
+    <button class="filter-btn">中国・四国</button>
+    <button class="filter-btn">九州・沖縄</button>
+  </div>
+
+  <!-- HOTEL GRID -->
+  <div class="section-title"><span class="dot"></span>人気ホテルランキング（準備中）</div>
+  <div class="hotels-grid" id="hotelsGrid">
+
+    <!-- ↓↓↓ ホテルデータが届いたらこのカードを複製して埋めてください ↓↓↓ -->
+
+    <!-- サンプルカード（実データに置き換える） -->
+    <div class="hotel-card placeholder">
+      <div class="hotel-img-placeholder"><div class="ph-icon">🏨</div></div>
+      <div class="hotel-body">
+        <div class="hotel-badges">
+          <span class="badge-rank">🥇 1位</span>
+          <span class="badge-area">エリア</span>
+          <span class="badge-discount">○%OFF</span>
+        </div>
+        <div class="hotel-name placeholder-text">ホテル名が入ります　　　　</div>
+        <div class="hotel-meta">
+          <div class="hotel-rating">
+            <span class="stars">★★★★★</span>
+            <span class="score">4.8</span>
+          </div>
+          <span class="hotel-reviews">口コミ000件</span>
+        </div>
+        <div class="hotel-price-row">
+          <span class="hotel-price-label">最安</span>
+          <span class="hotel-price placeholder-text">¥00,000</span>
+          <span class="hotel-price-unit">/泊〜</span>
+        </div>
+        <a href="#" class="hotel-btn placeholder-btn">予約・詳細を見る →</a>
+      </div>
+    </div>
+
+    <div class="hotel-card placeholder">
+      <div class="hotel-img-placeholder"><div class="ph-icon">🏨</div></div>
+      <div class="hotel-body">
+        <div class="hotel-badges">
+          <span class="badge-rank">🥈 2位</span>
+          <span class="badge-area">エリア</span>
+          <span class="badge-discount">○%OFF</span>
+        </div>
+        <div class="hotel-name placeholder-text">ホテル名が入ります　　　　</div>
+        <div class="hotel-meta">
+          <div class="hotel-rating">
+            <span class="stars">★★★★★</span>
+            <span class="score">4.7</span>
+          </div>
+          <span class="hotel-reviews">口コミ000件</span>
+        </div>
+        <div class="hotel-price-row">
+          <span class="hotel-price-label">最安</span>
+          <span class="hotel-price placeholder-text">¥00,000</span>
+          <span class="hotel-price-unit">/泊〜</span>
+        </div>
+        <a href="#" class="hotel-btn placeholder-btn">予約・詳細を見る →</a>
+      </div>
+    </div>
+
+    <div class="hotel-card placeholder">
+      <div class="hotel-img-placeholder"><div class="ph-icon">🏨</div></div>
+      <div class="hotel-body">
+        <div class="hotel-badges">
+          <span class="badge-rank">🥉 3位</span>
+          <span class="badge-area">エリア</span>
+          <span class="badge-discount">○%OFF</span>
+        </div>
+        <div class="hotel-name placeholder-text">ホテル名が入ります　　　　</div>
+        <div class="hotel-meta">
+          <div class="hotel-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="score">4.5</span>
+          </div>
+          <span class="hotel-reviews">口コミ000件</span>
+        </div>
+        <div class="hotel-price-row">
+          <span class="hotel-price-label">最安</span>
+          <span class="hotel-price placeholder-text">¥00,000</span>
+          <span class="hotel-price-unit">/泊〜</span>
+        </div>
+        <a href="#" class="hotel-btn placeholder-btn">予約・詳細を見る →</a>
+      </div>
+    </div>
+
+    <div class="hotel-card placeholder">
+      <div class="hotel-img-placeholder"><div class="ph-icon">🏨</div></div>
+      <div class="hotel-body">
+        <div class="hotel-badges">
+          <span class="badge-area">エリア</span>
+          <span class="badge-new">注目</span>
+        </div>
+        <div class="hotel-name placeholder-text">ホテル名が入ります　　　　</div>
+        <div class="hotel-meta">
+          <div class="hotel-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="score">4.4</span>
+          </div>
+          <span class="hotel-reviews">口コミ000件</span>
+        </div>
+        <div class="hotel-price-row">
+          <span class="hotel-price-label">最安</span>
+          <span class="hotel-price placeholder-text">¥00,000</span>
+          <span class="hotel-price-unit">/泊〜</span>
+        </div>
+        <a href="#" class="hotel-btn placeholder-btn">予約・詳細を見る →</a>
+      </div>
+    </div>
+
+    <div class="hotel-card placeholder">
+      <div class="hotel-img-placeholder"><div class="ph-icon">🏨</div></div>
+      <div class="hotel-body">
+        <div class="hotel-badges">
+          <span class="badge-area">エリア</span>
+          <span class="badge-discount">○%OFF</span>
+        </div>
+        <div class="hotel-name placeholder-text">ホテル名が入ります　　　　</div>
+        <div class="hotel-meta">
+          <div class="hotel-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="score">4.3</span>
+          </div>
+          <span class="hotel-reviews">口コミ000件</span>
+        </div>
+        <div class="hotel-price-row">
+          <span class="hotel-price-label">最安</span>
+          <span class="hotel-price placeholder-text">¥00,000</span>
+          <span class="hotel-price-unit">/泊〜</span>
+        </div>
+        <a href="#" class="hotel-btn placeholder-btn">予約・詳細を見る →</a>
+      </div>
+    </div>
+
+    <div class="hotel-card placeholder">
+      <div class="hotel-img-placeholder"><div class="ph-icon">🏨</div></div>
+      <div class="hotel-body">
+        <div class="hotel-badges">
+          <span class="badge-area">エリア</span>
+          <span class="badge-new">注目</span>
+        </div>
+        <div class="hotel-name placeholder-text">ホテル名が入ります　　　　</div>
+        <div class="hotel-meta">
+          <div class="hotel-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="score">4.2</span>
+          </div>
+          <span class="hotel-reviews">口コミ000件</span>
+        </div>
+        <div class="hotel-price-row">
+          <span class="hotel-price-label">最安</span>
+          <span class="hotel-price placeholder-text">¥00,000</span>
+          <span class="hotel-price-unit">/泊〜</span>
+        </div>
+        <a href="#" class="hotel-btn placeholder-btn">予約・詳細を見る →</a>
+      </div>
+    </div>
+
+    <!-- ↑↑↑ ここまでサンプル ↑↑↑ -->
+
+  </div>
+
+  <!-- 実データの入れ方メモ -->
+  <div style="background:#fff;border-radius:1rem;padding:1.2rem 1.4rem;margin-top:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.82rem;color:#777;line-height:1.8;">
+    <strong style="color:#111;display:block;margin-bottom:.4rem;">📝 データ追加の方法</strong>
+    hotel-img-placeholder の部分に <code style="background:#f0f0f5;padding:.1rem .4rem;border-radius:.3rem;font-size:.78rem;">&lt;img src="ホテル画像URL" class="hotel-img"&gt;</code> を入れる<br>
+    hotel-name / hotel-price の <code style="background:#f0f0f5;padding:.1rem .4rem;border-radius:.3rem;font-size:.78rem;">placeholder-text</code> クラスを外してテキストを書き換える<br>
+    hotel-btn の <code style="background:#f0f0f5;padding:.1rem .4rem;border-radius:.3rem;font-size:.78rem;">placeholder-btn</code> クラスを外し、href に楽天トラベルのURLを入れる
+  </div>
+
+</main>
+
+<footer>楽天トラベル スーパーSALE 人気ホテル一覧 ／ 内部共有用資料</footer>
+
+</body>
+</html>

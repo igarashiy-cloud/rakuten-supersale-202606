@@ -137,9 +137,8 @@
     .banner-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; margin-bottom:.5rem; }
     .banner-card { background:#fff; border-radius:1rem; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,.06); text-decoration:none; display:flex; flex-direction:column; transition:transform .15s,box-shadow .15s; border:2px solid transparent; }
     .banner-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,.1); border-color:var(--red); }
-    .banner-img-wrap { width:100%; aspect-ratio:16/5; background:linear-gradient(135deg,#fce8e8 0%,#f0d0d0 100%); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
-    .banner-real-img { width:100%; height:100%; object-fit:cover; display:none; }
-    .banner-real-img.loaded { display:block; }
+    .banner-img-wrap { width:100%; aspect-ratio:16/9; background:linear-gradient(135deg,#fce8e8 0%,#f0d0d0 100%); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+    .banner-real-img { width:100%; height:100%; object-fit:cover; display:block; }
     .banner-placeholder { display:flex; flex-direction:column; align-items:center; gap:.3rem; color:#ccc; }
     .banner-placeholder .bp-icon  { font-size:2rem; }
     .banner-placeholder .bp-label { font-size:.72rem; font-weight:700; }
@@ -698,20 +697,14 @@
   <div class="section-title"><span class="dot"></span>バナー素材</div>
   <div class="banner-grid">
 
-    <!-- 本番バナー（画像URLが決まったら img の src="" に追加） -->
+    <!-- 本番バナー -->
     <a href="https://uuum.notion.site/6-SALE-36cafaceb26180be8a39e501f38dbb51" class="banner-card" target="_blank" rel="noopener">
       <div class="banner-img-wrap">
-        <img src="" alt="本番バナー" class="banner-real-img"
-          onload="this.classList.add('loaded');this.previousElementSibling && (this.previousElementSibling.style.display='none')"
-          onerror="this.style.display='none'">
-        <div class="banner-placeholder">
-          <div class="bp-icon">🖼</div>
-          <div class="bp-label">画像URL準備中</div>
-        </div>
+        <img src="banner-main.jpg" alt="楽天トラベル スーパーSALE 本番バナー" class="banner-real-img">
       </div>
       <div class="banner-body">
-        <div class="banner-title">本番バナー</div>
-        <div class="banner-meta">6月スーパーSALE 本番用バナー素材<br>Notionでダウンロード・共有</div>
+        <div class="banner-title">本番バナー（SALE期間中）</div>
+        <div class="banner-meta">毎日最大30%OFF ／ 半額プランも！<br>Notionでダウンロード・共有</div>
       </div>
       <div class="banner-footer-row">
         <span class="banner-notion-label">Notion</span>
@@ -719,20 +712,14 @@
       </div>
     </a>
 
-    <!-- 告知期間バナー（画像URLが決まったら img の src="" に追加） -->
+    <!-- 告知期間バナー -->
     <a href="https://uuum.notion.site/6-36dafaceb26180cab116e6612c8a403f" class="banner-card" target="_blank" rel="noopener">
       <div class="banner-img-wrap">
-        <img src="" alt="告知期間バナー" class="banner-real-img"
-          onload="this.classList.add('loaded');this.previousElementSibling && (this.previousElementSibling.style.display='none')"
-          onerror="this.style.display='none'">
-        <div class="banner-placeholder">
-          <div class="bp-icon">🖼</div>
-          <div class="bp-label">画像URL準備中</div>
-        </div>
+        <img src="banner-pre.webp" alt="楽天トラベル スーパーSALE 告知期間バナー" class="banner-real-img">
       </div>
       <div class="banner-body">
-        <div class="banner-title">告知期間バナー</div>
-        <div class="banner-meta">6月スーパーSALE 告知期間用バナー素材<br>Notionでダウンロード・共有</div>
+        <div class="banner-title">告知期間バナー（先行SALE）</div>
+        <div class="banner-meta">先行セールへ特別ご招待 ／ 6/1(月)10時から<br>Notionでダウンロード・共有</div>
       </div>
       <div class="banner-footer-row">
         <span class="banner-notion-label">Notion</span>

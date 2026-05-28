@@ -34,6 +34,12 @@
     .sub-nav-item:hover { color: var(--red); }
     .sub-nav-item.active { color: var(--red); border-bottom-color: var(--red); }
 
+    /* ── AFF STRIP ── */
+    .aff-strip { background: linear-gradient(90deg,#8B0000,#BF0000 35%,#E60026 65%,#BF0000); color: #fff; padding: .95rem 1.5rem; position: sticky; top: 103px; z-index: 85; box-shadow: 0 3px 14px rgba(191,0,0,.35); }
+    .aff-strip-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: .75rem; flex-wrap: wrap; }
+    .aff-strip-tag { background: rgba(255,255,255,.22); border: 1px solid rgba(255,255,255,.35); font-size: .72rem; font-weight: 900; letter-spacing: .07em; padding: .22rem .8rem; border-radius: 2rem; white-space: nowrap; flex-shrink: 0; }
+    .aff-strip-msg { font-size: clamp(.9rem,2.5vw,1.1rem); font-weight: 900; text-align: center; }
+
     /* ── MAIN ── */
     main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
 
@@ -82,9 +88,7 @@
     .badge-rank-medal { font-size: 1rem; line-height: 1; }
     .badge-rank-num { font-size: .68rem; font-weight: 900; background: #444; color: #fff; padding: .1rem .45rem; border-radius: .75rem; min-width: 2rem; text-align: center; }
     .badge-area { font-size: .68rem; font-weight: 700; background: #F0F0F5; color: #555; padding: .1rem .5rem; border-radius: .75rem; }
-
     .hotel-name { font-size: .9rem; font-weight: 900; color: #111; line-height: 1.5; margin-bottom: .75rem; }
-
     .hotel-btn { display: block; text-align: center; text-decoration: none; background: var(--red); color: #fff; font-size: .82rem; font-weight: 900; padding: .5rem; border-radius: .65rem; transition: background .15s; }
     .hotel-btn:hover { background: #8B0000; }
 
@@ -93,6 +97,8 @@
     @media (max-width: 580px) {
       header { padding: 0 1rem; }
       .sub-nav { padding: 0 .5rem; }
+      .aff-strip { padding: .75rem 1rem; }
+      .aff-strip-msg { font-size: .88rem; }
       main { padding: 1.2rem 1rem 4rem; }
       .page-hero { padding: 1.4rem 1.3rem; }
       .hotels-grid { grid-template-columns: 1fr 1fr; }
@@ -120,6 +126,14 @@
   <a href="rakuten-supersale-schedule.html" class="sub-nav-item">📅 投稿スケジュール</a>
   <a href="rakuten-supersale-hotels.html"   class="sub-nav-item active">🏨 人気ホテル一覧</a>
 </nav>
+
+<!-- AFF STRIP -->
+<div class="aff-strip">
+  <div class="aff-strip-inner">
+    <span class="aff-strip-tag">🎯 アフィリエイター向け</span>
+    <span class="aff-strip-msg">これさえ網羅すれば売上最大化できるノウハウを詰め込んだページを用意しました！</span>
+  </div>
+</div>
 
 <main>
 
@@ -161,7 +175,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥇</span><span class="badge-area">関西</span></div>
           <div class="hotel-name">ホテル近鉄ユニバーサル・シティ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=ホテル近鉄ユニバーサル・シティ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/16654/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -169,7 +183,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥈</span><span class="badge-area">関東</span></div>
           <div class="hotel-name">グランドニッコー東京ベイ 舞浜</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=グランドニッコー東京ベイ 舞浜&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/179245/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -177,15 +191,15 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥉</span><span class="badge-area">関東</span></div>
           <div class="hotel-name">ホテルエミオン東京ベイ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=ホテルエミオン東京ベイ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/38529/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
       <div class="hotel-card rank-top">
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-num">4位</span><span class="badge-area">関東</span></div>
-          <div class="hotel-name">東京ベイ舞浜ホテル</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=東京ベイ舞浜ホテル&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <div class="hotel-name">舞浜ビューホテル by HULIC<br><small style="font-size:.75em;font-weight:700;color:#999;">（旧：東京ベイ舞浜ホテル）</small></div>
+          <a href="https://travel.rakuten.co.jp/HOTEL/54127/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -193,7 +207,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-num">5位</span><span class="badge-area">関西</span></div>
           <div class="hotel-name">リーベルホテル大阪</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=リーベルホテル大阪&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/172378/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -201,7 +215,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-num">6位</span><span class="badge-area">関東</span></div>
           <div class="hotel-name">三井ガーデンホテル プラナ東京ベイ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=三井ガーデンホテル プラナ東京ベイ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/67046/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -209,7 +223,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-num">7位</span><span class="badge-area">関東</span></div>
           <div class="hotel-name">ラ・ジェント・ホテル東京ベイ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=ラ・ジェント・ホテル東京ベイ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/158612/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -217,7 +231,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-num">8位</span><span class="badge-area">関東</span></div>
           <div class="hotel-name">オリエンタルホテル東京ベイ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=オリエンタルホテル東京ベイ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/1238/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -225,7 +239,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-num">9位</span><span class="badge-area">関東</span></div>
           <div class="hotel-name">シェラトン・グランデ・トーキョーベイ・ホテル</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=シェラトン・グランデ・トーキョーベイ・ホテル&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/27896/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -233,7 +247,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-num">10位</span><span class="badge-area">関東</span></div>
           <div class="hotel-name">東京ベイ舞浜ホテル ファーストリゾート</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=東京ベイ舞浜ホテル ファーストリゾート&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/27929/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -249,7 +263,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥇</span><span class="badge-area">北海道・東北</span></div>
           <div class="hotel-name">リッチモンドホテル仙台</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=リッチモンドホテル仙台&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/4934/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -257,7 +271,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥈</span><span class="badge-area">北海道・東北</span></div>
           <div class="hotel-name">ホテルエミシア札幌</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=ホテルエミシア札幌&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/901/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -265,7 +279,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥉</span><span class="badge-area">北海道・東北</span></div>
           <div class="hotel-name">ニューオータニイン札幌</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=ニューオータニイン札幌&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/163/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -281,7 +295,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥇</span><span class="badge-area">関東</span></div>
           <div class="hotel-name">グランドニッコー東京ベイ 舞浜</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=グランドニッコー東京ベイ 舞浜&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/179245/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -289,15 +303,15 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥈</span><span class="badge-area">関東</span></div>
           <div class="hotel-name">ホテルエミオン東京ベイ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=ホテルエミオン東京ベイ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/38529/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
       <div class="hotel-card rank-3">
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥉</span><span class="badge-area">関東</span></div>
-          <div class="hotel-name">東京ベイ舞浜ホテル</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=東京ベイ舞浜ホテル&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <div class="hotel-name">舞浜ビューホテル by HULIC<br><small style="font-size:.75em;font-weight:700;color:#999;">（旧：東京ベイ舞浜ホテル）</small></div>
+          <a href="https://travel.rakuten.co.jp/HOTEL/54127/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -313,7 +327,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥇</span><span class="badge-area">東海・北陸</span></div>
           <div class="hotel-name">あてま温泉 当間高原リゾート ベルナティオ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=あてま温泉 当間高原リゾート ベルナティオ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/13487/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -321,7 +335,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥈</span><span class="badge-area">東海・北陸</span></div>
           <div class="hotel-name">黒部・宇奈月温泉 やまのは（オリックスホテルズ＆リゾーツ）</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=黒部・宇奈月温泉 やまのは&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/9591/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -329,7 +343,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥉</span><span class="badge-area">東海・北陸</span></div>
           <div class="hotel-name">グランドメルキュール八ヶ岳リゾート＆スパ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=グランドメルキュール八ヶ岳リゾート＆スパ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/7759/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -345,7 +359,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥇</span><span class="badge-area">関西</span></div>
           <div class="hotel-name">ホテル近鉄ユニバーサル・シティ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=ホテル近鉄ユニバーサル・シティ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/16654/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -353,7 +367,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥈</span><span class="badge-area">関西</span></div>
           <div class="hotel-name">リーベルホテル大阪</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=リーベルホテル大阪&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/172378/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -361,7 +375,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥉</span><span class="badge-area">関西</span></div>
           <div class="hotel-name">ホテルユニバーサルポートヴィータ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=ホテルユニバーサルポートヴィータ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/166138/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -377,7 +391,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥇</span><span class="badge-area">中国・四国</span></div>
           <div class="hotel-name">ホテルグランヴィア広島サウスゲート</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=ホテルグランヴィア広島サウスゲート&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/192812/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -385,7 +399,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥈</span><span class="badge-area">中国・四国</span></div>
           <div class="hotel-name">ホテル道後やや</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=ホテル道後やや&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/108156/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -393,7 +407,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥉</span><span class="badge-area">中国・四国</span></div>
           <div class="hotel-name">アオアヲナルトリゾート</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=アオアヲナルトリゾート&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/6123/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -409,7 +423,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥇</span><span class="badge-area">九州・沖縄</span></div>
           <div class="hotel-name">オリエンタルホテル 沖縄リゾート＆スパ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=オリエンタルホテル 沖縄リゾート＆スパ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/182630/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -417,7 +431,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥈</span><span class="badge-area">九州・沖縄</span></div>
           <div class="hotel-name">カフーリゾートフチャク コンド・ホテル</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=カフーリゾートフチャク コンド・ホテル&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/78239/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 
@@ -425,7 +439,7 @@
         <div class="hotel-body">
           <div class="hotel-badges"><span class="badge-rank-medal">🥉</span><span class="badge-area">九州・沖縄</span></div>
           <div class="hotel-name">琉球ホテル＆リゾート 名城ビーチ</div>
-          <a href="https://search.travel.rakuten.co.jp/ds/undated/search?f_keyword=琉球ホテル＆リゾート 名城ビーチ&scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
+          <a href="https://travel.rakuten.co.jp/HOTEL/183412/?scid=af_trv_2026uurakuten" class="hotel-btn" target="_blank" rel="noopener">楽天トラベルで見る →</a>
         </div>
       </div>
 

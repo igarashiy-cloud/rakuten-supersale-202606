@@ -97,9 +97,17 @@
 
     footer { text-align:center; padding:2rem; font-size:.75rem; color:#bbb; font-weight:700; }
 
+    /* ── AFF STRIP ── */
+    .aff-strip { background:linear-gradient(90deg,#8B0000,#BF0000 35%,#E60026 65%,#BF0000); color:#fff; padding:.95rem 1.5rem; position:sticky; top:103px; z-index:85; box-shadow:0 3px 14px rgba(191,0,0,.35); }
+    .aff-strip-inner { max-width:900px; margin:0 auto; display:flex; align-items:center; justify-content:center; gap:.75rem; flex-wrap:wrap; }
+    .aff-strip-tag { background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.35); font-size:.72rem; font-weight:900; letter-spacing:.07em; padding:.22rem .8rem; border-radius:2rem; white-space:nowrap; flex-shrink:0; }
+    .aff-strip-msg { font-size:clamp(.9rem,2.5vw,1.1rem); font-weight:900; text-align:center; }
+
     @media (max-width: 580px) {
       header { padding: 0 1rem; }
       .sub-nav { padding: 0 .5rem; }
+      .aff-strip { padding: .75rem 1rem; }
+      .aff-strip-msg { font-size: .88rem; }
       main { padding: 1.2rem 1rem 4rem; }
       .page-hero { padding: 1.2rem; }
       .day-card-top { gap: .5rem; }
@@ -123,6 +131,14 @@
   <a href="rakuten-supersale-schedule.html" class="sub-nav-item active">📅 投稿スケジュール</a>
   <a href="rakuten-supersale-hotels.html"   class="sub-nav-item">🏨 人気ホテル一覧</a>
 </nav>
+
+<!-- AFF STRIP -->
+<div class="aff-strip">
+  <div class="aff-strip-inner">
+    <span class="aff-strip-tag">🎯 アフィリエイター向け</span>
+    <span class="aff-strip-msg">これさえ網羅すれば売上最大化できるノウハウを詰め込んだページを用意しました！</span>
+  </div>
+</div>
 
 <main>
 

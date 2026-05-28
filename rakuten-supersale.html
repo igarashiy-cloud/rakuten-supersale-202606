@@ -207,10 +207,11 @@
     .lc-foot  { padding:.45rem .9rem .6rem; border-top:1px solid #f5f5f5; display:flex; align-items:center; justify-content:flex-end; }
     .lc-open  { font-size:.72rem; font-weight:900; color:var(--red); }
 
-    /* ── AFFILIATE HEADER ── */
-    .affiliate-header { background:linear-gradient(135deg,#BF0000 0%,#FF3333 100%); border-radius:1rem; padding:1.1rem 1.4rem; margin-bottom:1.5rem; color:#fff; box-shadow:0 4px 18px rgba(191,0,0,.25); }
-    .aff-tag { display:inline-flex; align-items:center; gap:.35rem; background:rgba(255,255,255,.2); font-size:.72rem; font-weight:900; letter-spacing:.06em; padding:.2rem .75rem; border-radius:2rem; margin-bottom:.45rem; }
-    .aff-message { font-size:clamp(.92rem,2.5vw,1.05rem); font-weight:900; line-height:1.55; }
+    /* ── AFF STRIP ── */
+    .aff-strip { background:linear-gradient(90deg,#8B0000,#BF0000 35%,#E60026 65%,#BF0000); color:#fff; padding:.95rem 1.5rem; position:sticky; top:103px; z-index:85; box-shadow:0 3px 14px rgba(191,0,0,.35); }
+    .aff-strip-inner { max-width:820px; margin:0 auto; display:flex; align-items:center; justify-content:center; gap:.75rem; flex-wrap:wrap; }
+    .aff-strip-tag { background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.35); font-size:.72rem; font-weight:900; letter-spacing:.07em; padding:.22rem .8rem; border-radius:2rem; white-space:nowrap; flex-shrink:0; }
+    .aff-strip-msg { font-size:clamp(.9rem,2.5vw,1.1rem); font-weight:900; text-align:center; }
 
     /* ── 5と0の日 LINKS ── */
     .fifty-links-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(135px,1fr)); gap:.6rem; margin-bottom:2rem; }
@@ -252,13 +253,15 @@
   <a href="rakuten-supersale-hotels.html"   class="sub-nav-item">🏨 人気ホテル一覧</a>
 </nav>
 
-<main>
-
-  <!-- AFFILIATE HEADER -->
-  <div class="affiliate-header">
-    <div class="aff-tag">🎯 アフィリエイター向けページ</div>
-    <div class="aff-message">これさえ網羅すれば売上最大化できるノウハウを詰め込んだページを用意しました！</div>
+<!-- AFF STRIP -->
+<div class="aff-strip">
+  <div class="aff-strip-inner">
+    <span class="aff-strip-tag">🎯 アフィリエイター向け</span>
+    <span class="aff-strip-msg">これさえ網羅すれば売上最大化できるノウハウを詰め込んだページを用意しました！</span>
   </div>
+</div>
+
+<main>
 
   <!-- HERO -->
   <div class="hero">

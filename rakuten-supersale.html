@@ -199,7 +199,7 @@
     .lc-icon.ic-gold   { background:#FFF8D0; }
     .lc-icon.ic-blue   { background:#EAF2FF; }
     .lc-icon.ic-green  { background:#E8F8EC; }
-    .lc-num   { font-size:.66rem; font-weight:900; color:#ccc; letter-spacing:.06em; margin-bottom:.2rem; }
+    .lc-num   { display:none; }
     .lc-title { font-size:.82rem; font-weight:900; color:#111; line-height:1.45; margin-bottom:.4rem; }
     .lc-disc  { font-size:1.05rem; font-weight:900; color:var(--red); line-height:1.1; }
     .lc-disc.d-gold  { color:#B07000; }
@@ -207,6 +207,19 @@
     .lc-note  { font-size:.64rem; color:#bbb; line-height:1.4; margin-top:.2rem; }
     .lc-foot  { padding:.45rem .9rem .6rem; border-top:1px solid #f5f5f5; display:flex; align-items:center; justify-content:flex-end; }
     .lc-open  { font-size:.72rem; font-weight:900; color:var(--red); }
+
+    /* ── AFFILIATE HEADER ── */
+    .affiliate-header { background:linear-gradient(135deg,#BF0000 0%,#FF3333 100%); border-radius:1rem; padding:1.1rem 1.4rem; margin-bottom:1.5rem; color:#fff; box-shadow:0 4px 18px rgba(191,0,0,.25); }
+    .aff-tag { display:inline-flex; align-items:center; gap:.35rem; background:rgba(255,255,255,.2); font-size:.72rem; font-weight:900; letter-spacing:.06em; padding:.2rem .75rem; border-radius:2rem; margin-bottom:.45rem; }
+    .aff-message { font-size:clamp(.92rem,2.5vw,1.05rem); font-weight:900; line-height:1.55; }
+
+    /* ── 5と0の日 LINKS ── */
+    .fifty-links-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(135px,1fr)); gap:.6rem; margin-bottom:2rem; }
+    .fifty-link { background:#fff; border-radius:.85rem; padding:.85rem .9rem; box-shadow:0 2px 8px rgba(0,0,0,.05); text-decoration:none; display:flex; flex-direction:column; gap:.22rem; border-left:3px solid var(--teal); transition:transform .15s,box-shadow .15s; }
+    .fifty-link:hover { transform:translateY(-2px); box-shadow:0 5px 14px rgba(0,0,0,.1); }
+    .fifty-link-icon { font-size:1.2rem; line-height:1; }
+    .fifty-link-name { font-size:.78rem; font-weight:900; color:#111; line-height:1.4; }
+    .fifty-link-disc { font-size:.67rem; font-weight:700; color:var(--teal-d); }
 
     footer { text-align:center; padding:2rem; font-size:.75rem; color:#bbb; font-weight:700; }
 
@@ -241,6 +254,12 @@
 </nav>
 
 <main>
+
+  <!-- AFFILIATE HEADER -->
+  <div class="affiliate-header">
+    <div class="aff-tag">🎯 アフィリエイター向けページ</div>
+    <div class="aff-message">これさえ網羅すれば売上最大化できるノウハウを詰め込んだページを用意しました！</div>
+  </div>
 
   <!-- HERO -->
   <div class="hero">
@@ -348,10 +367,64 @@
     </div>
   </div>
 
+  <!-- 5と0の日 カテゴリ別リンク -->
+  <div class="section-title" style="margin-top:1.5rem;"><span class="dot" style="background:var(--teal);"></span>5と0の日 カテゴリ別リンク</div>
+  <div class="fifty-links-grid">
+
+    <a class="fifty-link" href="https://travel.rakuten.co.jp/camp/50luxday/top/?l-id=camp_50luxday_top" target="_blank" rel="noopener">
+      <span class="fifty-link-icon">🗓️</span>
+      <span class="fifty-link-name">5と0の日<br>TOP</span>
+      <span class="fifty-link-disc">特設ページ</span>
+    </a>
+
+    <a class="fifty-link" href="https://travel.rakuten.co.jp/camp/50luxday/?lid=camp_50pointday_navi_hotel&scid=af_pc_etc&sc2id=af_112_0_10002848" target="_blank" rel="noopener">
+      <span class="fifty-link-icon">🏨</span>
+      <span class="fifty-link-name">ホテル・宿</span>
+      <span class="fifty-link-disc">最大20%OFF</span>
+    </a>
+
+    <a class="fifty-link" href="https://travel.rakuten.co.jp/camp/50luxday/platinum/?l-id=camp_50luxday_lux&scid=af_pc_etc&sc2id=af_112_0_10002848" target="_blank" rel="noopener">
+      <span class="fifty-link-icon">⭐</span>
+      <span class="fifty-link-name">最高級宿</span>
+      <span class="fifty-link-disc">最大20%OFF</span>
+    </a>
+
+    <a class="fifty-link" href="https://travel.rakuten.co.jp/camp/50luxday/rte/?scid=camp_50pointday_rte" target="_blank" rel="noopener">
+      <span class="fifty-link-icon">🎢</span>
+      <span class="fifty-link-name">遊び・体験</span>
+      <span class="fifty-link-disc">お得な体験</span>
+    </a>
+
+    <a class="fifty-link" href="https://travel.rakuten.co.jp/package/campaign/50pointday/?l-id=rte_5-0_rt_package" target="_blank" rel="noopener">
+      <span class="fifty-link-icon">✈️</span>
+      <span class="fifty-link-name">楽パック</span>
+      <span class="fifty-link-disc">交通+宿セット</span>
+    </a>
+
+    <a class="fifty-link" href="https://travel.rakuten.co.jp/cars/campaign/pointday/?scid=camp_50pointday_car" target="_blank" rel="noopener">
+      <span class="fifty-link-icon">🚗</span>
+      <span class="fifty-link-name">レンタカー</span>
+      <span class="fifty-link-disc">お得な価格</span>
+    </a>
+
+    <a class="fifty-link" href="https://travel.rakuten.co.jp/bus/campaign/50pointday/?scid=camp_50pointday_bus" target="_blank" rel="noopener">
+      <span class="fifty-link-icon">🚌</span>
+      <span class="fifty-link-name">バス旅行</span>
+      <span class="fifty-link-disc">高速バス割引</span>
+    </a>
+
+    <a class="fifty-link" href="https://travel.rakuten.co.jp/camp/50luxday/overseas.html?scid=camp_50pointday_ov" target="_blank" rel="noopener">
+      <span class="fifty-link-icon">🌏</span>
+      <span class="fifty-link-name">海外旅行</span>
+      <span class="fifty-link-disc">海外もお得</span>
+    </a>
+
+  </div>
+
   <!-- 公式URL -->
   <div class="link-block">
     <div>
-      <div class="link-block-label">公式イベントURL（アフィリエイトリンク）</div>
+      <div class="link-block-label">楽天トラベル TOP ページ URL</div>
       <div class="link-block-url">https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten</div>
     </div>
     <a class="link-btn" href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" target="_blank" rel="noopener">開く →</a>

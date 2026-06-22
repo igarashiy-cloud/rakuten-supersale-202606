@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>クリエイターダッシュボード</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f4;
+    --bg3: #efefed;
+    --text: #1a1a18;
+    --text2: #6b6b67;
+    --text3: #9e9e99;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.18);
+    --blue: #378ADD;
+    --blue-bg: #e6f1fb;
+    --blue-text: #0c447c;
+    --green-bg: #eaf3de;
+    --green-text: #3b6d11;
+    --red-bg: #fcebeb;
+    --red-text: #a32d2d;
+    --amber-bg: #faeeda;
+    --amber-text: #854f0b;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --nav-w: 220px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252523;
+      --bg3: #2e2e2b;
+      --text: #e8e8e4;
+      --text2: #9e9e99;
+      --text3: #6b6b67;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.18);
+      --blue: #5aa3f0;
+      --blue-bg: #0c2a48;
+      --blue-text: #85b7eb;
+      --green-bg: #173404;
+      --green-text: #97c459;
+      --red-bg: #2e1010;
+      --red-text: #f09595;
+      --amber-bg: #2a1800;
+      --amber-text: #ef9f27;
+    }
+  }
+
+  body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
+
+  .layout { display: flex; min-height: 100vh; }
+
+  /* サイドナビ */
+  .sidenav {
+    width: var(--nav-w);
+    background: var(--bg);
+    border-right: 0.5px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 100;
+  }
+  .sidenav-header {
+    padding: 20px 16px 16px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .sidenav-logo { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 12px; }
+  .creator-chip {
+    display: flex; align-items: center; gap: 9px;
+    background: var(--bg2);
+    border-radius: var(--radius);
+    padding: 8px 10px;
+  }
+  .avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--blue-bg);
+    color: var(--blue-text);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500; flex-shrink: 0;
+  }
+  .creator-info .name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .creator-info .email { font-size: 11px; color: var(--text3); }
+
+  .nav-list { padding: 12px 8px; flex: 1; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 10px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text2);
+    transition: background 0.15s;
+    margin-bottom: 2px;
+    border: none; background: transparent; width: 100%; text-align: left;
+  }
+  .nav-item:hover { background: var(--bg2); color: var(--text); }
+  .nav-item.active { background: var(--blue-bg); color: var(--blue-text); font-weight: 500; }
+  .nav-item i { font-size: 18px; }
+
+  .sidenav-footer {
+    padding: 12px 16px;
+    border-top: 0.5px solid var(--border);
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  /* メインコンテンツ */
+  .main { margin-left: var(--nav-w); flex: 1; padding: 28px 32px; max-width: 960px; }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .page-title { font-size: 20px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .page-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+
+  /* カード */
+  .card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 13px; font-weight: 500; color: var(--text2);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 7px;
+  }
+
+  /* 売上: サービス切り替えタブ */
+  .tab-group {
+    display: flex; gap: 0;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    width: fit-content;
+    margin-bottom: 20px;
+  }
+  .tab-btn {
+    font-size: 13px; padding: 7px 20px;
+    background: transparent; border: none;
+    color: var(--text2); cursor: pointer;
+    border-right: 0.5px solid var(--border);
+  }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active { background: var(--bg2); color: var(--text); font-weight: 500; }
+
+  /* メトリクスグリッド */
+  .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+  .metric-card {
+    background: var(--bg2);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .metric-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+  .metric-value { font-size: 22px; font-weight: 500; color: var(--text); line-height: 1.2; }
+  .metric-change { font-size: 12px; margin-top: 4px; }
+  .up { color: var(--green-text); }
+  .down { color: var(--red-text); }
+  .neutral { color: var(--text3); }
+
+  /* グラフ */
+  .chart-wrap { position: relative; height: 200px; margin-bottom: 8px; }
+
+  /* バーグラフ（フォールバック） */
+  .bar-section { display: flex; flex-direction: column; gap: 10px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; }
+  .bar-label { font-size: 12px; color: var(--text2); width: 44px; text-align: right; flex-shrink: 0; }
+  .bar-bg { flex: 1; background: var(--bg2); border-radius: 4px; height: 22px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; background: var(--blue); }
+  .bar-fill.rakuten { background: #bf0000; }
+  .bar-fill.ichiba { background: #e6820e; }
+  .bar-val { font-size: 12px; color: var(--text2); width: 68px; flex-shrink: 0; text-align: right; }
+
+  /* 予約テーブル */
+  .table-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .filter-row { display: flex; gap: 6px; }
+  .filter-btn {
+    font-size: 12px; padding: 4px 14px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border2);
+    background: transparent; color: var(--text2); cursor: pointer;
+  }
+  .filter-btn.active { background: var(--bg2); color: var(--text); border-color: var(--border2); font-weight: 500; }
+  .count-label { font-size: 12px; color: var(--text2); }
+  .scroll-x { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 700px; }
+  th { text-align: left; padding: 9px 14px; font-size: 11px; font-weight: 500; color: var(--text2); border-bottom: 0.5px solid var(--border); white-space: nowrap; }
+  td { padding: 10px 14px; border-bottom: 0.5px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg2); }
+  .hotel-name { font-weight: 500; font-size: 12px; color: var(--text); }
+  .plan-name { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .date-cell { color: var(--text2); white-space: nowrap; }
+  .amount { font-weight: 500; text-align: right; white-space: nowrap; color: var(--text); }
+  .area-pill {
+    display: inline-block; font-size: 10px; padding: 2px 8px;
+    border-radius: 20px; background: var(--bg2); color: var(--text2);
+  }
+  .status-pill { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 20px; font-weight: 500; }
+  .status-ok { background: var(--green-bg); color: var(--green-text); }
+  .status-cancel { background: var(--red-bg); color: var(--red-text); }
+  .summary-row {
+    display: flex; gap: 20px;
+    padding: 10px 20px;
+    border-top: 0.5px solid var(--border);
+    font-size: 12px; color: var(--text2);
+  }
+  .summary-val { font-weight: 500; color: var(--text); }
+
+  /* リンク発行 */
+  .form-desc { font-size: 13px; color: var(--text2); margin-bottom: 18px; line-height: 1.7; }
+  .input-row { display: flex; gap: 10px; align-items: flex-end; margin-bottom: 0; }
+  .input-group { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 12px; font-weight: 500; color: var(--text2); }
+  input[type=url], input[type=text] {
+    width: 100%; padding: 8px 12px; font-size: 13px;
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+  }
+  input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(55,138,221,0.15); }
+  .btn-primary {
+    padding: 9px 22px; font-size: 13px; font-weight: 500;
+    background: var(--blue-bg); color: var(--blue-text);
+    border: 0.5px solid rgba(55,138,221,0.3);
+    border-radius: var(--radius);
+    cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .result-area { display: none; margin-top: 20px; padding-top: 20px; border-top: 0.5px solid var(--border); }
+  .result-label { font-size: 13px; font-weight: 500; color: var(--green-text); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+  .link-box {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .link-text {
+    font-size: 12px; color: var(--text);
+    font-family: "SF Mono", "Fira Code", monospace;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;
+  }
+  .copy-btn {
+    font-size: 12px; padding: 5px 14px;
+    border-radius: var(--radius);
+    border: 0.5px solid var(--border2);
+    background: var(--bg); color: var(--text2);
+    cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .copy-btn:hover { background: var(--bg3); }
+
+  .history-title { font-size: 12px; font-weight: 500; color: var(--text2); margin: 18px 0 10px; }
+  .history-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .history-item:last-child { border-bottom: none; }
+  .history-link { font-size: 11px; font-family: monospace; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
+  .history-time { font-size: 11px; color: var(--text3); flex-shrink: 0; }
+  .history-copy {
+    font-size: 11px; padding: 3px 10px;
+    border-radius: var(--radius);
+    border: 0.5px solid var(--border);
+    background: transparent; color: var(--text2);
+    cursor: pointer; flex-shrink: 0;
+  }
+
+  .spinner {
+    display: none; width: 16px; height: 16px;
+    border: 2px solid var(--border2);
+    border-top-color: var(--blue-text);
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* レスポンシブ */
+  @media (max-width: 700px) {
+    :root { --nav-w: 0px; }
+    .sidenav { display: none; }
+    .main { margin-left: 0; padding: 16px; }
+    .metric-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- サイドナビ -->
+  <nav class="sidenav">
+    <div class="sidenav-header">
+      <div class="sidenav-logo">Creator Dashboard</div>
+      <div class="creator-chip">
+        <div class="avatar">YI</div>
+        <div class="creator-info">
+          <div class="name">石垣 ゆい</div>
+          <div class="email">yui@example.com</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-list">
+      <button class="nav-item active" onclick="showPage('sales', this)">
+        <i class="ti ti-chart-bar"></i> 売上確認
+      </button>
+      <button class="nav-item" onclick="showPage('booking', this)">
+        <i class="ti ti-calendar"></i> 予約一覧
+      </button>
+      <button class="nav-item" onclick="showPage('link', this)">
+        <i class="ti ti-link"></i> リンク発行
+      </button>
+    </div>
+    <div class="sidenav-footer">最終更新: 2026/06/22 09:00</div>
+  </nav>
+
+  <!-- メイン -->
+  <main class="main">
+
+    <!-- 売上確認ページ -->
+    <div class="page active" id="page-sales">
+      <div class="page-title">売上確認</div>
+      <div class="page-sub">楽天トラベル・楽天市場の月別成果を確認できます</div>
+
+      <div class="tab-group">
+        <button class="tab-btn active" onclick="showService('travel', this)">楽天トラベル</button>
+        <button class="tab-btn" onclick="showService('ichiba', this)">楽天市場</button>
+        <button class="tab-btn" onclick="showService('both', this)">合算</button>
+      </div>
+
+      <!-- 楽天トラベル -->
+      <div id="service-travel">
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-label">6月（今月）</div>
+            <div class="metric-value">¥38,400</div>
+            <div class="metric-change up">↑ 前月比 +15%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">5月</div>
+            <div class="metric-value">¥33,400</div>
+            <div class="metric-change down">↓ 前月比 −8%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">4月</div>
+            <div class="metric-value">¥36,200</div>
+            <div class="metric-change neutral">確定済み</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-chart-line"></i> 月別推移（楽天トラベル）</div>
+          <div style="position:relative;height:220px"><canvas id="chart-travel"></canvas></div>
+        </div>
+      </div>
+
+      <!-- 楽天市場 -->
+      <div id="service-ichiba" style="display:none">
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-label">6月（今月）</div>
+            <div class="metric-value">¥9,800</div>
+            <div class="metric-change up">↑ 前月比 +3%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">5月</div>
+            <div class="metric-value">¥9,500</div>
+            <div class="metric-change up">↑ 前月比 +6%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">4月</div>
+            <div class="metric-value">¥9,000</div>
+            <div class="metric-change neutral">確定済み</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-chart-line"></i> 月別推移（楽天市場）</div>
+          <div style="position:relative;height:220px"><canvas id="chart-ichiba"></canvas></div>
+        </div>
+      </div>
+
+      <!-- 合算 -->
+      <div id="service-both" style="display:none">
+        <div class="metric-grid">
+          <div class="metric-card">
+            <div class="metric-label">6月（今月）合算</div>
+            <div class="metric-value">¥48,200</div>
+            <div class="metric-change up">↑ 前月比 +12%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">5月 合算</div>
+            <div class="metric-value">¥42,900</div>
+            <div class="metric-change down">↓ 前月比 −5%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">4月 合算</div>
+            <div class="metric-value">¥45,200</div>
+            <div class="metric-change neutral">確定済み</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><i class="ti ti-chart-line"></i> 月別推移（合算）</div>
+          <div style="position:relative;height:220px"><canvas id="chart-both"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 予約一覧ページ -->
+    <div class="page" id="page-booking">
+      <div class="page-title">予約一覧</div>
+      <div class="page-sub">確定・キャンセルの予約履歴です。スプレッドシートと連携後にリアルタイム更新されます</div>
+      <div class="card" style="padding:0">
+        <div class="table-header">
+          <div class="filter-row">
+            <button class="filter-btn active" data-filter="all">すべて</button>
+            <button class="filter-btn" data-filter="確定">確定のみ</button>
+            <button class="filter-btn" data-filter="キャンセル">キャンセルのみ</button>
+          </div>
+          <div class="count-label" id="count-label">全7件</div>
+        </div>
+        <div class="scroll-x">
+          <table>
+            <thead>
+              <tr>
+                <th>ホテル名 / プラン</th>
+                <th style="text-align:right">単価</th>
+                <th>予約日</th>
+                <th>チェックイン</th>
+                <th>チェックアウト</th>
+                <th>エリア</th>
+                <th>ステータス</th>
+              </tr>
+            </thead>
+            <tbody id="booking-body"></tbody>
+          </table>
+        </div>
+        <div class="summary-row">
+          <span>確定: <span class="summary-val" id="ok-count">—</span></span>
+          <span>キャンセル: <span class="summary-val" id="cancel-count">—</span></span>
+          <span>確定合計: <span class="summary-val" id="total-amount">—</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- リンク発行ページ -->
+    <div class="page" id="page-link">
+      <div class="page-title">リンク発行</div>
+      <div class="page-sub">アフィリエイトリンクをページ上で即時発行できます</div>
+      <div class="card">
+        <div class="form-desc">
+          変換したいリンクを貼り付けて「生成」を押してください。<br>
+          あなたのクリエイターIDが自動で埋め込まれたリンクが発行されます。
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label class="form-label">変換したいURL</label>
+            <input type="url" id="input-url" placeholder="https://travel.rakuten.co.jp/HOTEL/12345/" />
+          </div>
+          <button class="btn-primary" id="gen-btn" onclick="generateLink()">
+            <span id="gen-label"><i class="ti ti-link" style="font-size:14px"></i> 生成</span>
+            <div class="spinner" id="spinner"></div>
+          </button>
+        </div>
+
+        <div class="result-area" id="result-area">
+          <div class="result-label"><i class="ti ti-circle-check" style="font-size:16px"></i> リンクが発行されました</div>
+          <div class="link-box">
+            <div class="link-text" id="generated-link"></div>
+            <button class="copy-btn" id="copy-btn" onclick="copyGenerated()">
+              <i class="ti ti-copy" style="font-size:13px"></i> コピー
+            </button>
+          </div>
+          <div class="history-title">発行履歴</div>
+          <div id="history-list"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// 折れ線グラフ
+const months = ['1月','2月','3月','4月','5月','6月'];
+const travelData = [24100, 22300, 31000, 36200, 33400, 38400];
+const ichibaData = [7200, 7600, 8100, 9000, 9500, 9800];
+const bothData   = travelData.map((v,i) => v + ichibaData[i]);
+
+const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const gridColor  = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)';
+const tickColor  = isDark ? '#9e9e99' : '#6b6b67';
+
+function makeChart(id, data, color) {
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [{
+        data: data,
+        borderColor: color,
+        backgroundColor: color + '22',
+        borderWidth: 2,
+        pointRadius: 4,
+        pointBackgroundColor: color,
+        fill: true,
+        tension: 0.35,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => '¥' + ctx.parsed.y.toLocaleString()
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 12 } } },
+        y: {
+          grid: { color: gridColor },
+          ticks: {
+            color: tickColor,
+            font: { size: 11 },
+            callback: v => '¥' + (v / 1000).toFixed(0) + 'k'
+          }
+        }
+      }
+    }
+  });
+}
+
+const charts = {};
+const chartDefs = {
+  travel: { data: null, color: '#bf0000' },
+  ichiba: { data: null, color: '#e6820e' },
+  both:   { data: null, color: '#378ADD' },
+};
+window.addEventListener('DOMContentLoaded', () => {
+  chartDefs.travel.data = travelData;
+  chartDefs.ichiba.data = ichibaData;
+  chartDefs.both.data   = bothData;
+  charts.travel = makeChart('chart-travel', travelData, '#bf0000');
+});
+
+// ページ切り替え
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// サービス切り替え（売上）
+function showService(id, btn) {
+  ['travel','ichiba','both'].forEach(s => {
+    document.getElementById('service-' + s).style.display = s === id ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (!charts[id] && chartDefs[id]) {
+    charts[id] = makeChart('chart-' + id, chartDefs[id].data, chartDefs[id].color);
+  } else if (charts[id]) {
+    charts[id].resize();
+  }
+}
+
+// 予約データ
+const bookings = [
+  {hotel:"ザ・リッツ・カールトン東京", plan:"デラックスルーム 2泊", price:54000, reserved:"2026/06/18", checkin:"2026/06/25", checkout:"2026/06/27", area:"東京", status:"確定"},
+  {hotel:"星のや 軽井沢", plan:"コテージ 1泊", price:38000, reserved:"2026/06/15", checkin:"2026/07/03", checkout:"2026/07/04", area:"長野", status:"確定"},
+  {hotel:"ANAインターコンチネンタル石垣リゾート", plan:"オーシャンビュー 3泊", price:72000, reserved:"2026/06/10", checkin:"2026/06/20", checkout:"2026/06/23", area:"沖縄", status:"確定"},
+  {hotel:"ヒルトン大阪", plan:"スタンダード 1泊", price:18000, reserved:"2026/06/05", checkin:"2026/06/12", checkout:"2026/06/13", area:"大阪", status:"キャンセル"},
+  {hotel:"翠嵐 ラグジュアリーコレクション 京都", plan:"スイート 2泊", price:126000, reserved:"2026/06/02", checkin:"2026/06/28", checkout:"2026/06/30", area:"京都", status:"確定"},
+  {hotel:"ハレクラニ沖縄", plan:"ガーデンビュー 2泊", price:89000, reserved:"2026/05/28", checkin:"2026/06/14", checkout:"2026/06/16", area:"沖縄", status:"キャンセル"},
+  {hotel:"フォーシーズンズホテル丸の内 東京", plan:"プレミアルーム 1泊", price:62000, reserved:"2026/05/20", checkin:"2026/06/05", checkout:"2026/06/06", area:"東京", status:"確定"},
+];
+
+function renderBookings(filter) {
+  const list = filter === 'all' ? bookings : bookings.filter(d => d.status === filter);
+  document.getElementById('booking-body').innerHTML = list.map(d => `
+    <tr>
+      <td><div class="hotel-name">${d.hotel}</div><div class="plan-name">${d.plan}</div></td>
+      <td class="amount">¥${d.price.toLocaleString()}</td>
+      <td class="date-cell">${d.reserved}</td>
+      <td class="date-cell">${d.checkin}</td>
+      <td class="date-cell">${d.checkout}</td>
+      <td><span class="area-pill">${d.area}</span></td>
+      <td><span class="status-pill ${d.status === '確定' ? 'status-ok' : 'status-cancel'}">${d.status}</span></td>
+    </tr>
+  `).join('');
+  const ok = list.filter(d => d.status === '確定');
+  const ng = list.filter(d => d.status === 'キャンセル');
+  document.getElementById('count-label').textContent = '全' + list.length + '件';
+  document.getElementById('ok-count').textContent = ok.length + '件';
+  document.getElementById('cancel-count').textContent = ng.length + '件';
+  document.getElementById('total-amount').textContent = '¥' + ok.reduce((s,d) => s + d.price, 0).toLocaleString();
+}
+renderBookings('all');
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    renderBookings(this.dataset.filter);
+  });
+});
+
+// リンク発行
+const linkHistory = [];
+
+function generateLink() {
+  const url = document.getElementById('input-url').value.trim();
+  if (!url) { document.getElementById('input-url').focus(); return; }
+  document.getElementById('gen-label').style.display = 'none';
+  document.getElementById('spinner').style.display = 'block';
+  document.getElementById('gen-btn').disabled = true;
+  setTimeout(() => {
+    const creatorId = 'yui_ishigaki';
+    const generated = url + (url.includes('?') ? '&' : '?') + 'af_id=' + creatorId;
+    document.getElementById('generated-link').textContent = generated;
+    document.getElementById('result-area').style.display = 'block';
+    document.getElementById('gen-label').style.display = 'flex';
+    document.getElementById('spinner').style.display = 'none';
+    document.getElementById('gen-btn').disabled = false;
+    const now = new Date();
+    const t = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+    linkHistory.unshift({ link: generated, time: t });
+    renderHistory();
+  }, 1000);
+}
+
+function renderHistory() {
+  document.getElementById('history-list').innerHTML = linkHistory.slice(0, 5).map(h => `
+    <div class="history-item">
+      <div class="history-link">${h.link}</div>
+      <div class="history-time">${h.time}</div>
+      <button class="history-copy" onclick="navigator.clipboard.writeText('${h.link.replace(/'/g,"\\'")}')">コピー</button>
+    </div>
+  `).join('');
+}
+
+function copyGenerated() {
+  const txt = document.getElementById('generated-link').textContent;
+  navigator.clipboard.writeText(txt).catch(() => {});
+  const btn = document.getElementById('copy-btn');
+  btn.innerHTML = '<i class="ti ti-check" style="font-size:13px"></i> コピー済み';
+  setTimeout(() => { btn.innerHTML = '<i class="ti ti-copy" style="font-size:13px"></i> コピー'; }, 2000);
+}
+
+document.getElementById('input-url').addEventListener('keydown', e => {
+  if (e.key === 'Enter') generateLink();
+});
+</script>
+</body>
+</html>

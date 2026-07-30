@@ -1,0 +1,5 @@
+.DS_Store
+
+# GASの exportSiteData() から落としてくる中間ファイル。
+# サイトが読むのは assets/sale-data.js のほうなので追跡しない。
+/sale-data.json

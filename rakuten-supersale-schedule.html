@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>投稿スケジュール | 楽天トラベル スーパーSALE 2026年6月</title>
+  <title>投稿スケジュール | 楽天トラベルアフィリエイト 攻略サイト -UUUMマーケティング株式会社</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
@@ -112,23 +112,58 @@
       .page-hero { padding: 1.2rem; }
       .day-card-top { gap: .5rem; }
     }
+
+    /* --- セール情報マスタ読み込み用 --- */
+    .load-error { background:#fef2f2; border:1px solid #fecaca; color:#b91c1c;
+      border-radius:10px; padding:.9rem 1.1rem; margin-bottom:1rem; font-size:.85rem; font-weight:700; }
+    .data-notice { color:#aaa; font-size:.7rem; font-weight:700; margin-bottom:1rem; text-align:right; }
+    .ranking-label { font-size:.78rem; color:#999; font-weight:700; margin:0 0 1rem; }
+    [hidden] { display:none !important; }
+
+    /* ── LINK TOOL（最上部・リンク発行フォームへの導線） ── */
+    .linktool { background:#16181f; padding:.62rem 2rem; }
+    .linktool-inner { max-width:1080px; margin:0 auto; display:flex; align-items:center; gap:.9rem; flex-wrap:wrap; }
+    .linktool-tag { background:var(--gold); color:#241d00; font-size:.72rem; font-weight:900;
+      padding:.24rem .72rem; border-radius:1rem; white-space:nowrap; }
+    .linktool-msg { color:#e9e9ee; font-size:.82rem; font-weight:700; flex:1; min-width:0; }
+    .linktool-btn { background:#fff; color:#16181f; text-decoration:none; font-size:.8rem; font-weight:900;
+      padding:.42rem 1.15rem; border-radius:1.5rem; white-space:nowrap; transition:transform .15s, box-shadow .15s; }
+    .linktool-btn:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(0,0,0,.35); }
+
+    /* サイト名の「-UUUMマーケティング株式会社」部分は控えめに、狭い画面では省く */
+    .logo-org { font-size:.7rem; font-weight:700; color:rgba(255,255,255,.62); letter-spacing:0; }
+    @media (max-width:900px) { .logo-org { display:none; } }
+    @media (max-width:580px) {
+      .linktool { padding:.6rem 1rem; }
+      .linktool-msg { order:3; flex-basis:100%; font-size:.74rem; }
+      .logo { font-size:.72rem; gap:.35rem; white-space:nowrap; }
+      .logo-badge { font-size:.64rem; padding:.14rem .5rem; }
+      .header-link { padding:.24rem .6rem; font-size:.72rem; }
+      .hl-long { display:none; }
+    }
   </style>
 </head>
 <body>
 
+<!-- LINK TOOL -->
+<div class="linktool">
+  <div class="linktool-inner">
+    <span class="linktool-tag">🔗 リンク発行ツール</span>
+    <span class="linktool-msg">アフィリエイトリンクの発行依頼はこちらのフォームから</span>
+    <a class="linktool-btn" id="linkToolBtn" href="https://docs.google.com/forms/d/e/1FAIpQLSfn7iIVn5BkBTw-1lz-NK5_q6EDzIIDcNIAhyIIO3i8K_1JHQ/viewform" target="_blank" rel="noopener">フォームを開く →</a>
+  </div>
+</div>
+
 <!-- HEADER -->
 <header>
-  <div class="logo">
-    楽天トラベル スーパーSALE
-    <span class="logo-badge">2026年6月</span>
-  </div>
-  <a class="header-link" href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" target="_blank" rel="noopener">公式ページへ →</a>
+  <div class="logo" id="saleName"></div>
+  <a class="header-link" id="headerLink" href="#" target="_blank" rel="noopener">公式<span class="hl-long">ページへ</span> →</a>
 </header>
 
 <!-- SUB-NAV -->
 <nav class="sub-nav">
-  <a href="rakuten-supersale.html"          class="sub-nav-item">📋 TOP 概要</a>
-  <a href="rakuten-supersale-schedule.html" class="sub-nav-item active">📅 投稿スケジュール</a>
+  <a href="rakuten-supersale.html"          class="sub-nav-item">📋 セール情報</a>
+  <a href="rakuten-supersale-schedule.html" class="sub-nav-item active" id="navScheduleTab">📅 投稿スケジュール</a>
   <a href="rakuten-supersale-hotels.html"   class="sub-nav-item">🏨 人気ホテル一覧</a>
 </nav>
 
@@ -142,12 +177,15 @@
 
 <main>
 
+  <div class="load-error" id="loadError" hidden></div>
+  <div class="data-notice" id="dataNotice" hidden></div>
+
   <!-- PAGE HERO -->
   <div class="page-hero">
     <div class="page-hero-icon">📅</div>
     <div>
       <div class="page-hero-title">毎日の投稿スケジュール</div>
-      <div class="page-hero-sub">5月31日〜6月20日 ／ 全21日 ／ 汎用コピー案（チャネルに合わせて適宜調整してください）</div>
+      <div class="page-hero-sub" id="schedulePeriod"></div>
     </div>
   </div>
 
@@ -160,527 +198,14 @@
     <button class="filter-btn f-last" data-filter="last">最終日</button>
   </div>
 
-  <!-- ── フェーズ 1: 告知・先行SALE ── -->
-  <div class="phase-header" data-phase="announce">
-    <div class="phase-header-bar" style="background:var(--orange)"></div>
-    <div class="phase-header-label">告知・先行SALE期</div>
-    <div class="phase-header-range">5/31(日)〜6/4(木) 19:59</div>
-  </div>
-
-  <div class="day-card c-announce" data-tags="announce">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">5/31</div>
-        <div class="day-date-week sun">日曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-announce">告知スタート</span>
-      </div>
-    </div>
-    <div class="day-theme">開幕カウントダウン！SALE4日前の予告投稿</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🎊 楽天トラベル スーパーSALE まであと4日！旅行予約が毎日最大30%OFFになります。6/4(木)20時スタートの前に、まずはページをチェック＆エントリーの準備を📋 先行SALEも告知期間から始まってるよ！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-    </div>
-  </div>
-
-  <div class="day-card c-pre" data-tags="announce">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/1</div>
-        <div class="day-date-week">月曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-announce">告知</span>
-        <span class="badge-phase bp-pre">先行SALE開始</span>
-      </div>
-    </div>
-    <div class="day-theme">先行セールスタート！チェーンスペシャルホテル訴求</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🏨 先行セールスタート！チェーンスペシャルホテルが最大33%OFFで予約できます。本番SALEが始まる前に下見もしやすい今がねらい目✨ エントリーも忘れずに👇</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-    </div>
-  </div>
-
-  <div class="day-card c-pre" data-tags="announce">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/2</div>
-        <div class="day-date-week">火曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-pre">先行SALE</span>
-      </div>
-    </div>
-    <div class="day-theme">海外旅行ポイント還元 訴求</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">✈️ 今すぐエントリーして海外旅行をお得に！エントリー＆対象ホテルのご予約で+15%ポイント還元。ポイントUPプランなら最大35%還元も✨ 海外旅行の予定がある方は絶対チェック！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ（海外）</a>
-    </div>
-  </div>
-
-  <div class="day-card c-pre" data-tags="announce">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/3</div>
-        <div class="day-date-week">水曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-pre">先行SALE</span>
-      </div>
-    </div>
-    <div class="day-theme">開幕前夜！エントリーリマインダー</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">⚡️ 明日20時〜 本SALEスタート！先行セールで狙いをつけておいて、明日は一気に予約しよう🔥 エントリーはもうしてある？まだの方は今すぐ！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-    </div>
-  </div>
-
-  <div class="day-card c-main" data-tags="announce main">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/4</div>
-        <div class="day-date-week">木曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-pre">先行SALE 最終日</span>
-        <span class="badge-phase bp-main">🎉 本SALE 20:00〜</span>
-      </div>
-    </div>
-    <div class="day-theme">本SALE 開幕！最大30%OFFスタート</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🎉 キタ！楽天トラベル スーパーSALEがついに開幕！旅行予約が毎日最大30%OFF✨ 初めてのアプリ予約なら最大35%OFF！国内旅行のエントリーで最大全額ポイントバックも狙えるよ👇</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-    </div>
-  </div>
-
-  <!-- ── フェーズ 2: 本SALE ── -->
-  <div class="phase-header" data-phase="main">
-    <div class="phase-header-bar" style="background:var(--red)"></div>
-    <div class="phase-header-label">本SALE 開催中</div>
-    <div class="phase-header-range">6/5(金)〜6/20(土) 23:59</div>
-  </div>
-
-  <!-- 6/5 5のつく日①START -->
-  <div class="day-card c-50day" data-tags="main 50day">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/5</div>
-        <div class="day-date-week">金曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE</span>
-        <span class="badge-phase bp-50day">⏰ 5のつく日 START（〜6/7 23:59）</span>
-      </div>
-    </div>
-    <div class="day-theme">5のつく日 72時間スタート ＋ 大磯ロングビーチ30%OFF</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">⏰ 5のつく日スタート！今から72時間！スーパーSALEと重なって旅行予約が最大30%OFF🔥 大磯ロングビーチのチケットも30%OFFになってるよ☀️ 夏の計画は今すぐ！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-      <a href="https://experiences.travel.rakuten.co.jp/experiences/62585" class="dest-link" target="_blank" rel="noopener">大磯ロングビーチ</a>
-    </div>
-  </div>
-
-  <!-- 6/6 週末+5のつく日② -->
-  <div class="day-card c-50day" data-tags="main 50day">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/6</div>
-        <div class="day-date-week sat">土曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE</span>
-        <span class="badge-phase bp-50day">⏰ 5のつく日 継続中</span>
-      </div>
-    </div>
-    <div class="day-theme">週末 ＋ テーマパーク提携ホテル23%OFF訴求</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🎠 週末こそ旅行計画のチャンス！テーマパーク提携ホテルは最大23%OFF。キッザニア東京のチケットもSALE対象🎡 5のつく日も継続中、週末旅行の予約は今！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-      <a href="https://experiences.travel.rakuten.co.jp/experiences/40115" class="dest-link" target="_blank" rel="noopener">キッザニア東京</a>
-    </div>
-  </div>
-
-  <!-- 6/7 5のつく日③ラスト+週末 -->
-  <div class="day-card c-50day" data-tags="main 50day">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/7</div>
-        <div class="day-date-week sun">日曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE</span>
-        <span class="badge-phase bp-50day">⏰ 5のつく日 本日23:59まで</span>
-      </div>
-    </div>
-    <div class="day-theme">5のつく日 ラストコール ＋ ジャングリア沖縄・ムーミン訴求</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">⚡️ 5のつく日 本日23:59まで！ジャングリア沖縄やムーミンバレーパークのチケットもSALE対象✨ 今週末はアクティブに旅しよう！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-      <a href="https://experiences.travel.rakuten.co.jp/experiences/62313" class="dest-link" target="_blank" rel="noopener">ジャングリア沖縄</a>
-      <a href="https://experiences.travel.rakuten.co.jp/experiences/25531" class="dest-link" target="_blank" rel="noopener">ムーミンバレーパーク</a>
-    </div>
-  </div>
-
-  <!-- 6/8 通常 -->
-  <div class="day-card c-main" data-tags="main">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/8</div>
-        <div class="day-date-week">月曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE</span>
-      </div>
-    </div>
-    <div class="day-theme">楽パック ＋ レンタカー セット訴求</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🚗 交通＋宿のセットでもっとお得！楽パックで最大30,000円割引。レンタカーも最大45%OFFだよ🏔 夏旅の計画、まるっと楽天トラベルで完結させよう！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ（楽パック）</a>
-    </div>
-  </div>
-
-  <!-- 6/9 文化系チケット -->
-  <div class="day-card c-main" data-tags="main">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/9</div>
-        <div class="day-date-week">火曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE</span>
-      </div>
-    </div>
-    <div class="day-theme">文化系観光体験チケット訴求（京都・ピカソ展・フジロック）</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🎨 旅先のアクティビティもSALEでお得に！VIE ZEN NIGHT 京都 東福寺 夜間プレミアム拝観が20%OFF✨ 展覧会「ピカソ meets ポール・スミス」も販売中。[7/24〜26] フジロックのEチケットも！旅行と合わせて計画しよう👇</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://experiences.travel.rakuten.co.jp/experiences/60743" class="dest-link" target="_blank" rel="noopener">VIE ZEN NIGHT 京都</a>
-      <a href="https://experiences.travel.rakuten.co.jp/experiences/62510" class="dest-link" target="_blank" rel="noopener">フジロック</a>
-    </div>
-  </div>
-
-  <!-- 6/10 10のつく日①START -->
-  <div class="day-card c-50day" data-tags="main 50day">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/10</div>
-        <div class="day-date-week">水曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE</span>
-        <span class="badge-phase bp-50day">⏰ 0のつく日 START（〜6/12 23:59）</span>
-      </div>
-    </div>
-    <div class="day-theme">0のつく日 72時間スタート ＋ 新江ノ島水族館10%OFF</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🐠 0のつく日スタート！今から72時間！新江ノ島水族館が10%OFF✨ 鴨川シーワールドもSALE対象🐋 夏は海！水族館を訪ねる旅行計画を楽天トラベルで！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-      <a href="https://experiences.travel.rakuten.co.jp/experiences/34960" class="dest-link" target="_blank" rel="noopener">新江ノ島水族館</a>
-    </div>
-  </div>
-
-  <!-- 6/11 10のつく日② -->
-  <div class="day-card c-50day" data-tags="main 50day">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/11</div>
-        <div class="day-date-week">木曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE</span>
-        <span class="badge-phase bp-50day">⏰ 0のつく日 継続中</span>
-      </div>
-    </div>
-    <div class="day-theme">SALE折り返し ＋ 海外旅行ポイントUP訴求</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🌏 スーパーSALE折り返し！まだ予約していない方は急いで。海外旅行はポイントUPプランで最大35%還元✈️ エントリーがまだの方は今すぐ！残り9日！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ（海外）</a>
-    </div>
-  </div>
-
-  <!-- 6/12 10のつく日③ラスト -->
-  <div class="day-card c-50day" data-tags="main 50day">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/12</div>
-        <div class="day-date-week">金曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE</span>
-        <span class="badge-phase bp-50day">⏰ 0のつく日 本日23:59まで</span>
-      </div>
-    </div>
-    <div class="day-theme">0のつく日 ラストコール ＋ SALE残り8日</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">⏰ 0のつく日 本日23:59まで！SALE残り8日🔔 高速バスも最大1,000円割引だよ🚌 週末旅行の計画はできてる？まだなら今すぐチェック！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-    </div>
-  </div>
-
-  <!-- 6/13 週末 -->
-  <div class="day-card c-main" data-tags="main">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/13</div>
-        <div class="day-date-week sat">土曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE</span>
-      </div>
-    </div>
-    <div class="day-theme">週末旅行 ＋ 国内宿泊ポイントバックキャンペーン訴求</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🌅 今週末もスーパーSALE開催中！旅行予約が毎日最大30%OFF。エントリー＆ご旅行で抽選2,500名様に最大全額ポイントバックも忘れずに🎯 残り7日！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-    </div>
-  </div>
-
-  <!-- 6/14 週末アミューズメント -->
-  <div class="day-card c-main" data-tags="main">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/14</div>
-        <div class="day-date-week sun">日曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE</span>
-      </div>
-    </div>
-    <div class="day-theme">夏のアミューズメント訴求（東京サマーランド・ムーミン）</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">☀️ 夏のお出かけ計画はもうできてる？東京サマーランド感謝デーのチケット・ムーミンバレーパーク 1デーパスもSALE対象！旅行とセットで計画しよう🌱 残り6日！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://experiences.travel.rakuten.co.jp/experiences/51601" class="dest-link" target="_blank" rel="noopener">東京サマーランド</a>
-      <a href="https://experiences.travel.rakuten.co.jp/experiences/25531" class="dest-link" target="_blank" rel="noopener">ムーミンバレーパーク</a>
-    </div>
-  </div>
-
-  <!-- 6/15 15のつく日①START -->
-  <div class="day-card c-50day" data-tags="main 50day">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/15</div>
-        <div class="day-date-week">月曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE 残り5日</span>
-        <span class="badge-phase bp-50day">⏰ 5のつく日 START（〜6/17 23:59）</span>
-      </div>
-    </div>
-    <div class="day-theme">5のつく日 72時間スタート ＋ SALE残り5日 決め時！</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">✨ 5のつく日スタート！今から72時間！SALE残り5日、まだ迷ってる方はここが決め時🔥 最大30%OFFで夏の旅行を予約しよう！初めてのアプリ予約なら最大35%OFF！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-    </div>
-  </div>
-
-  <!-- 6/16 15のつく日② エントリーリマインダー -->
-  <div class="day-card c-50day" data-tags="main 50day">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/16</div>
-        <div class="day-date-week">火曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE 残り4日</span>
-        <span class="badge-phase bp-50day">⏰ 5のつく日 継続中</span>
-      </div>
-    </div>
-    <div class="day-theme">エントリーリマインダー ＋ 楽天モバイル当選確率2倍</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🎯 エントリーはもうしてある？国内宿泊エントリー＆ご旅行で抽選2,500名様に最大全額ポイントバック！楽天モバイルなら当選確率2倍✨ SALE残り4日、急いで！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-    </div>
-  </div>
-
-  <!-- 6/17 15のつく日③ラスト + OSAKA GIGANTIC -->
-  <div class="day-card c-50day" data-tags="main 50day">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/17</div>
-        <div class="day-date-week">水曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE 残り3日</span>
-        <span class="badge-phase bp-50day">⏰ 5のつく日 本日23:59まで</span>
-      </div>
-    </div>
-    <div class="day-theme">5のつく日 ラストコール ＋ OSAKA GIGANTIC MUSIC FESTIVAL訴求</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🎵 5のつく日 本日23:59まで！OSAKA GIGANTIC MUSIC FESTIVAL 2026のEチケット販売中🎪 旅行もフェスも、残り3日！今すぐチェックして！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-      <a href="https://experiences.travel.rakuten.co.jp/experiences/62579" class="dest-link" target="_blank" rel="noopener">OSAKA GIGANTIC</a>
-    </div>
-  </div>
-
-  <!-- 6/18 残り2日 -->
-  <div class="day-card c-main" data-tags="main">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/18</div>
-        <div class="day-date-week">木曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE 残り2日</span>
-      </div>
-    </div>
-    <div class="day-theme">残り2日！カウントダウン緊急訴求</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🚨 SALE残り2日！旅行予約が毎日最大30%OFF。まだ予約していない方はラストチャンス！週末の旅行もまだ間に合うよ👇 急いで！</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-    </div>
-  </div>
-
-  <!-- 6/19 明日最終日 -->
-  <div class="day-card c-main" data-tags="main">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/19</div>
-        <div class="day-date-week">金曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-main">本SALE 明日最終日</span>
-      </div>
-    </div>
-    <div class="day-theme">ラストウォーニング ＋ 最終確認を促す</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">⚡️ 明日が最終日！楽天トラベル スーパーSALE は明日6月20日(土)23:59まで。見逃した旅行先はないか最終確認を！テーマパーク・水族館チケットも今がラストチャンス👇</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-    </div>
-  </div>
-
-  <!-- 6/20 最終日 + 20のつく日 -->
-  <div class="day-card c-last" data-tags="main last 50day">
-    <div class="day-card-top">
-      <div class="day-date-block">
-        <div class="day-date-num">6/20</div>
-        <div class="day-date-week sat">土曜日</div>
-      </div>
-      <div class="day-badges">
-        <span class="badge-phase bp-last">🔴 本日最終日</span>
-        <span class="badge-phase bp-50day">⏰ 0のつく日 START（23:59まで）</span>
-      </div>
-    </div>
-    <div class="day-theme">ラストコール！最終日 ＋ 0のつく日スタート</div>
-    <div class="copy-block">
-      <div class="copy-label">訴求コピー案</div>
-      <div class="copy-text">🔴 本日最終日！楽天トラベル スーパーSALE 6月20日(土)23:59まで！今日は0のつく日で特別開催中🌟 最大30%OFFを今すぐ！逃したら後悔するよ👇</div>
-    </div>
-    <div class="day-footer">
-      <span class="dest-label">誘導先：</span>
-      <a href="https://event.travel.rakuten.co.jp/special/supersale/?scid=af_trv_2026uurakuten" class="dest-link" target="_blank" rel="noopener">公式ページ</a>
-    </div>
-  </div>
+  <div id="scheduleList"></div>
 
 </main>
 
 <footer>楽天トラベル スーパーSALE 投稿スケジュール ／ 内部共有用資料</footer>
 
-<script>
-  const filterBar = document.getElementById('filterBar');
-  const cards  = document.querySelectorAll('.day-card');
-  const phases = document.querySelectorAll('[data-phase]');
-
-  filterBar.addEventListener('click', e => {
-    const btn = e.target.closest('.filter-btn');
-    if (!btn) return;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    const filter = btn.dataset.filter;
-    cards.forEach(card => {
-      const tags = card.dataset.tags || '';
-      card.style.display = (filter === 'all' || tags.includes(filter)) ? '' : 'none';
-    });
-    phases.forEach(ph => {
-      const phPhase = ph.dataset.phase;
-      const map = { announce: 'announce', main: 'main', '50day': '50day', last: 'last' };
-      if (filter === 'all') { ph.style.display = ''; return; }
-      ph.style.display = (phPhase === 'announce' && filter === 'announce') ||
-                         (phPhase === 'main' && ['main','50day','last'].includes(filter))
-                         ? '' : 'none';
-    });
-  });
-</script>
+<script src="assets/sale-data.js"></script>
+<script src="assets/sale-master.js"></script>
 
 </body>
 </html>

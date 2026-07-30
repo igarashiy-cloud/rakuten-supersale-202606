@@ -1,0 +1,22 @@
+﻿sale_id,区分,グループ,グループ日付,グループ色,表示順,アイコン,アイコン色,番号,タイトル,割引表記,割引色,注記,URL
+2026-06-ss,fifty,5と0の日,,teal,1,🗓️,,,"5と0の日
+TOP",特設ページ,,,https://travel.rakuten.co.jp/camp/50luxday/top/?l-id=camp_50luxday_top
+2026-06-ss,fifty,5と0の日,,teal,2,🏨,,,ホテル・宿,最大20%OFF,,,https://travel.rakuten.co.jp/camp/50luxday/?lid=camp_50pointday_navi_hotel&scid=af_pc_etc&sc2id=af_112_0_10002848
+2026-06-ss,fifty,5と0の日,,teal,3,⭐,,,最高級宿,最大20%OFF,,,https://travel.rakuten.co.jp/camp/50luxday/platinum/?l-id=camp_50luxday_lux&scid=af_pc_etc&sc2id=af_112_0_10002848
+2026-06-ss,fifty,5と0の日,,teal,4,🎢,,,遊び・体験,お得な体験,,,https://travel.rakuten.co.jp/camp/50luxday/rte/?scid=camp_50pointday_rte
+2026-06-ss,fifty,5と0の日,,teal,5,✈️,,,楽パック,交通+宿セット,,,https://travel.rakuten.co.jp/package/campaign/50pointday/?l-id=rte_5-0_rt_package
+2026-06-ss,fifty,5と0の日,,teal,6,🚗,,,レンタカー,お得な価格,,,https://travel.rakuten.co.jp/cars/campaign/pointday/?scid=camp_50pointday_car
+2026-06-ss,fifty,5と0の日,,teal,7,🚌,,,バス旅行,高速バス割引,,,https://travel.rakuten.co.jp/bus/campaign/50pointday/?scid=camp_50pointday_bus
+2026-06-ss,fifty,5と0の日,,teal,8,🌏,,,海外旅行,海外もお得,,,https://travel.rakuten.co.jp/camp/50luxday/overseas.html?scid=camp_50pointday_ov
+2026-06-ss,plan,告知期間,5/31(日) 〜,b-ann,1,🏨,ic-red,LINK ①,"[対象者限定]
+ホテル",最大30%OFF,,対象者限定プラン,https://search.travel.rakuten.co.jp/ds/undated/search?f_dai=japan&f_sort=hotel&f_page=1&f_hyoji=30&f_tab=hotel&f_cd=02&f_layout=grid&f_campaign=17ss2606cp_12&f_charge_users=2&scid=af_trv_2026uurakuten
+2026-06-ss,plan,告知期間,5/31(日) 〜,b-ann,2,🎢,ic-orange,LINK ②,"テーマパーク
+提携ホテル",最大33%OFF,,,https://search.travel.rakuten.co.jp/ds/undated/search?f_dai=japan&f_sort=hotel&f_page=1&f_hyoji=30&f_tab=hotel&f_cd=02&f_layout=grid&f_campaign=17ss2606cp_20&f_charge_users=2&scid=af_trv_2026uurakuten
+2026-06-ss,plan,告知期間,5/31(日) 〜,b-ann,3,🏩,ic-teal,LINK ③,チェーンホテル,最大33%OFF,,,https://search.travel.rakuten.co.jp/ds/undated/search?f_dai=japan&f_sort=hotel&f_page=1&f_hyoji=30&f_tab=hotel&f_cd=02&f_layout=grid&f_campaign=17ss2606cp_11&f_charge_users=2&scid=af_trv_2026uurakuten
+2026-06-ss,plan,先行SALE,6/1(月) 10:00 〜,b-pre,1,🏷️,ic-gold,LINK ⑥,半額プラン,最大50%OFF,d-gold,プラン公開：6/1 10:00,https://search.travel.rakuten.co.jp/ds/undated/search?f_dai=japan&f_sort=hotel&f_page=1&f_hyoji=30&f_tab=hotel&f_cd=02&f_layout=grid&f_campaign=17ss260650_14&f_charge_users=2&scid=af_trv_2026uurakuten
+2026-06-ss,plan,先行SALE,6/1(月) 10:00 〜,b-pre,2,⛓️,ic-teal,LINK +,"チェーン
+スペシャルオファー",最大28%OFF,,LP表記 ※SALEページは33%,https://travel.rakuten.co.jp/special/special-offers/chain/202606/?scid=af_trv_2026uurakuten
+2026-06-ss,plan,本番SALE,6/4(木) 20:00 〜,b-main,1,🎫,ic-red,LINK ⑦,割引クーポン,"最大4,000円OFF",,ページ公開：6/4 20:00,https://event.travel.rakuten.co.jp/special/sales/coupon/4000.html?scid=af_trv_2026uurakuten
+2026-06-ss,plan,本番SALE,6/4(木) 20:00 〜,b-main,2,💰,ic-blue,LINK ⑧,"Rakuten
+スーパーDEAL",30%ポイント還元,d-teal,,https://travel.rakuten.co.jp/superdeal/special/ss2606/index.html?scid=af_trv_2026uurakuten
+2026-06-ss,plan,本番SALE,6/4(木) 20:00 〜,b-main,3,⏰,ic-green,LINK ⑨,期間限定プラン,限定特価,,公開：6/4 20:00,https://search.travel.rakuten.co.jp/ds/undated/search?f_dai=japan&f_sort=hotel&f_page=1&f_hyoji=30&f_tab=hotel&f_cd=02&f_layout=grid&f_campaign=17ss2606lm_14&f_charge_users=2&scid=af_trv_2026uurakuten

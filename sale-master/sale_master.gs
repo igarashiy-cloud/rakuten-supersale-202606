@@ -51,8 +51,9 @@ const SHEETS = {
 
 /** 各シートの列名（master-csv のヘッダーと一致させること） */
 const COLUMNS = {
-  sales: ['sale_id', '公開', 'セール名', '期別ラベル', 'ページタイトル', 'hero_eyebrow', 'hero_title',
-    'hero_sub', 'hero_note', 'cta_label', 'cta_url', '公式URL', 'スケジュール期間', 'チケット訴求',
+  sales: ['sale_id', '公開', '種別', '開始日', '終了日', 'セール名', '期別ラベル', 'ページタイトル',
+    'hero_eyebrow', 'hero_title', 'hero_sub', 'hero_note', 'cta_label', 'cta_url', '公式URL',
+    'スケジュール期間', 'チケット訴求',
     'ランキング見出し', 'ランキング副題', 'ランキング説明タイトル', 'ランキング説明', 'フッター'],
   phases: ['sale_id', '表示順', '日付', '時刻', '色', 'フェーズ名', 'フェーズ背景色', 'フェーズ文字色',
     '見出し', '詳細', '終了表記'],
@@ -145,10 +146,10 @@ function doGet(e) {
   }
 }
 
-/** 公開中のセール一覧（sale_id と表示名だけ）。ページ側のセール切替に使う */
+/** 公開中のセール一覧（sale_id と表示名だけ）。常設行は含めない */
 function listPublishedSales_() {
   return readSheet_(SHEETS.sales)
-    .filter(r => isTrue_(r['公開']))
+    .filter(r => isTrue_(r['公開']) && String(r['種別'] || 'sale') === 'sale')
     .map(r => ({
       sale_id: String(r['sale_id']),
       name: String(r['セール名'] || ''),
@@ -156,7 +157,25 @@ function listPublishedSales_() {
     }));
 }
 
-/** ページ1枚ぶんのデータをまとめて返す */
+/** 常設ページ用の行の sale_id */
+const COMMON_ID = 'common';
+
+/**
+ * まだ始まっていないセールも書き出すかどうか。
+ *
+ * true にすると、開始日が来た瞬間にページが自動で切り替わって便利だが、
+ * 書き出したJSONは誰でも読める場所（サイト）に置かれるため、
+ * 未発表のセール内容が開始前に読めてしまう。既定では書き出さない。
+ */
+const EXPORT_UPCOMING = false;
+
+/**
+ * ページ1枚ぶんのデータをまとめて返す。
+ *
+ * 常設（common）と、開催中のセールを分けて持つ。
+ *  ・common … 5と0の日など、いつ見ても出ているもの
+ *  ・sale   … スーパーSALEなど、期間中だけ出るもの。無ければ null
+ */
 function getSalePayload_(saleId, skipCache) {
   const cacheKey = 'sale:' + (saleId || '_default');
   if (!skipCache) {
@@ -164,19 +183,65 @@ function getSalePayload_(saleId, skipCache) {
     if (hit) return JSON.parse(hit);
   }
 
-  // 公開=TRUE の行だけを対象にする。sale_id を直接指定されても未公開は出さない
-  const salesRows = readSheet_(SHEETS.sales).filter(r => isTrue_(r['公開']));
-  const sale = saleId
-    ? salesRows.filter(r => String(r['sale_id']) === saleId)[0]
-    : salesRows[0];
-  if (!sale) throw new Error('公開中のセールが見つかりません: ' + (saleId || '(公開=TRUEの行)'));
+  const rows = readSheet_(SHEETS.sales).filter(r => isTrue_(r['公開']));
+  const commonRow = rows.filter(r => String(r['sale_id']) === COMMON_ID)[0];
+  if (!commonRow) {
+    throw new Error('sales シートに sale_id = common の行がありません（常設ページ用の1行が必要です）');
+  }
 
-  const id = String(sale['sale_id']);
-  const forSale = name => readSheet_(name).filter(r => String(r['sale_id']) === id);
+  const saleRow = pickSaleRow_(rows, saleId);
 
-  // タイムライン：各フェーズに phase_subs をぶら下げる
-  const subs = forSale(SHEETS.phaseSubs);
-  const phases = sortBy_(forSale(SHEETS.phases), '表示順').map(r => ({
+  const payload = {
+    ok: true,
+    updatedAt: new Date().toISOString(),
+    common: buildCommon_(commonRow),
+    sale: saleRow ? buildSale_(saleRow) : null,
+    ranking: buildRankingBlock_(saleRow ? String(saleRow['sale_id']) : ''),
+  };
+
+  cachePut_(cacheKey, JSON.stringify(payload));
+  return payload;
+}
+
+/**
+ * 出すべきセールの行を選ぶ。
+ * sale_id 指定があればそれ、無ければ「終了日がまだ来ていないセール」のうち開始が早いもの。
+ */
+function pickSaleRow_(rows, saleId) {
+  const sales = rows.filter(r => String(r['種別'] || 'sale') === 'sale');
+  if (saleId) return sales.filter(r => String(r['sale_id']) === saleId)[0] || null;
+
+  const today = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd');
+  const candidates = sales.filter(r => {
+    const end = String(r['終了日'] || '');
+    const start = String(r['開始日'] || '');
+    if (end && end < today) return false;                       // 終わったセールは出さない
+    if (!EXPORT_UPCOMING && start && start > today) return false; // 未発表のセールは書き出さない
+    return true;
+  });
+  candidates.sort((a, b) => String(a['開始日']).localeCompare(String(b['開始日'])));
+  return candidates[0] || null;
+}
+
+/** 常設ブロック。5と0の日のリンクと、いつでも使えるリンク、汎用コピー */
+function buildCommon_(row) {
+  const links = sortBy_(rowsFor_(SHEETS.links, COMMON_ID), '表示順');
+  return {
+    meta: saleMeta_(row),
+    fiftyLinks: links.filter(r => r['区分'] === 'fifty').map(toLink_),
+    alwaysLinks: links.filter(r => r['区分'] === 'always').map(toLink_),
+    // 5と0の日カレンダーで使い回すコピー案。日付はページ側で自動計算する
+    fiftyCopies: sortBy_(rowsFor_(SHEETS.schedule, COMMON_ID), '表示順').map(scheduleDay_),
+  };
+}
+
+/** 開催中のセールブロック */
+function buildSale_(row) {
+  const id = String(row['sale_id']);
+  const at = name => rowsFor_(name, id);
+
+  const subs = at(SHEETS.phaseSubs);
+  const phases = sortBy_(at(SHEETS.phases), '表示順').map(r => ({
     date: r['日付'], time: r['時刻'], color: r['色'],
     phaseLabel: r['フェーズ名'], phaseBg: r['フェーズ背景色'], phaseFg: r['フェーズ文字色'],
     title: r['見出し'], detail: r['詳細'], endTime: r['終了表記'],
@@ -184,11 +249,9 @@ function getSalePayload_(saleId, skipCache) {
       .map(s => ({ date: s['日付'], range: s['期間'], note: s['注記'] })),
   }));
 
-  // リンク：5と0の日と、施策別（グループ単位でまとめる）
-  const linkRows = sortBy_(forSale(SHEETS.links), '表示順');
-  const fifty = linkRows.filter(r => r['区分'] === 'fifty').map(toLink_);
+  // 施策別リンクはグループ単位でまとめる
   const planGroups = [];
-  linkRows.filter(r => r['区分'] === 'plan').forEach(r => {
+  sortBy_(at(SHEETS.links), '表示順').filter(r => r['区分'] === 'plan').forEach(r => {
     let g = planGroups.filter(x => x.group === r['グループ'])[0];
     if (!g) {
       g = { group: r['グループ'], date: r['グループ日付'], color: r['グループ色'], items: [] };
@@ -197,55 +260,64 @@ function getSalePayload_(saleId, skipCache) {
     g.items.push(toLink_(r));
   });
 
-  const payload = {
-    ok: true,
-    updatedAt: new Date().toISOString(),
-    sale: {
-      sale_id: id,
-      name: sale['セール名'], label: sale['期別ラベル'], pageTitle: sale['ページタイトル'],
-      heroEyebrow: sale['hero_eyebrow'], heroTitle: sale['hero_title'], heroSub: sale['hero_sub'],
-      heroNote: sale['hero_note'], ctaLabel: sale['cta_label'], ctaUrl: sale['cta_url'],
-      officialUrl: sale['公式URL'], schedulePeriod: sale['スケジュール期間'],
-      ticketLead: sale['チケット訴求'],
-      rankingTitle: sale['ランキング見出し'], rankingSub: sale['ランキング副題'],
-      rankingNoteTitle: sale['ランキング説明タイトル'], rankingNote: sale['ランキング説明'],
-      footer: sale['フッター'],
-    },
+  return {
+    meta: saleMeta_(row),
     phases: phases,
-    links: { fifty: fifty, plan: planGroups },
-    points: sortBy_(forSale(SHEETS.points), '表示順').map(r => ({
+    links: { plan: planGroups },
+    points: sortBy_(at(SHEETS.points), '表示順').map(r => ({
       num: r['番号'], title: r['タイトル'], pct: r['割引表記'], body: r['本文'],
     })),
-    campaigns: sortBy_(forSale(SHEETS.campaigns), '表示順').map(r => ({
+    campaigns: sortBy_(at(SHEETS.campaigns), '表示順').map(r => ({
       cat: r['カテゴリ'], catClass: r['カテゴリ色'], title: r['タイトル'], body: r['本文'],
     })),
-    tickets: sortBy_(forSale(SHEETS.tickets), '表示順').map(r => ({
+    tickets: sortBy_(at(SHEETS.tickets), '表示順').map(r => ({
       badge: r['バッジ'], badgeClass: r['バッジ色'], name: r['名称'],
       coupons: String(r['クーポン'] || '').split('/').map(s => s.trim()).filter(String),
       url: r['URL'],
     })),
-    services: sortBy_(forSale(SHEETS.services), '表示順').map(r => ({
+    services: sortBy_(at(SHEETS.services), '表示順').map(r => ({
       icon: r['アイコン'], name: r['名称'], pct: r['割引表記'],
     })),
-    banners: sortBy_(forSale(SHEETS.banners), '表示順').map(r => ({
+    banners: sortBy_(at(SHEETS.banners), '表示順').map(r => ({
       title: r['タイトル'], meta: r['説明'], img: r['画像'], url: r['NotionURL'],
     })),
     schedule: {
-      phases: sortBy_(forSale(SHEETS.schedulePhases), '表示順').map(r => ({
+      phases: sortBy_(at(SHEETS.schedulePhases), '表示順').map(r => ({
         id: r['フェーズID'], color: r['色'], label: r['ラベル'], range: r['期間'],
       })),
-      days: sortBy_(forSale(SHEETS.schedule), '表示順').map(r => ({
-        phase: r['フェーズ'], date: r['日付'], week: r['曜日'], weekClass: r['曜日色'],
-        cardClass: r['カード色'], tags: String(r['タグ'] || ''),
-        badges: parseBadges_(r['バッジ']), theme: r['テーマ'], copy: r['訴求コピー'],
-        dests: parseDests_(r['誘導先']),
-      })),
+      days: sortBy_(at(SHEETS.schedule), '表示順').map(scheduleDay_),
     },
-    ranking: buildRankingBlock_(id),
   };
+}
 
-  cachePut_(cacheKey, JSON.stringify(payload));
-  return payload;
+function rowsFor_(sheetName, id) {
+  return readSheet_(sheetName).filter(r => String(r['sale_id']) === id);
+}
+
+function saleMeta_(row) {
+  return {
+    sale_id: String(row['sale_id']),
+    kind: String(row['種別'] || 'sale'),
+    startDate: String(row['開始日'] || ''),
+    endDate: String(row['終了日'] || ''),
+    name: row['セール名'], label: row['期別ラベル'], pageTitle: row['ページタイトル'],
+    heroEyebrow: row['hero_eyebrow'], heroTitle: row['hero_title'], heroSub: row['hero_sub'],
+    heroNote: row['hero_note'], ctaLabel: row['cta_label'], ctaUrl: row['cta_url'],
+    officialUrl: row['公式URL'], schedulePeriod: row['スケジュール期間'],
+    ticketLead: row['チケット訴求'],
+    rankingTitle: row['ランキング見出し'], rankingSub: row['ランキング副題'],
+    rankingNoteTitle: row['ランキング説明タイトル'], rankingNote: row['ランキング説明'],
+    footer: row['フッター'],
+  };
+}
+
+function scheduleDay_(r) {
+  return {
+    phase: r['フェーズ'], date: r['日付'], week: r['曜日'], weekClass: r['曜日色'],
+    cardClass: r['カード色'], tags: String(r['タグ'] || ''),
+    badges: parseBadges_(r['バッジ']), theme: r['テーマ'], copy: r['訴求コピー'],
+    dests: parseDests_(r['誘導先']),
+  };
 }
 
 function toLink_(r) {

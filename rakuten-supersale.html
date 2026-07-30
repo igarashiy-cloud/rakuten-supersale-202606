@@ -262,6 +262,24 @@
       .header-link { padding:.24rem .6rem; font-size:.72rem; }
       .hl-long { display:none; }
     }
+
+    /* ── 常設ブロック / セールブロックの仕切り ── */
+    .block-lead { display:flex; align-items:baseline; gap:.6rem; flex-wrap:wrap; margin:-.4rem 0 1rem; }
+    .block-lead-note { font-size:.8rem; color:#888; font-weight:700; }
+    .block-lead-note strong { color:var(--teal-d); }
+
+    .sale-banner { display:flex; align-items:center; gap:.7rem; flex-wrap:wrap;
+      background:linear-gradient(135deg,var(--red) 0%,var(--red-l) 100%); color:#fff;
+      border-radius:14px; padding:.85rem 1.2rem; margin:2rem 0 1.2rem;
+      box-shadow:0 6px 18px rgba(191,0,0,.25); }
+    .sale-banner-tag { background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.4);
+      font-size:.68rem; font-weight:900; padding:.2rem .65rem; border-radius:1rem; white-space:nowrap; }
+    .sale-banner-text { font-size:.95rem; font-weight:900; letter-spacing:.02em; }
+
+    .nosale-note { background:#fff; border:1px dashed #ddd; border-radius:14px;
+      padding:1.4rem 1.5rem; margin:2rem 0 1rem; color:#888; font-size:.85rem;
+      font-weight:700; text-align:center; }
+    .nosale-note strong { color:var(--red); }
   </style>
 </head>
 <body>
@@ -310,50 +328,58 @@
     <div class="hero-note" id="heroNote"></div>
   </div>
 
-  <!-- 開催スケジュール -->
-  <div class="section-title"><span class="dot"></span>開催スケジュール</div>
-  <div class="timeline-wrap">
+  <!-- ============ 常設（いつでも出ている） ============ -->
+
+  <div class="section-title" data-section="fifty"><span class="dot" style="background:var(--teal);"></span>毎月5と0のつく日</div>
+  <div class="block-lead" data-section="fifty">
+    <span class="block-lead-note" id="fiftyNext"></span>
+  </div>
+  <div class="fifty-links-grid" data-section="fifty" id="fiftyLinks"></div>
+
+  <div class="section-title" data-section="always" hidden><span class="dot" style="background:var(--teal);"></span>いつでも使えるキャンペーン</div>
+  <div class="fifty-links-grid" data-section="always" id="alwaysLinks" hidden></div>
+
+  <!-- ============ 開催中のセール（期間中だけ出る） ============ -->
+
+  <div class="nosale-note" data-section="nosale" id="noSaleNote" hidden></div>
+
+  <div class="sale-banner" data-section="sale" hidden>
+    <span class="sale-banner-tag">開催中</span>
+    <span class="sale-banner-text" id="saleHeading"></span>
+  </div>
+
+  <div class="section-title" data-section="sale" hidden><span class="dot"></span>開催スケジュール</div>
+  <div class="timeline-wrap" data-section="sale" hidden>
     <div class="timeline" id="timeline"></div>
   </div>
 
-  <!-- 5と0の日 カテゴリ別リンク -->
-  <div class="section-title" data-section="fifty" style="margin-top:1.5rem;"><span class="dot" style="background:var(--teal);"></span>5と0の日 カテゴリ別リンク</div>
-  <div class="fifty-links-grid" data-section="fifty" id="fiftyLinks"></div>
-
-  <!-- 公式URL -->
-  <div class="link-block">
+  <div class="link-block" data-section="sale" hidden>
     <div>
-      <div class="link-block-label">楽天トラベル TOP ページ URL</div>
+      <div class="link-block-label">セール公式ページ URL</div>
       <div class="link-block-url" id="officialUrlText"></div>
     </div>
     <a class="link-btn" id="officialUrlBtn" href="#" target="_blank" rel="noopener">開く →</a>
   </div>
 
-  <!-- 施策別リンク一覧 -->
-  <div class="section-title"><span class="dot"></span>施策別リンク一覧</div>
-  <div class="pls-section" id="planLinks"></div>
+  <div class="section-title" data-section="sale" hidden><span class="dot"></span>施策別リンク一覧</div>
+  <div class="pls-section" data-section="sale" id="planLinks" hidden></div>
 
-  <!-- 訴求ポイント -->
-  <div class="section-title" data-section="points"><span class="dot"></span>🌟 訴求ポイント</div>
-  <div class="points-grid" data-section="points" id="points"></div>
+  <div class="section-title" data-section="points" hidden><span class="dot"></span>🌟 訴求ポイント</div>
+  <div class="points-grid" data-section="points" id="points" hidden></div>
 
-  <!-- 開催キャンペーン -->
-  <div class="section-title" data-section="campaigns"><span class="dot"></span>開催キャンペーン</div>
-  <div class="campaign-grid" data-section="campaigns" id="campaigns"></div>
+  <div class="section-title" data-section="campaigns" hidden><span class="dot"></span>開催キャンペーン</div>
+  <div class="campaign-grid" data-section="campaigns" id="campaigns" hidden></div>
 
-  <!-- 観光体験チケット -->
-  <div class="section-title" data-section="tickets"><span class="dot"></span>楽天トラベル 観光体験チケット</div>
-  <div class="info-note" data-section="tickets" id="ticketLead" style="margin-bottom:1rem;"></div>
-  <div class="tickets-grid" data-section="tickets" id="tickets"></div>
-  <div class="tickets-note" data-section="tickets">クーポン「国内30%(リワード)」または「国内5%・10%」を使用してください</div>
+  <div class="section-title" data-section="tickets" hidden><span class="dot"></span>楽天トラベル 観光体験チケット</div>
+  <div class="info-note" data-section="tickets" id="ticketLead" style="margin-bottom:1rem;" hidden></div>
+  <div class="tickets-grid" data-section="tickets" id="tickets" hidden></div>
+  <div class="tickets-note" data-section="tickets" hidden>クーポン「国内30%(リワード)」または「国内5%・10%」を使用してください</div>
 
-  <!-- バナー素材 -->
-  <div class="section-title" data-section="banners"><span class="dot"></span>バナー素材</div>
-  <div class="banner-grid" data-section="banners" id="banners"></div>
+  <div class="section-title" data-section="banners" hidden><span class="dot"></span>バナー素材</div>
+  <div class="banner-grid" data-section="banners" id="banners" hidden></div>
 
-  <!-- その他サービス -->
-  <div class="section-title" data-section="services"><span class="dot"></span>その他サービスもおトク！</div>
-  <div class="service-grid" data-section="services" id="services"></div>
+  <div class="section-title" data-section="services" hidden><span class="dot"></span>その他サービスもおトク！</div>
+  <div class="service-grid" data-section="services" id="services" hidden></div>
 
   <!-- 関連ページ -->
   <div class="section-title"><span class="dot"></span>関連ページ</div>
@@ -361,8 +387,8 @@
     <a href="rakuten-supersale-schedule.html" class="page-nav-card">
       <div class="page-nav-icon">📅</div>
       <div class="page-nav-body">
-        <div class="page-nav-title">毎日の投稿スケジュール</div>
-        <div class="page-nav-desc" id="navScheduleDesc">日別の訴求コピー案を確認</div>
+        <div class="page-nav-title">投稿スケジュール</div>
+        <div class="page-nav-desc">日別の訴求コピー案を確認</div>
       </div>
       <div class="page-nav-arrow">→</div>
     </a>

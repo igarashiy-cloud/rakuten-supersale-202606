@@ -9,20 +9,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --red:    #BF0000;
-      --red-l:  #E60026;
-      --red-bg: #FFF5F5;
-      --gold:   #D4A800;
-      --teal:   #5BC8CC;
-      --teal-d: #3AABB0;
-      --gray:   #F5F5F7;
+      --green:   #0E7A55;
+      --green-l: #17A06B;
+      --green-bg:#EFF7F3;
+      --gold:    #B98A1E;
+      --teal:    #4FB8A5;
+      --teal-d:  #2E8F7E;
+      --orange:  #C97B2C;
+      --line:    #E4EBE7;
+      --gray:    #F6F8F7;
       --font: 'Noto Sans JP', sans-serif;
     }
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     body { font-family: var(--font); background: var(--gray); color: #222; min-height: 100vh; }
 
     /* ── HEADER ── */
-    header { background: var(--red); padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(191,0,0,.35); }
+    header { background: var(--green); padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(14,122,85,.35); }
     .logo { font-size: 1rem; font-weight: 900; color: #fff; display: flex; align-items: center; gap: .5rem; letter-spacing: .04em; }
     .logo-badge { background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.35); color: #fff; font-size: .72rem; font-weight: 700; padding: .18rem .65rem; border-radius: 1rem; }
     .header-link { color: rgba(255,255,255,.85); text-decoration: none; font-size: .82rem; font-weight: 700; border: 1px solid rgba(255,255,255,.35); padding: .28rem .9rem; border-radius: 1.5rem; transition: background .2s; }
@@ -31,11 +33,11 @@
     /* ── SUB-NAV ── */
     .sub-nav { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 0 1.5rem; display: flex; align-items: center; position: sticky; top: 56px; z-index: 90; box-shadow: 0 1px 4px rgba(0,0,0,.04); overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .sub-nav-item { display: inline-flex; align-items: center; gap: .3rem; text-decoration: none; color: #777; font-size: .8rem; font-weight: 700; padding: .72rem 1rem; border-bottom: 2.5px solid transparent; white-space: nowrap; transition: color .15s; }
-    .sub-nav-item:hover { color: var(--red); }
-    .sub-nav-item.active { color: var(--red); border-bottom-color: var(--red); }
+    .sub-nav-item:hover { color: var(--green); }
+    .sub-nav-item.active { color: var(--green); border-bottom-color: var(--green); }
 
     /* ── AFF STRIP ── */
-    .aff-strip { background: linear-gradient(90deg,#8B0000,#BF0000 35%,#E60026 65%,#BF0000); color: #fff; padding: .95rem 1.5rem; position: sticky; top: 103px; z-index: 85; box-shadow: 0 3px 14px rgba(191,0,0,.35); }
+    .aff-strip { background: linear-gradient(90deg,#0A5B3E,#0E7A55 35%,#17A06B 65%,#0E7A55); color: #fff; padding: .95rem 1.5rem; position: sticky; top: 103px; z-index: 85; box-shadow: 0 3px 14px rgba(14,122,85,.35); }
     .aff-strip-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: .75rem; flex-wrap: wrap; }
     .aff-strip-tag { background: rgba(255,255,255,.22); border: 1px solid rgba(255,255,255,.35); font-size: .72rem; font-weight: 900; letter-spacing: .07em; padding: .22rem .8rem; border-radius: 2rem; white-space: nowrap; flex-shrink: 0; }
     .aff-strip-msg { font-size: clamp(.9rem,2.5vw,1.1rem); font-weight: 900; text-align: center; }
@@ -44,7 +46,7 @@
     main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
 
     /* ── PAGE HERO ── */
-    .page-hero { background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%); border-radius: 1.2rem; padding: 2rem 2rem; margin-bottom: 1.5rem; color: #fff; position: relative; overflow: hidden; box-shadow: 0 6px 28px rgba(0,0,0,.2); }
+    .page-hero { background: linear-gradient(135deg, #123528 0%, #1C4A39 100%); border-radius: 1.2rem; padding: 2rem 2rem; margin-bottom: 1.5rem; color: #fff; position: relative; overflow: hidden; box-shadow: 0 6px 28px rgba(0,0,0,.2); }
     .page-hero::before { content:''; position:absolute; top:-30px; right:-30px; width:160px; height:160px; border-radius:50%; background:rgba(255,255,255,.04); }
     .page-hero-eyebrow { font-size:.72rem; font-weight:700; letter-spacing:.12em; color:rgba(255,255,255,.55); margin-bottom:.35rem; }
     .page-hero-title { font-size:clamp(1.3rem,3vw,1.8rem); font-weight:900; line-height:1.3; margin-bottom:.5rem; }
@@ -61,12 +63,12 @@
     .filter-bar { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center; }
     .filter-label { font-size: .78rem; font-weight: 700; color: #aaa; margin-right: .25rem; }
     .filter-btn { background: #fff; border: 1.5px solid #ddd; color: #666; font-family: var(--font); font-size: .78rem; font-weight: 700; padding: .35rem .9rem; border-radius: 2rem; cursor: pointer; transition: all .15s; white-space: nowrap; }
-    .filter-btn:hover { border-color: var(--red); color: var(--red); }
-    .filter-btn.active { border-color: var(--red); background: var(--red); color: #fff; }
+    .filter-btn:hover { border-color: var(--green); color: var(--green); }
+    .filter-btn.active { border-color: var(--green); background: var(--green); color: #fff; }
 
     /* ── SECTION TITLE ── */
     .section-title { display:flex; align-items:center; gap:.6rem; font-size:1.05rem; font-weight:900; color:#111; margin-bottom:1rem; padding-bottom:.5rem; border-bottom:2px solid #e0e0e0; }
-    .section-title .dot { width:8px; height:8px; border-radius:50%; background:var(--red); flex-shrink:0; }
+    .section-title .dot { width:8px; height:8px; border-radius:50%; background:var(--green); flex-shrink:0; }
 
     /* ── HOTEL SECTION ── */
     .hotel-section { margin-bottom: 2rem; }
@@ -78,10 +80,10 @@
     /* ── HOTEL CARD ── */
     .hotel-card { background: #fff; border-radius: 1rem; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.06); transition: transform .15s, box-shadow .15s; border-top: 3px solid #ddd; }
     .hotel-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
-    .hotel-card.rank-1 { border-top-color: #D4A800; }
+    .hotel-card.rank-1 { border-top-color: #B98A1E; }
     .hotel-card.rank-2 { border-top-color: #9EAAB5; }
     .hotel-card.rank-3 { border-top-color: #B87333; }
-    .hotel-card.rank-top { border-top-color: var(--red); }
+    .hotel-card.rank-top { border-top-color: var(--green); }
 
     .hotel-body { padding: 1rem; }
     .hotel-badges { display: flex; gap: .35rem; flex-wrap: wrap; margin-bottom: .55rem; align-items: center; }
@@ -89,8 +91,8 @@
     .badge-rank-num { font-size: .68rem; font-weight: 900; background: #444; color: #fff; padding: .1rem .45rem; border-radius: .75rem; min-width: 2rem; text-align: center; }
     .badge-area { font-size: .68rem; font-weight: 700; background: #F0F0F5; color: #555; padding: .1rem .5rem; border-radius: .75rem; }
     .hotel-name { font-size: .9rem; font-weight: 900; color: #111; line-height: 1.5; margin-bottom: .75rem; }
-    .hotel-btn { display: block; text-align: center; text-decoration: none; background: var(--red); color: #fff; font-size: .82rem; font-weight: 900; padding: .5rem; border-radius: .65rem; transition: background .15s; }
-    .hotel-btn:hover { background: #8B0000; }
+    .hotel-btn { display: block; text-align: center; text-decoration: none; background: var(--green); color: #fff; font-size: .82rem; font-weight: 900; padding: .5rem; border-radius: .65rem; transition: background .15s; }
+    .hotel-btn:hover { background: #0A5B3E; }
 
     footer { text-align:center; padding:2rem; font-size:.75rem; color:#bbb; font-weight:700; }
 
@@ -143,9 +145,9 @@
     .block-lead-note strong { color:var(--teal-d); }
 
     .sale-banner { display:flex; align-items:center; gap:.7rem; flex-wrap:wrap;
-      background:linear-gradient(135deg,var(--red) 0%,var(--red-l) 100%); color:#fff;
+      background:linear-gradient(135deg,var(--green) 0%,var(--green-l) 100%); color:#fff;
       border-radius:14px; padding:.85rem 1.2rem; margin:2rem 0 1.2rem;
-      box-shadow:0 6px 18px rgba(191,0,0,.25); }
+      box-shadow:0 6px 18px rgba(14,122,85,.25); }
     .sale-banner-tag { background:rgba(255,255,255,.22); border:1px solid rgba(255,255,255,.4);
       font-size:.68rem; font-weight:900; padding:.2rem .65rem; border-radius:1rem; white-space:nowrap; }
     .sale-banner-text { font-size:.95rem; font-weight:900; letter-spacing:.02em; }
@@ -153,7 +155,50 @@
     .nosale-note { background:#fff; border:1px dashed #ddd; border-radius:14px;
       padding:1.4rem 1.5rem; margin:2rem 0 1rem; color:#888; font-size:.85rem;
       font-weight:700; text-align:center; }
-    .nosale-note strong { color:var(--red); }
+    .nosale-note strong { color:var(--green); }
+
+    /* ============================================================
+       トンマナ：楽天トラベル寄りの緑。面はできるだけ淡くして、
+       文字とカードの中身が主役になるようにしている。
+       ============================================================ */
+    body { background:#F7F9F8; }
+
+    /* 最上部のリンク発行バー：黒 → 深緑 */
+    .linktool { background:#0A2E22; }
+    .linktool-btn { color:#0A2E22; }
+
+    /* アフィリエイター向けの帯：ベタ塗り → 淡い緑 */
+    .aff-strip { background:var(--green-bg); color:var(--green);
+      border-bottom:1px solid var(--line); box-shadow:none; }
+    .aff-strip-tag { background:#fff; border:1px solid var(--line); color:var(--green); }
+    .aff-strip-msg { color:#1F3C31; }
+
+    /* ヒーロー：ベタ塗り → 淡い緑のカード。文字を濃くする */
+    .hero, .page-hero {
+      background:linear-gradient(135deg,#F1F8F5 0%,#E3F1EA 100%);
+      color:#123528; border:1px solid var(--line);
+      box-shadow:0 2px 14px rgba(14,122,85,.07); }
+    .hero::before, .hero::after, .page-hero::before { background:rgba(14,122,85,.05); }
+    .hero-eyebrow, .page-hero-eyebrow { color:var(--teal-d); }
+    .hero-title, .page-hero-title { color:#0F3427; }
+    .hero-title .pct, .page-hero-title .year { color:var(--green-l); }
+    .hero-sub, .page-hero-sub { color:#3B5A4D; }
+    .hero-note { color:#8AA096; }
+    .hero-cta { background:var(--green); color:#fff; box-shadow:0 3px 12px rgba(14,122,85,.22); }
+    .hero-cta:hover { box-shadow:0 6px 18px rgba(14,122,85,.28); }
+
+    /* 説明ボックス：青 → 緑 */
+    .intro-note { background:var(--green-bg); border-color:#C3E1D2; }
+    .intro-note-body { color:#25503F; }
+    .intro-note-body strong { color:#0F3427; }
+
+    /* 罫線・区切りを薄く */
+    .section-title { border-bottom-color:var(--line); }
+    .sub-nav { border-bottom-color:var(--line); }
+
+    /* 開催中セールの帯：赤の主張を落とし、緑の中でのアクセントに */
+    .sale-banner { background:linear-gradient(135deg,var(--green) 0%,var(--green-l) 100%);
+      box-shadow:0 4px 14px rgba(14,122,85,.2); }
   </style>
 </head>
 <body>

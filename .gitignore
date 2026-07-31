@@ -1,5 +1,8 @@
 .DS_Store
 
-# GASの exportSiteData() から落としてくる中間ファイル。
+# GASの exportSiteData() から落としてくる中間ファイル。置き場所はどこでもよい。
 # サイトが読むのは assets/sale-data.js のほうなので追跡しない。
-/sale-data.json
+sale-data.json
+
+# 表示確認用に一時的に作るページ
+_preview-test*.html

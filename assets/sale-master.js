@@ -221,14 +221,15 @@ function renderSaleBlocks(d, sale) {
   if (!sale) {
     // 次のセールが書き出されていれば、その開始日だけ予告として出す
     const upcoming = d.sale && d.sale.meta.startDate > jstToday() ? d.sale.meta.startDate : '';
+    const name = upcoming && d.sale.meta.name ? esc(d.sale.meta.name) : '次のセール';
     fill('noSaleNote', upcoming
-      ? `現在、大型セールの開催期間外です。次回は <strong>${esc(ymdLabel(upcoming))}</strong> から。`
-      : '現在、大型セールの開催期間外です。開催が決まりしだい、ここに詳細が表示されます。');
+      ? `いまは期間限定セールの開催前です。<strong>${name}</strong> は ${esc(ymdLabel(upcoming))} から。`
+      : '今月の期間限定セールは準備中です。決まりしだい、ここに詳細が表示されます。');
     return;
   }
 
   const meta = sale.meta;
-  fill('saleHeading', `開催中：${esc(meta.name)}${meta.label ? ' ' + esc(meta.label) : ''}`);
+  fill('saleHeading', `${esc(meta.name)}${meta.label ? ' ' + esc(meta.label) : ''}`);
 
   fill('timeline', sale.phases.map(p => `
       <div class="tl-item">
@@ -370,16 +371,26 @@ function renderSaleSchedule(sale) {
 }
 
 /**
- * セール期間外：今月の5と0のつく日をカレンダーにする。
+ * セール期間外：5と0のつく日をカレンダーにする。
  * 日付は毎月決まっているので自動計算。マスタには汎用のコピー案だけ置いておき、
  * それを順番に割り当てて使う。
+ *
+ * 月末で当月の対象日がすべて過ぎている場合は翌月に繰り上げる。
+ * そうしないと月末の数日間、全部「終了」のカレンダーになってしまう。
  */
 function renderFiftyCalendar(d) {
   const copies = d.common.fiftyCopies || [];
-  const { y, m, d: today } = jstParts();
+  const now = jstParts();
+  const next = nextFiftyDay();
+  const sameMonth = next.y === now.y && next.m === now.m;
+
+  // 次回が翌月なら翌月を出す。その場合「今日」に当たる日は無い
+  const y = next.y, m = next.m;
+  const today = sameMonth ? now.d : 0;
 
   fill('schedTitle', '5と0の日カレンダー');
-  fill('schedSub', `毎月5・10・15・20・25・30日はポイントアップのタイミング。${m}月の該当日と投稿コピー案です。`);
+  fill('schedSub', `毎月5・10・15・20・25・30日はポイントアップのタイミング。${
+    sameMonth ? `${m}月` : `次回は${m}月から。${m}月`}の該当日と投稿コピー案です。`);
   toggleSection('schedFilter', false);
 
   const days = FIFTY_DAYS.filter(day => day <= daysInMonth(y, m));

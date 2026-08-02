@@ -1,0 +1,9 @@
+# Netlify のリダイレクト設定
+#
+# このサイトには index.html が無く、実体は rakuten-supersale*.html に置かれている。
+# そのままだとトップ（/）が404になるので、セール情報ページの中身をトップで返す。
+# 302ではなく200にしているのは、アドレスバーを短いURLのまま保つため。
+#
+#   https://uuum-rakuten-travel.netlify.app  ← これだけ配れば済むようにする
+
+/    /rakuten-supersale.html    200

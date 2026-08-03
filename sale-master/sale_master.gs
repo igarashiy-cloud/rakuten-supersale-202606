@@ -124,8 +124,27 @@ function exportSiteData() {
     file = DriveApp.createFile(name, json, MimeType.PLAIN_TEXT);
   }
 
-  Logger.log('書き出しました（%s KB）\n%s', Math.round(json.length / 1024), file.getUrl());
-  return file.getUrl();
+  // クリックした瞬間にダウンロードが始まるURL。プレビュー画面を経由しなくて済む
+  const downloadUrl = 'https://drive.google.com/uc?export=download&id=' + file.getId();
+
+  const sales = payload.sales.length
+    ? payload.sales.map(function (s) {
+        return '  ・' + (s.meta.kind === 'supersale' ? '[詳細] ' : '[簡易] ')
+          + s.meta.name + '（' + s.meta.startAt + ' 〜 ' + s.meta.endAt + '）';
+      }).join('\n')
+    : '  ・なし（期間中のセールが無いか、開始日時がまだ来ていません）';
+
+  Logger.log(
+    '書き出しました（%s KB）\n\n'
+    + '【今月のセール】\n%s\n\n'
+    + '【次にやること】\n'
+    + '1. このURLを開くとダウンロードが始まります\n'
+    + '   %s\n'
+    + '2. ターミナルで下のコマンドを実行\n'
+    + '   cd ~/Claude && ./tools/publish.sh ~/Downloads/sale-data.json',
+    Math.round(json.length / 1024), sales, downloadUrl);
+
+  return downloadUrl;
 }
 
 // ============================================================ Web API（社内からの確認用）

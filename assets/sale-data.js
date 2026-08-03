@@ -1,8 +1,7 @@
-/* 自動生成: node tools/sync-master.mjs <sale-data.json>
-   マスタ（スプレッドシート「インフルエンサー向け攻略情報」）の写し。直接編集しないこと。 */
+/* 自動生成: スプレッドシートのメニューから公開。直接編集しないこと。 */
 window.SALE_DATA = {
   "ok": true,
-  "updatedAt": "2026-08-03T05:46:30.197Z",
+  "updatedAt": "2026-08-03T23:51:25.306Z",
   "common": {
     "meta": {
       "sale_id": "common",
@@ -27,7 +26,7 @@ window.SALE_DATA = {
       "rankingSub": "UUUM所属のインフルエンサー経由で、実際に予約が入ったホテルの実績ランキングです。",
       "rankingNoteTitle": "人気ホテルランキングについて",
       "rankingNote": "UUUMが管理するインフルエンサーが楽天トラベルアフィリエイトを通じて読者・視聴者に紹介し、実際に予約が入ったホテルの集計データです。全体TOP10とエリア別TOP3を掲載しています。訴求するホテル選びの参考にご活用ください。",
-      "footer": "楽天トラベルアフィリエイト 攻略サイト ／ UUUMマーケティング株式会社"
+      "footer": "楽天トラベルアフィリエイト 攻略サイト ／ UUUM株式会社"
     },
     "fiftyDuration": "48時間",
     "fiftyLinks": [
@@ -666,5 +665,5 @@ window.SALE_DATA = {
       }
     ]
   },
-  "syncedAt": "2026-08-03 14:46"
+  "syncedAt": "2026-08-04 08:51"
 };

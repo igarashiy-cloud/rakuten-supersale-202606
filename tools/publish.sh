@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# セール情報マスタの内容をサイトに反映する。
+# マスタの内容をサイトに反映する。
 #
 #   ./tools/publish.sh ~/Downloads/sale-data.json
 #

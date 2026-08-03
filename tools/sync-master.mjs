@@ -74,6 +74,26 @@ const ISO = /^(\d{4})-(\d{2})-(\d{2})$/;
 const toMonthLabel = v => { const m = ISO.exec(v); return m ? `${+m[1]}年${+m[2]}月` : v; };
 const toMonthDay = v => { const m = ISO.exec(v); return m ? `${+m[2]}/${+m[3]}` : v; };
 
+/**
+ * 開始日時・終了日時を「YYYY-MM-DD HH:mm」に揃える。
+ *
+ * シートには手で打った文字列と、スプレッドシートが日付として解釈したセルが混在する。
+ * 「2026/08/20 9:59」「2026-8-5 9:00」「2026-08-20」などが来ても、
+ * ここで同じ形にしておかないと期間の比較（文字列比較）が狂う。
+ *
+ * 時刻が無い場合は、開始なら 00:00、終了なら 23:59 とみなす。
+ */
+function toDateTime(v, kind) {
+  const s = String(v || '').trim();
+  if (!s) return s;
+  const m = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})(?:[ T](\d{1,2}):(\d{2}))?/);
+  if (!m) return s;
+  const p = (n, w = 2) => String(n).padStart(w, '0');
+  const [, y, mo, d, hh, mi] = m;
+  const time = hh !== undefined ? `${p(hh)}:${mi}` : (kind === 'end' ? '23:59' : '00:00');
+  return `${y}-${p(mo)}-${p(d)} ${time}`;
+}
+
 const repaired = [];
 const repair = (obj, key, fn, where) => {
   if (!obj || typeof obj[key] !== 'string') return;
@@ -83,6 +103,8 @@ const repair = (obj, key, fn, where) => {
 
 (data.sales || []).forEach(s => {
   repair(s.meta, 'label', toMonthLabel, 'sales.期別ラベル');
+  repair(s.meta, 'startAt', v => toDateTime(v, 'start'), 'sales.開始日時');
+  repair(s.meta, 'endAt', v => toDateTime(v, 'end'), 'sales.終了日時');
   if (!s.detail) return;
   (s.detail.schedule?.days || []).forEach(d => repair(d, 'date', toMonthDay, 'schedule.日付'));
   (s.detail.phases || []).forEach(p => {
@@ -100,7 +122,7 @@ data.syncedAt = data.syncedAt || new Intl.DateTimeFormat('sv-SE', {
 
 writeFileSync(OUT,
   '/* 自動生成: node tools/sync-master.mjs <sale-data.json>\n'
-  + '   セール情報マスタ（スプレッドシート）の写し。直接編集しないこと。 */\n'
+  + '   マスタ（スプレッドシート「インフルエンサー向け攻略情報」）の写し。直接編集しないこと。 */\n'
   + 'window.SALE_DATA = ' + JSON.stringify(data, null, 2) + ';\n',
   'utf8');
 

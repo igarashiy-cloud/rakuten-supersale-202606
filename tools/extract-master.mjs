@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * 既存の rakuten-supersale*.html から「セール情報マスタ」のCSVを抽出する。
+ * 既存の rakuten-supersale*.html から「インフルエンサー向け攻略情報」のCSVを抽出する。
  *
  *   node tools/extract-master.mjs
  *
  * 出力先: sale-master/master-csv/*.csv
- * 生成したCSVをスプレッドシート「セール情報マスタ」の各シートにインポートすれば、
+ * 生成したCSVをスプレッドシート「インフルエンサー向け攻略情報」の各シートにインポートすれば、
  * 2026年6月のセール情報がそのままマスタの1件目になる。
  *
  * ※ このスクリプトは初回移行のための一度きりの道具。

@@ -234,13 +234,14 @@ function pickSaleRows_(rows, saleId) {
 
   const now = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd HH:mm');
   return sales.filter(r => {
-    const end = String(r['終了日時'] || '');
-    const start = String(r['開始日時'] || '');
+    // 書式を揃えてから比べる。揃えないと 2026/08/20 と 2026-08-20 で大小が狂う
+    const start = toDateTime_(r['開始日時'], 'start');
+    const end = toDateTime_(r['終了日時'], 'end');
     if (end && end < now) return false;                        // 終わったセールは出さない
     if (!EXPORT_UPCOMING && start && start > now) return false; // 未発表のセールは書き出さない
     return true;
   }).sort(function (a, b) {
-    return String(a['開始日時']).localeCompare(String(b['開始日時']));
+    return toDateTime_(a['開始日時'], 'start').localeCompare(toDateTime_(b['開始日時'], 'start'));
   });
 }
 
@@ -326,12 +327,32 @@ function rowsFor_(sheetName, id) {
   return readSheet_(sheetName).filter(r => String(r['sale_id']) === id);
 }
 
+/**
+ * 開始日時・終了日時を「YYYY-MM-DD HH:mm」に揃える。
+ *
+ * シートには手で打った文字列と、スプレッドシートが日付として解釈したセルが混ざる。
+ * 「2026/08/20 9:59」「2026-8-5 9:00」「2026-08-20」などが来ても、
+ * ここで同じ形にしておかないと期間の比較（文字列の大小で見ている）が狂う。
+ * 時刻が書かれていない場合は、開始なら 00:00、終了なら 23:59 とみなす。
+ */
+function toDateTime_(v, kind) {
+  const s = String(v == null ? '' : v).trim();
+  if (!s) return '';
+  const m = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})(?:[ T](\d{1,2}):(\d{2}))?/);
+  if (!m) return s;
+  const p = function (n) { return ('0' + n).slice(-2); };
+  const time = m[4] !== undefined
+    ? p(m[4]) + ':' + m[5]
+    : (kind === 'end' ? '23:59' : '00:00');
+  return m[1] + '-' + p(m[2]) + '-' + p(m[3]) + ' ' + time;
+}
+
 function saleMeta_(row) {
   return {
     sale_id: String(row['sale_id']),
     kind: String(row['種別'] || 'sale'),
-    startAt: String(row['開始日時'] || ''),
-    endAt: String(row['終了日時'] || ''),
+    startAt: toDateTime_(row['開始日時'], 'start'),
+    endAt: toDateTime_(row['終了日時'], 'end'),
     summary: row['ひとこと説明'],
     url: row['セールURL'],
     scheduleOpenAt: String(row['スケジュール公開日'] || ''),

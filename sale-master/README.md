@@ -111,6 +111,8 @@
 | --- | --- |
 | `sale_master.gs` | `setup()` でシート雛形、`exportSiteData()` でサイト用JSONを書き出す |
 | `publish_to_github.gs` | ★スプレッドシートのメニューから直接公開する。ターミナル不要 |
+| `help_sheet.gs` | スプレッドシート上に「📖 使い方」タブを作る（createHelpSheet を1回実行） |
+| `診断.gs` | メニューが出ないときの原因調べ |
 | `シート早見表.md` | ★どのシートを直すとどこが変わるかの一覧 |
 | `ranking_builder.gs` | 予約明細を集計して `ranking` シートを更新する |
 | `master-csv/*.csv` | 2026年6月ぶんの初期データ（既存HTMLから抽出したもの） |

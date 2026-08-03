@@ -1,5 +1,5 @@
-/* 自動生成: node tools/upgrade-master-v2.mjs（構造変更時の初期データ）
-   以降は node tools/sync-master.mjs が上書きする。直接編集しないこと。 */
+/* 自動生成: node tools/sync-master.mjs <sale-data.json>
+   セール情報マスタ（スプレッドシート）の写し。直接編集しないこと。 */
 window.SALE_DATA = {
   "ok": true,
   "syncedAt": "2026-08-03 13:57（構造変更時の初期データ）",

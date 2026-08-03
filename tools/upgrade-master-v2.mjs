@@ -22,6 +22,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const DIR = resolve(ROOT, 'sale-master/master-csv');
 
 const COMMON = 'common';
+const SUPERSALE_ID = '2026-06-ss';
 
 // ---------------------------------------------------------------- CSV
 
@@ -86,10 +87,11 @@ const migrated = sales.rows.map(r => {
   o.sale_id = r.sale_id;
   o.公開 = r.公開;
   o.種別 = r.種別;
-  // 旧「開始日/終了日」を日時に。終了は「その日いっぱい」の意味だったので 23:59 にする
-  o.開始日時 = r.開始日 ? `${r.開始日} 00:00` : '';
-  o.終了日時 = r.終了日 ? `${r.終了日} 23:59` : '';
-  o.セールURL = r.cta_url || r.公式URL || '';
+  // 旧「開始日/終了日」を日時に。終了は「その日いっぱい」の意味だったので 23:59 にする。
+  // 2回目以降に走らせても壊れないよう、すでに日時が入っていればそれを残す。
+  o.開始日時 = r.開始日時 || (r.開始日 ? `${r.開始日} 00:00` : '');
+  o.終了日時 = r.終了日時 || (r.終了日 ? `${r.終了日} 23:59` : '');
+  o.セールURL = r.セールURL || r.cta_url || r.公式URL || '';
   return o;
 });
 
@@ -100,8 +102,10 @@ if (common) {
   common.セール名 = '';
 }
 
-const ss = migrated.find(r => r.種別 === 'sale' && r.sale_id !== COMMON);
-if (ss) {
+// 2026年6月スーパーSALEの行を supersale に格上げする。
+// sale_id で名指しするので、2回目以降に走らせても他の行を巻き込まない。
+const ss = migrated.find(r => r.sale_id === SUPERSALE_ID);
+if (ss && ss.種別 !== 'supersale') {
   ss.種別 = 'supersale';
   // 2026年6月スーパーSALE：告知5/31 10:00 〜 本SALE終了 6/20 23:59
   ss.開始日時 = '2026-05-31 10:00';

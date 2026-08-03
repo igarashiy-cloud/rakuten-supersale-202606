@@ -20,6 +20,14 @@ common,fifty,5と0の日,,teal,8,🌏,,,海外旅行,海外もお得,,,https://t
 2026-06-ss,plan,本番SALE,6/4(木) 20:00 〜,b-main,2,💰,ic-blue,LINK ⑧,"Rakuten
 スーパーDEAL",30%ポイント還元,d-teal,,https://travel.rakuten.co.jp/superdeal/special/ss2606/index.html?scid=af_trv_2026uurakuten
 2026-06-ss,plan,本番SALE,6/4(木) 20:00 〜,b-main,3,⏰,ic-green,LINK ⑨,期間限定プラン,限定特価,,公開：6/4 20:00,https://search.travel.rakuten.co.jp/ds/undated/search?f_dai=japan&f_sort=hotel&f_page=1&f_hyoji=30&f_tab=hotel&f_cd=02&f_layout=grid&f_campaign=17ss2606lm_14&f_charge_users=2&scid=af_trv_2026uurakuten
-common,always,いつでも使えるキャンペーン,,teal,1,✈️,,,"楽パック
-（交通＋宿）",まとめて予約,,,https://travel.rakuten.co.jp/package/
-common,always,いつでも使えるキャンペーン,,teal,2,💳,,,楽天カード,カード決済でポイントUP,,,https://travel.rakuten.co.jp/card/campaign/
+common,always,常時開催中のキャンペーン,,teal,1,✈️,,,"楽パック
+（交通＋宿）",まとめて予約でお得,,,https://travel.rakuten.co.jp/package/
+common,always,常時開催中のキャンペーン,,teal,2,💳,,,楽天カード,ポイント2.5倍,,,https://travel.rakuten.co.jp/card/campaign/
+common,always,常時開催中のキャンペーン,,teal,3,📱,,,"楽天モバイル
+ご契約者特典",国内宿泊でポイント2倍,,,https://travel.rakuten.co.jp/camp/mobile/?l-id=common_lp_point2x
+common,always,常時開催中のキャンペーン,,teal,4,🎯,,,"アプリ予約
+ポイント特典","最大5,000ポイント",,,https://travel.rakuten.co.jp/camp/mobile/point/?l-id=DP_ichioshi_camp_mobile_point
+common,always,常時開催中のキャンペーン,,teal,5,🎁,,,"初めての
+ご利用","宿泊5,000ポイント",,,https://travel.rakuten.co.jp/camp/service_debut/
+common,always,常時開催中のキャンペーン,,teal,6,👥,,,友達紹介,"3,000円OFF",,,https://event.rakuten.co.jp/group/collab/mnoreferral_travel/?l-id=topC_ichioshi_camp_mobile_referral
+common,always,常時開催中のキャンペーン,,teal,7,🏞️,,,ふるさと納税,旅行で使える返礼品,,,https://travel.rakuten.co.jp/special/furusato/?l-id=trv_header_service_furusato

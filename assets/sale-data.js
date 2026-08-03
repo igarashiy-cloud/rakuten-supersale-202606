@@ -2,7 +2,7 @@
    以降は node tools/sync-master.mjs が上書きする。直接編集しないこと。 */
 window.SALE_DATA = {
   "ok": true,
-  "syncedAt": "2026-08-03 13:45（構造変更時の初期データ）",
+  "syncedAt": "2026-08-03 13:57（構造変更時の初期データ）",
   "common": {
     "meta": {
       "sale_id": "common",
@@ -118,7 +118,7 @@ window.SALE_DATA = {
         "iconClass": "",
         "num": "",
         "title": "楽パック\n（交通＋宿）",
-        "disc": "まとめて予約",
+        "disc": "まとめて予約でお得",
         "discClass": "",
         "note": "",
         "url": "https://travel.rakuten.co.jp/package/"
@@ -128,10 +128,60 @@ window.SALE_DATA = {
         "iconClass": "",
         "num": "",
         "title": "楽天カード",
-        "disc": "カード決済でポイントUP",
+        "disc": "ポイント2.5倍",
         "discClass": "",
         "note": "",
         "url": "https://travel.rakuten.co.jp/card/campaign/"
+      },
+      {
+        "icon": "📱",
+        "iconClass": "",
+        "num": "",
+        "title": "楽天モバイル\nご契約者特典",
+        "disc": "国内宿泊でポイント2倍",
+        "discClass": "",
+        "note": "",
+        "url": "https://travel.rakuten.co.jp/camp/mobile/?l-id=common_lp_point2x"
+      },
+      {
+        "icon": "🎯",
+        "iconClass": "",
+        "num": "",
+        "title": "アプリ予約\nポイント特典",
+        "disc": "最大5,000ポイント",
+        "discClass": "",
+        "note": "",
+        "url": "https://travel.rakuten.co.jp/camp/mobile/point/?l-id=DP_ichioshi_camp_mobile_point"
+      },
+      {
+        "icon": "🎁",
+        "iconClass": "",
+        "num": "",
+        "title": "初めての\nご利用",
+        "disc": "宿泊5,000ポイント",
+        "discClass": "",
+        "note": "",
+        "url": "https://travel.rakuten.co.jp/camp/service_debut/"
+      },
+      {
+        "icon": "👥",
+        "iconClass": "",
+        "num": "",
+        "title": "友達紹介",
+        "disc": "3,000円OFF",
+        "discClass": "",
+        "note": "",
+        "url": "https://event.rakuten.co.jp/group/collab/mnoreferral_travel/?l-id=topC_ichioshi_camp_mobile_referral"
+      },
+      {
+        "icon": "🏞️",
+        "iconClass": "",
+        "num": "",
+        "title": "ふるさと納税",
+        "disc": "旅行で使える返礼品",
+        "discClass": "",
+        "note": "",
+        "url": "https://travel.rakuten.co.jp/special/furusato/?l-id=trv_header_service_furusato"
       }
     ],
     "fiftyCopies": [

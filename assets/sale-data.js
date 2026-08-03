@@ -2,7 +2,7 @@
    マスタ（スプレッドシート「インフルエンサー向け攻略情報」）の写し。直接編集しないこと。 */
 window.SALE_DATA = {
   "ok": true,
-  "updatedAt": "2026-08-03T05:36:55.785Z",
+  "updatedAt": "2026-08-03T05:46:30.197Z",
   "common": {
     "meta": {
       "sale_id": "common",
@@ -260,7 +260,7 @@ window.SALE_DATA = {
         "kind": "sale",
         "startAt": "2026-07-31 10:00",
         "endAt": "2026-08-20 09:59",
-        "summary": "対象宿が最大20%OFF。月末の駆け込み予約におすすめです。",
+        "summary": "対象宿が最大20%OFF。夏休みの予約をお得に！",
         "url": "https://event.travel.rakuten.co.jp/special/sales/",
         "scheduleOpenAt": "",
         "name": "夏休み＆秋旅フェア",
@@ -272,6 +272,62 @@ window.SALE_DATA = {
         "ctaLabel": "",
         "ctaUrl": "",
         "officialUrl": "https://event.travel.rakuten.co.jp/special/sales/",
+        "schedulePeriod": "",
+        "ticketLead": "",
+        "rankingTitle": "",
+        "rankingSub": "",
+        "rankingNoteTitle": "",
+        "rankingNote": "",
+        "footer": ""
+      },
+      "detail": null
+    },
+    {
+      "meta": {
+        "sale_id": "2026-08-gw",
+        "kind": "sale",
+        "startAt": "2026-08-03 10:00",
+        "endAt": "2026-09-30 09:59",
+        "summary": "最大20,000円クーポン！秋冬の予約をお得に",
+        "url": "https://travel.rakuten.co.jp/package/special/special-offers/20th/",
+        "scheduleOpenAt": "",
+        "name": "楽パック20周年スペシャルオファー",
+        "label": "",
+        "heroEyebrow": "",
+        "heroTitle": "",
+        "heroSub": "",
+        "heroNote": "",
+        "ctaLabel": "",
+        "ctaUrl": "",
+        "officialUrl": "https://travel.rakuten.co.jp/package/special/special-offers/20th/",
+        "schedulePeriod": "",
+        "ticketLead": "",
+        "rankingTitle": "",
+        "rankingSub": "",
+        "rankingNoteTitle": "",
+        "rankingNote": "",
+        "footer": ""
+      },
+      "detail": null
+    },
+    {
+      "meta": {
+        "sale_id": "2026-08-gw",
+        "kind": "sale",
+        "startAt": "2026-08-03 10:00",
+        "endAt": "2026-08-31 23:59",
+        "summary": "最大15,000円クーポン",
+        "url": "https://travel.rakuten.co.jp/kaigai/campaign/korea/",
+        "scheduleOpenAt": "",
+        "name": "韓国スペシャルオファー",
+        "label": "",
+        "heroEyebrow": "",
+        "heroTitle": "",
+        "heroSub": "",
+        "heroNote": "",
+        "ctaLabel": "",
+        "ctaUrl": "",
+        "officialUrl": "https://travel.rakuten.co.jp/kaigai/campaign/korea/",
         "schedulePeriod": "",
         "ticketLead": "",
         "rankingTitle": "",
@@ -610,5 +666,5 @@ window.SALE_DATA = {
       }
     ]
   },
-  "syncedAt": "2026-08-03 14:36"
+  "syncedAt": "2026-08-03 14:46"
 };

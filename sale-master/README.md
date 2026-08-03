@@ -25,7 +25,7 @@
         │ ② ./tools/publish.sh ~/Downloads/sale-data.json（同期→commit→push）
         │ ③ Netlify が自動でビルド
         ▼
-  rakuten-supersale.html / -schedule.html / -hotels.html
+  sale.html / -schedule.html / -hotels.html
 ```
 
 ## セール情報を変えたいとき
@@ -126,7 +126,7 @@
 > 実行すると中身が空なので何も取れない（ガードで止まるようにしてある）。
 > 作り直したいときは移行前の版をgitから取り出して渡す:
 > ```
-> mkdir -p /tmp/before && for f in rakuten-supersale.html rakuten-supersale-schedule.html rakuten-supersale-hotels.html; do git show 3eec607:$f > /tmp/before/$f; done
+> mkdir -p /tmp/before && for f in sale.html post-schedule.html hotel-ranking.html; do git show 3eec607:$f > /tmp/before/$f; done
 > node tools/extract-master.mjs --src /tmp/before
 > ```
 

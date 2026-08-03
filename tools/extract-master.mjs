@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 既存の rakuten-supersale*.html から「インフルエンサー向け攻略情報」のCSVを抽出する。
+ * 既存の sale.html / post-schedule.html / hotel-ranking.html から「インフルエンサー向け攻略情報」のCSVを抽出する。
  *
  *   node tools/extract-master.mjs
  *
@@ -121,9 +121,9 @@ const readPage = f => {
   }
   return html;
 };
-const top = readPage('rakuten-supersale.html');
-const sched = readPage('rakuten-supersale-schedule.html');
-const hotels = readPage('rakuten-supersale-hotels.html');
+const top = readPage('sale.html');
+const sched = readPage('post-schedule.html');
+const hotels = readPage('hotel-ranking.html');
 
 const body = html => html.slice(html.indexOf('<main>'), html.indexOf('</main>'));
 const topBody = body(top);

@@ -1,9 +1,24 @@
 # Netlify のリダイレクト設定
 #
-# このサイトには index.html が無く、実体は rakuten-supersale*.html に置かれている。
-# そのままだとトップ（/）が404になるので、セール情報ページの中身をトップで返す。
-# 302ではなく200にしているのは、アドレスバーを短いURLのまま保つため。
+# ── トップ ──
+# このサイトには index.html を置いていない（リポジトリ直下に別プロジェクトの
+# index.html があり名前が衝突するため）。そのままだと / が404になるので、
+# セール情報ページの中身をトップで返す。302ではなく200にしているのは、
+# アドレスバーを短いURLのまま保つため。
 #
 #   https://uuum-rakuten-travel.netlify.app  ← これだけ配れば済むようにする
 
-/    /rakuten-supersale.html    200
+/    /sale.html    200
+
+# ── 旧URL ──
+# 元は2026年6月スーパーSALE専用サイトだった名残で、ページのファイル名が
+# rakuten-supersale*.html だった。サイトが通年のものになったので改名したが、
+# すでに配ったリンクが切れないよう、旧URLは新URLへ転送する。
+# 拡張子なしでも来るので両方書いておく（Netlifyは /foo → /foo.html を解決する）。
+
+/rakuten-supersale                /sale.html            301
+/rakuten-supersale.html           /sale.html            301
+/rakuten-supersale-schedule       /post-schedule.html   301
+/rakuten-supersale-schedule.html  /post-schedule.html   301
+/rakuten-supersale-hotels         /hotel-ranking.html   301
+/rakuten-supersale-hotels.html    /hotel-ranking.html   301

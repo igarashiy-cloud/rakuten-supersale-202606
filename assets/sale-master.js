@@ -3,7 +3,7 @@
  * ============================================================
  *
  * スプレッドシート「インフルエンサー向け攻略情報」の内容を読んで、
- * rakuten-supersale*.html の中身を組み立てる。
+ * sale.html / post-schedule.html / hotel-ranking.html の中身を組み立てる。
  *
  * ページは2階建てになっている。
  *   常設（common） … 5と0の日など、いつ見ても出ているもの
@@ -452,7 +452,7 @@ function renderSchedule(d, sales) {
   fill('scheduleList', `
     <div class="nosale-note">
       投稿スケジュールはスーパーSALE（3・6・9・12月）の開催に合わせて公開しています。<br>
-      いまは <a href="rakuten-supersale.html">セール情報</a> をご覧ください。
+      いまは <a href="sale.html">セール情報</a> をご覧ください。
     </div>`);
 }
 

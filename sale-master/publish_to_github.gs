@@ -52,7 +52,6 @@ function onOpen() {
     .addSeparator()
     .addItem('ホテルランキングを集計しなおす', 'buildRanking')
     .addItem('GitHubトークンを登録する（初回のみ）', 'setGitHubToken')
-    .toMenu()
     .addToUi();
 }
 
@@ -68,7 +67,8 @@ function previewSiteData() {
 }
 
 function openSite() {
-  SpreadsheetApp.getUi().alert('サイト', SITE_URL, SpreadsheetApp.getUi().ButtonSet.OK);
+  const ui = SpreadsheetApp.getUi();
+  ui.alert('サイト', SITE_URL, ui.ButtonSet.OK);
 }
 
 // ============================================================ 公開

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>セール情報 | 楽天トラベルアフィリエイト 攻略サイト -UUUMマーケティング株式会社</title>
+  <title>セール情報 | 楽天トラベルアフィリエイト 攻略サイト -UUUM株式会社</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
@@ -253,7 +253,7 @@
       padding:.42rem 1.15rem; border-radius:1.5rem; white-space:nowrap; transition:transform .15s, box-shadow .15s; }
     .linktool-btn:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(0,0,0,.35); }
 
-    /* サイト名の「-UUUMマーケティング株式会社」部分は控えめに、狭い画面では省く */
+    /* サイト名の「-UUUM株式会社」部分は控えめに、狭い画面では省く */
     .logo-org { font-size:.7rem; font-weight:700; color:rgba(255,255,255,.62); letter-spacing:0; }
     @media (max-width:900px) { .logo-org { display:none; } }
     @media (max-width:580px) {
@@ -362,10 +362,27 @@
     .copy-card { background:#fff; border:1px solid var(--line); border-radius:.9rem; padding:1rem 1.15rem; }
     .copy-card-theme { font-size:.85rem; font-weight:900; color:#0F3427; margin-bottom:.5rem; }
     .copy-card-foot { margin-top:.6rem; display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
+
+    /* ── 上部の固定 ──
+       リンク発行バー・ヘッダー・タブの3つをひとつの箱に入れて、
+       箱ごと固定する。個別に top を px で指定すると、画面幅で高さが
+       変わったときにズレるため。
+       「アフィリエイター向け」の帯は固定しない（読めば済む案内なので、
+       スクロールしたら流れてよい）。 */
+    .sticky-top { position:sticky; top:0; z-index:100; }
+    .sticky-top header,
+    .sticky-top .sub-nav { position:static; }
+    .aff-strip { position:static; }
+
+    /* 固定部分が高くなりすぎないよう、狭い画面では説明文を省く */
+    @media (max-width:640px) {
+      .linktool-msg { display:none; }
+    }
   </style>
 </head>
 <body>
 
+<div class="sticky-top">
 <!-- LINK TOOL -->
 <div class="linktool">
   <div class="linktool-inner">
@@ -387,6 +404,7 @@
   <a href="post-schedule.html" class="sub-nav-item" id="navScheduleTab">📅 投稿スケジュール</a>
   <a href="hotel-ranking.html"   class="sub-nav-item">🏨 人気ホテル一覧</a>
 </nav>
+</div><!-- /sticky-top -->
 
 <!-- AFF STRIP -->
 <div class="aff-strip">

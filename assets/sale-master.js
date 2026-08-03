@@ -25,7 +25,7 @@ const API_URL = '';
 
 /** サイト共通の設定。ここを直せば3ページとも変わる */
 const SITE_NAME = '楽天トラベルアフィリエイト 攻略サイト';
-const SITE_ORG = '-UUUMマーケティング株式会社';
+const SITE_ORG = '-UUUM株式会社';
 const LINK_TOOL_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfn7iIVn5BkBTw-1lz-NK5_q6EDzIIDcNIAhyIIO3i8K_1JHQ/viewform';
 
 /** 5と0のつく日 */

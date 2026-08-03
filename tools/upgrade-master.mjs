@@ -98,7 +98,7 @@ if (!sales.rows.some(r => r['sale_id'] === COMMON)) {
     cta_label: '5と0の日をチェックする',
     cta_url: 'https://travel.rakuten.co.jp/camp/50luxday/top/?l-id=camp_50luxday_top',
     公式URL: 'https://travel.rakuten.co.jp/camp/50luxday/top/?l-id=camp_50luxday_top',
-    フッター: '楽天トラベルアフィリエイト 攻略サイト ／ UUUMマーケティング株式会社',
+    フッター: '楽天トラベルアフィリエイト 攻略サイト ／ UUUM株式会社',
     // ランキングはセールに関係なく出すページなので、既定の文言は常設側に持たせる。
     // セール行に書いた場合はそちらが優先される。
     ランキング見出し: 'インフルエンサー予約\n人気ホテルランキング',

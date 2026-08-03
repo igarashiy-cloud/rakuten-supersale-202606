@@ -11,9 +11,9 @@
 セール情報マスタ ────┤
 （スプレッドシート） └─ ranking ←── 楽天トラベルホテル購入詳細【元データ】（buildRanking で自動集計）
         │
-        │ ① Apps Script で exportSiteData() を実行 → sale-data.json
-        │ ② node tools/sync-master.mjs <そのパス>  → assets/sale-data.js
-        │ ③ git push → Netlify
+        │ ① Apps Script で exportSiteData() を実行 → sale-data.json をダウンロード
+        │ ② ./tools/publish.sh ~/Downloads/sale-data.json（同期→commit→push）
+        │ ③ Netlify が自動でビルド
         ▼
   rakuten-supersale.html / -schedule.html / -hotels.html
 ```
@@ -104,7 +104,8 @@
 | `master-csv/*.csv` | 2026年6月ぶんの初期データ（既存HTMLから抽出したもの） |
 | `../assets/sale-master.js` | ページ側の描画。サイト名・リンク発行ツールURLをここで設定 |
 | `../assets/sale-data.js` | サイトが読むデータ（マスタの写し・自動生成） |
-| `../tools/sync-master.mjs` | ★月次の同期。sale-data.json → assets/sale-data.js |
+| `../tools/publish.sh` | ★これを叩くだけ。同期→コミット→push をまとめてやる |
+| `../tools/sync-master.mjs` | 同期の中身。publish.sh から呼ばれる |
 | `../tools/extract-master.mjs` | 既存HTML → CSV／初期データ の変換。初回移行用 |
 | `../tools/upgrade-master.mjs` | マスタに「常設」と「開催期間」を足した一度きりの構造変更 |
 | `../tools/upgrade-master-v2.mjs` | sales を時刻対応＋簡易/詳細の2本立てにした一度きりの構造変更 |
@@ -128,7 +129,6 @@
 | `API_URL` | 通常は**空のまま**。将来ウェブアプリを「全員」で公開できるようになった場合のみ使う |
 | `SITE_NAME` / `SITE_ORG` | ヘッダーのサイト名と社名（社名は狭い画面では省略される） |
 | `LINK_TOOL_URL` | 最上部の「リンク発行ツール」バーの遷移先フォーム |
-
 | `SUPERSALE_MONTHS` | 投稿スケジュールタブを出す月。既定は `[3, 6, 9, 12]` |
 
 2番目のタブ名「◯月投稿スケジュール」の月は、マスタ `sales` シートの
@@ -156,8 +156,8 @@
 
 > ファイル > インポート > アップロード > **現在のシートを置換する** > 区切り文字「カンマ」
 
-`ranking.csv` は2025年6月実績の手入力ぶん。自動集計を回せば上書きされるので、
-残したい場合は `sale_id` を `2026-06-ss` のままにしておくと、そのセールのページでは
+`ranking.csv` は `buildRanking` が書き出した自動集計ぶん（`sale_id = auto`）。
+特定のセールの実績を固定で見せたい場合は `sale_id` をそのセールのIDにすると、
 自動集計より優先して表示される。
 
 ### 4. ランキングを集計する
@@ -169,27 +169,60 @@ Apps Scriptで `buildRanking` を実行する。`ranking` シートが直近3ヶ
 
 ### 5. サイトに反映する
 
-以降はこれが更新作業のすべて。**ウェブアプリのデプロイは不要。**
+**シートを直しただけではサイトは変わらない。** 毎回この3ステップを回す。
+（ウェブアプリのデプロイは不要）
 
-1. Apps Scriptで **`exportSiteData`** を実行 → 実行ログに保存先URLが出る
-2. そのURLを開いて `sale-data.json` をダウンロード
-3. ターミナルで同期する
+#### ステップ1 — Apps Script で書き出す
 
-```bash
-node tools/sync-master.mjs ~/Downloads/sale-data.json
+1. スプレッドシート「セール情報マスタ」を開く
+2. メニューの **拡張機能 > Apps Script**（別タブでエディタが開く）
+3. エディタ上部の**関数のプルダウン**から **`exportSiteData`** を選ぶ
+4. **▷ 実行** を押す
+   - 初回だけ「承認が必要です」と出る → 権限を確認 → 自分のアカウントを選ぶ
+     → 「詳細」→「安全ではないページに移動」→ 許可
+   - 心当たりのない画面が出たら止めて確認すること
+5. 下に開く**実行ログ**に、今月出るセールの一覧とダウンロードURLが出る
+
+```
+書き出しました（46 KB）
+
+【今月のセール】
+  ・[簡易] 楽天トラベル 月末セール（2026-08-25 10:00 〜 2026-08-31 23:59）
+
+【次にやること】
+1. このURLを開くとダウンロードが始まります
+   https://drive.google.com/uc?export=download&id=...
 ```
 
-4. コミットして push すればNetlifyに反映される
+> ここで**セール一覧が想定と違ったら、この先に進まずシートを直す**。
+> 期間外・公開=FALSE・開始日時が未来のセールは出てこない。
+
+#### ステップ2 — ダウンロードする
+
+ログのURLをクリックすると、そのまま `sale-data.json` が落ちてくる
+（プレビュー画面は出ない）。保存先はたいてい `~/Downloads`。
+
+#### ステップ3 — 反映する
+
+ターミナル（アプリケーション > ユーティリティ > ターミナル）で1行。
 
 ```bash
-git add assets && git commit -m "セール情報を更新" && git push
+cd ~/Claude && ./tools/publish.sh ~/Downloads/sale-data.json
 ```
 
-> リポジトリには別プロジェクトのファイル（`video-cutter/` の書き出し動画など）が
-> 未追跡のまま置かれている。`git add -A` はそれらを巻き込むので使わないこと。
-> 同期で変わるのは `assets/sale-data.js` だけ。
+同期・コミット・pushをまとめてやる。中身が前回と同じなら何もしない。
+最後に「1〜2分でサイトに反映されます」と出れば完了。
 
-ページ右上に「データ最終更新：2026-07-30 17:04」と出るので、いつ時点かはページを見れば分かる。
+失敗したらそこで止まるので、**中途半端な状態が公開されることはない**。
+
+| エラー | 対処 |
+| --- | --- |
+| `ファイルが見つかりません` | パスが違う。Finderでファイルをターミナルにドラッグすると正しいパスが入る |
+| `データが不完全なので中断します` | 渡したファイルが違う。`sale-data.json` か確認 |
+| `common.fiftyLinks が空です` | `links` シートの `区分=fifty` が `sale_id=common` になっているか確認 |
+
+ページ右上に「データ最終更新：2026-08-03 13:57」と出るので、
+いつ時点のデータかはページを見れば分かる。
 
 ---
 

@@ -31,6 +31,9 @@ const LINK_TOOL_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfn7iIVn5BkBTw-1
 /** 5と0のつく日 */
 const FIFTY_DAYS = [5, 10, 15, 20, 25, 30];
 
+/** スーパーSALEが開催される月。この月だけ「投稿スケジュール」タブを出す */
+const SUPERSALE_MONTHS = [3, 6, 9, 12];
+
 const params = new URLSearchParams(location.search);
 /** ?sale=2026-06-ss で過去セールを開く／?preview=sale で開始前のセールを先に確認する */
 const SALE_ID = params.get('sale') || '';
@@ -72,6 +75,15 @@ function jstToday() {
   }).format(new Date());
 }
 
+/** 日本時間の現在時刻。'YYYY-MM-DD HH:mm'。マスタの開始日時・終了日時と同じ形 */
+function jstNow() {
+  const p = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', hour12: false,
+  }).formatToParts(new Date()).reduce((o, x) => (o[x.type] = x.value, o), {});
+  return `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}`;
+}
+
 const jstParts = () => {
   const [y, m, d] = jstToday().split('-').map(Number);
   return { y, m, d };
@@ -110,25 +122,43 @@ async function loadSale() {
 }
 
 /**
- * いま出すべきセール。期間外なら null。
+ * いま開催中のセール（複数ありうる）。開始日時〜終了日時を時刻まで見て判定する。
  * ?preview=sale を付けると開始前でも表示できる（公開前の確認用）。
  */
-function activeSale(d) {
-  const sale = d.sale;
-  if (!sale) return null;
-  if (PREVIEW_SALE || SALE_ID) return sale;
+function activeSales(d) {
+  const sales = d.sales || [];
+  if (PREVIEW_SALE || SALE_ID) return sales;
 
-  const today = jstToday();
-  const { startDate, endDate } = sale.meta;
-  if (startDate && today < startDate) return null;
-  if (endDate && today > endDate) return null;
-  return sale;
+  const now = jstNow();
+  return sales.filter(s => {
+    const { startAt, endAt } = s.meta;
+    if (startAt && now < startAt) return false;
+    if (endAt && now > endAt) return false;
+    return true;
+  });
+}
+
+/** 開催中のスーパーSALE（詳細ブロックを持つもの）。無ければ null */
+const superSaleOf = sales => sales.filter(s => s.meta.kind === 'supersale')[0] || null;
+
+/**
+ * 「投稿スケジュール」タブを出すか。
+ * スーパーSALE月（3・6・9・12月）で、かつマスタの「スケジュール公開日」を過ぎていること。
+ * 公開日が未記入なら、セールが表示されている間ずっと出す。
+ */
+function showScheduleTab(sales) {
+  const ss = superSaleOf(sales);
+  if (!ss) return false;
+  if (!SUPERSALE_MONTHS.includes(jstParts().m) && !PREVIEW_SALE && !SALE_ID) return false;
+  const open = ss.meta.scheduleOpenAt;
+  return !open || jstToday() >= open;
 }
 
 // ---------------------------------------------------------------- 共通パーツ
 
-function renderChrome(d, sale) {
-  const label = sale ? sale.meta.label : '';
+function renderChrome(d, sales) {
+  const ss = superSaleOf(sales);
+  const label = ss ? ss.meta.label : '';
   fill('saleName', esc(SITE_NAME)
     + `<span class="logo-org">${esc(SITE_ORG)}</span>`
     + (label ? `<span class="logo-badge">${esc(label)}</span>` : ''));
@@ -136,16 +166,20 @@ function renderChrome(d, sale) {
   const tool = el('linkToolBtn');
   if (tool) tool.href = LINK_TOOL_URL;
 
-  // 2番目のタブは、セール中なら「6月投稿スケジュール」、それ以外は「5と0の日カレンダー」
+  // 「投稿スケジュール」タブはスーパーSALE月だけ。それ以外の月はタブごと消す
   const tab = el('navScheduleTab');
   if (tab) {
-    const month = sale && saleMonth(sale.meta);
-    tab.textContent = month ? `📅 ${month}月投稿スケジュール` : '📅 5と0の日カレンダー';
+    const show = showScheduleTab(sales);
+    tab.hidden = !show;
+    if (show) {
+      const month = saleMonth(ss.meta);
+      tab.textContent = month ? `📅 ${month}月投稿スケジュール` : '📅 投稿スケジュール';
+    }
   }
 
-  const meta = sale ? sale.meta : d.common.meta;
+  const meta = ss ? ss.meta : d.common.meta;
   const hl = el('headerLink');
-  if (hl && meta.ctaUrl) hl.href = meta.ctaUrl;
+  if (hl && (meta.url || meta.ctaUrl)) hl.href = meta.url || meta.ctaUrl;
 
   fill('saleFooter', esc(d.common.meta.footer || meta.footer));
 
@@ -175,60 +209,136 @@ function ymdLabel(ymd) {
 
 // ---------------------------------------------------------------- セール情報ページ
 
-function renderTop(d, sale) {
-  const meta = sale ? sale.meta : d.common.meta;
+/**
+ * ページの並びは ①その月開催のセール ②常時開催中セール ③5と0の日 の順。
+ * 期間限定のものほど上に来るようにしている。
+ */
+function renderTop(d, sales) {
+  const ss = superSaleOf(sales);
+  const meta = ss ? ss.meta : d.common.meta;
 
-  fill('heroEyebrow', esc(meta.heroEyebrow));
-  fill('heroTitle', rich(meta.heroTitle));
-  fill('heroSub', rich(meta.heroSub));
-  fill('heroNote', esc(meta.heroNote));
+  fill('heroEyebrow', esc(meta.heroEyebrow || d.common.meta.heroEyebrow));
+  fill('heroTitle', rich(meta.heroTitle || d.common.meta.heroTitle));
+  fill('heroSub', rich(meta.heroSub || d.common.meta.heroSub));
+  fill('heroNote', esc(meta.heroNote || d.common.meta.heroNote));
   const cta = el('heroCta');
-  if (cta) { cta.href = meta.ctaUrl || '#'; cta.textContent = meta.ctaLabel || '公式ページへ'; }
+  if (cta) {
+    cta.href = meta.url || meta.ctaUrl || '#';
+    cta.textContent = meta.ctaLabel || d.common.meta.ctaLabel || '公式ページへ';
+  }
 
-  renderCommonBlocks(d);
-  renderSaleBlocks(d, sale);
+  renderMonthSales(d, sales);   // ①
+  renderAlwaysBlock(d);         // ②
+  renderFiftyBlock(d);          // ③
+  renderSaleDetail(ss);         // スーパーSALEの詳細（あれば①の下に続く）
 }
 
-/** 常設ブロック。セールの有無に関わらず必ず出る */
-function renderCommonBlocks(d) {
+/** ① その月開催のセール。1行だけで書いた簡易セールはカード、スーパーSALEは見出し＋詳細 */
+function renderMonthSales(d, sales) {
+  toggleSection('monthsale', sales.length > 0);
+  toggleSection('nosale', sales.length === 0);
+
+  if (!sales.length) {
+    fill('noSaleNote', '今月の期間限定セールは準備中です。決まりしだい、ここに表示されます。');
+    return;
+  }
+
+  fill('monthSales', sales.map(s => {
+    const m = s.meta;
+    const isSS = m.kind === 'supersale';
+    return link(m.url || m.ctaUrl, 'sale-card' + (isSS ? ' is-super' : ''), `
+      <div class="sale-card-top">
+        <span class="sale-card-tag${isSS ? ' is-super' : ''}">${isSS ? 'スーパーSALE' : '開催中'}</span>
+        <span class="sale-card-period">${esc(periodLabel(m.startAt, m.endAt))}</span>
+      </div>
+      <div class="sale-card-name">${esc(m.name)}</div>
+      ${m.summary ? `<div class="sale-card-summary">${br(m.summary)}</div>` : ''}
+      <div class="sale-card-foot"><span class="sale-card-open">${
+        isSS ? '下に詳細があります' : 'セールページを開く'} →</span></div>`);
+  }).join(''));
+}
+
+/** ② いつでも使えるキャンペーン */
+function renderAlwaysBlock(d) {
+  const links = d.common.alwaysLinks || [];
+  toggleSection('always', links.length > 0);
+  fill('alwaysLinks', links.map(fiftyLinkCard).join(''));
+}
+
+/**
+ * ③ 5と0の日。カレンダーのタブは作らず、ここに開催時間・当月の該当日・
+ * カテゴリ別リンク・投稿コピー案をまとめて置く。
+ */
+function renderFiftyBlock(d) {
   const c = d.common;
+  toggleSection('fifty', c.fiftyLinks.length > 0);
 
   const today = jstParts();
   const isFiftyToday = FIFTY_DAYS.includes(today.d);
   const next = nextFiftyDay();
+
   fill('fiftyNext', isFiftyToday
     ? `<strong>本日 ${esc(dateLabel(today))} は5と0のつく日です</strong>`
     : `次回は <strong>${esc(dateLabel(next))}</strong>`);
 
-  toggleSection('fifty', c.fiftyLinks.length > 0);
-  fill('fiftyLinks', c.fiftyLinks.map(l => link(l.url, 'fifty-link', `
-      <span class="fifty-link-icon">${esc(l.icon)}</span>
-      <span class="fifty-link-name">${br(l.title)}</span>
-      <span class="fifty-link-disc">${esc(l.disc)}</span>`)).join(''));
-
-  toggleSection('always', c.alwaysLinks.length > 0);
-  fill('alwaysLinks', c.alwaysLinks.map(l => link(l.url, 'fifty-link', `
-      <span class="fifty-link-icon">${esc(l.icon)}</span>
-      <span class="fifty-link-name">${br(l.title)}</span>
-      <span class="fifty-link-disc">${esc(l.disc)}</span>`)).join(''));
-}
-
-/** セールブロック。開催期間中だけ出る */
-function renderSaleBlocks(d, sale) {
-  toggleSection('sale', !!sale);
-  toggleSection('nosale', !sale);
-
-  if (!sale) {
-    // 次のセールが書き出されていれば、その開始日だけ予告として出す
-    const upcoming = d.sale && d.sale.meta.startDate > jstToday() ? d.sale.meta.startDate : '';
-    const name = upcoming && d.sale.meta.name ? esc(d.sale.meta.name) : '次のセール';
-    fill('noSaleNote', upcoming
-      ? `いまは期間限定セールの開催前です。<strong>${name}</strong> は ${esc(ymdLabel(upcoming))} から。`
-      : '今月の期間限定セールは準備中です。決まりしだい、ここに詳細が表示されます。');
-    return;
+  // 「今月は72時間開催中」。マスタの常設行で月ごとに書き換える
+  const dur = el('fiftyDuration');
+  if (dur) {
+    dur.hidden = !c.fiftyDuration;
+    dur.textContent = c.fiftyDuration ? `今月は${c.fiftyDuration}開催` : '';
   }
 
-  const meta = sale.meta;
+  // 当月の該当日。過ぎた日は薄く、次に来る日を強調する
+  const days = FIFTY_DAYS.filter(day => day <= daysInMonth(today.y, today.m));
+  const nextIdx = days.findIndex(day => day >= today.d);
+  fill('fiftyDays', days.map((day, i) => {
+    const dow = new Date(today.y, today.m - 1, day).getDay();
+    const state = day === today.d ? 'is-today' : (i === nextIdx ? 'is-next' : (day < today.d ? 'is-past' : ''));
+    return `<span class="fifty-day ${state}">${today.m}/${day}<small>${WEEKDAYS[dow]}</small></span>`;
+  }).join(''));
+
+  fill('fiftyLinks', c.fiftyLinks.map(fiftyLinkCard).join(''));
+
+  // 投稿コピー案（そのまま使える文面）
+  const copies = c.fiftyCopies || [];
+  toggleSection('fiftyCopy', copies.length > 0);
+  fill('fiftyCopies', copies.map(x => `
+    <div class="copy-card">
+      ${x.theme ? `<div class="copy-card-theme">${esc(x.theme)}</div>` : ''}
+      <div class="copy-text">${br(x.copy)}</div>
+      ${(x.dests || []).length ? `<div class="copy-card-foot">
+        <span class="dest-label">誘導先：</span>
+        ${x.dests.map(dd => link(dd.url, 'dest-link', esc(dd.label))).join('')}
+      </div>` : ''}
+    </div>`).join(''));
+}
+
+const fiftyLinkCard = l => link(l.url, 'fifty-link', `
+      <span class="fifty-link-icon">${esc(l.icon)}</span>
+      <span class="fifty-link-name">${br(l.title)}</span>
+      <span class="fifty-link-disc">${esc(l.disc)}</span>`);
+
+/** 「5/31 10:00 〜 6/20 23:59」の形にする */
+function periodLabel(startAt, endAt) {
+  const fmt = v => {
+    const m = String(v || '').match(/^(\d{4})-(\d{2})-(\d{2})(?: (\d{2}):(\d{2}))?$/);
+    if (!m) return v || '';
+    const [, y, mo, d, hh, mm] = m;
+    const dow = WEEKDAYS[new Date(+y, +mo - 1, +d).getDay()];
+    const time = hh && !(hh === '00' && mm === '00') ? ` ${+hh}:${mm}` : '';
+    return `${+mo}/${+d}(${dow})${time}`;
+  };
+  if (!startAt && !endAt) return '';
+  return `${fmt(startAt)} 〜 ${fmt(endAt)}`;
+}
+
+/** スーパーSALEの詳細ブロック。無ければセクションごと隠す */
+function renderSaleDetail(ss) {
+  const sale = ss && ss.detail;
+  toggleSection('sale', !!sale);
+  if (!sale) return;
+
+  const meta = ss.meta;
   fill('saleHeading', `${esc(meta.name)}${meta.label ? ' ' + esc(meta.label) : ''}`);
 
   fill('timeline', sale.phases.map(p => `
@@ -325,15 +435,32 @@ function renderSaleBlocks(d, sale) {
 
 // ---------------------------------------------------------------- 投稿スケジュールページ
 
-function renderSchedule(d, sale) {
-  if (sale) renderSaleSchedule(sale);
-  else renderFiftyCalendar(d);
+/**
+ * このページはスーパーSALE月だけのもの。
+ * 5と0の日はセール情報ページのセクションに集約したので、ここには出さない。
+ */
+function renderSchedule(d, sales) {
+  const ss = superSaleOf(sales);
+  if (ss && ss.detail && showScheduleTab(sales)) {
+    renderSaleSchedule(ss);
+    return;
+  }
+  // スーパーSALE月以外にURLを直接開かれた場合
+  fill('schedTitle', '投稿スケジュール');
+  fill('schedSub', '');
+  toggleSection('schedFilter', false);
+  fill('scheduleList', `
+    <div class="nosale-note">
+      投稿スケジュールはスーパーSALE（3・6・9・12月）の開催に合わせて公開しています。<br>
+      いまは <a href="rakuten-supersale.html">セール情報</a> をご覧ください。
+    </div>`);
 }
 
 /** セール期間中：マスタに入れた日別スケジュールをそのまま出す */
-function renderSaleSchedule(sale) {
+function renderSaleSchedule(ss) {
+  const sale = ss.detail;
   fill('schedTitle', '毎日の投稿スケジュール');
-  fill('schedSub', esc(sale.meta.schedulePeriod));
+  fill('schedSub', esc(ss.meta.schedulePeriod || periodLabel(ss.meta.startAt, ss.meta.endAt)));
   toggleSection('schedFilter', true);
 
   const days = sale.schedule.days || [];
@@ -370,72 +497,6 @@ function renderSaleSchedule(sale) {
   });
 }
 
-/**
- * セール期間外：5と0のつく日をカレンダーにする。
- * 日付は毎月決まっているので自動計算。マスタには汎用のコピー案だけ置いておき、
- * それを順番に割り当てて使う。
- *
- * 月末で当月の対象日がすべて過ぎている場合は翌月に繰り上げる。
- * そうしないと月末の数日間、全部「終了」のカレンダーになってしまう。
- */
-function renderFiftyCalendar(d) {
-  const copies = d.common.fiftyCopies || [];
-  const now = jstParts();
-  const next = nextFiftyDay();
-  const sameMonth = next.y === now.y && next.m === now.m;
-
-  // 次回が翌月なら翌月を出す。その場合「今日」に当たる日は無い
-  const y = next.y, m = next.m;
-  const today = sameMonth ? now.d : 0;
-
-  fill('schedTitle', '5と0の日カレンダー');
-  fill('schedSub', `毎月5・10・15・20・25・30日はポイントアップのタイミング。${
-    sameMonth ? `${m}月` : `次回は${m}月から。${m}月`}の該当日と投稿コピー案です。`);
-  toggleSection('schedFilter', false);
-
-  const days = FIFTY_DAYS.filter(day => day <= daysInMonth(y, m));
-  const nextIdx = days.findIndex(day => day >= today);
-
-  let html = `
-    <div class="phase-header" data-phase="fifty">
-      <div class="phase-header-bar" style="background:var(--teal)"></div>
-      <div class="phase-header-label">${y}年${m}月の5と0のつく日</div>
-      <div class="phase-header-range">全${days.length}日</div>
-    </div>`;
-
-  html += days.map((day, i) => {
-    const c = copies.length ? copies[i % copies.length] : {};
-    const dow = new Date(y, m - 1, day).getDay();
-    const past = day < today;
-    const state = day === today ? '本日' : (i === nextIdx ? '次回' : '');
-    return `
-    <div class="day-card c-50day"${past ? ' style="opacity:.5"' : ''}>
-      <div class="day-card-top">
-        <div class="day-date-block">
-          <div class="day-date-num">${m}/${day}</div>
-          <div class="day-date-week ${dow === 0 ? 'sun' : dow === 6 ? 'sat' : ''}">${WEEKDAYS[dow]}曜日</div>
-        </div>
-        <div class="day-badges">
-          <span class="badge-phase bp-50day">⏰ 5と0のつく日</span>
-          ${state ? `<span class="badge-phase bp-main">${state}</span>` : ''}
-          ${past ? '<span class="badge-phase bp-last">終了</span>' : ''}
-        </div>
-      </div>
-      ${c.theme ? `<div class="day-theme">${esc(c.theme)}</div>` : ''}
-      ${c.copy ? `<div class="copy-block">
-        <div class="copy-label">訴求コピー案</div>
-        <div class="copy-text">${br(c.copy)}</div>
-      </div>` : ''}
-      ${(c.dests || []).length ? `<div class="day-footer">
-        <span class="dest-label">誘導先：</span>
-        ${c.dests.map(dd => link(dd.url, 'dest-link', esc(dd.label))).join('')}
-      </div>` : ''}
-    </div>`;
-  }).join('');
-
-  fill('scheduleList', html);
-}
-
 function dayCard(x) {
   return `
   <div class="day-card c-${esc(x.cardClass)}" data-tags="${esc(x.tags)}">
@@ -463,10 +524,11 @@ function dayCard(x) {
 
 const MEDALS = ['🥇', '🥈', '🥉'];
 
-function renderHotels(d, sale) {
-  // ランキングの文言はセール行にあればそちら、無ければ常設のものを使う
+function renderHotels(d, sales) {
+  // ランキングの文言はスーパーSALE行にあればそちら、無ければ常設のものを使う
   const c = d.common.meta;
-  const s = sale ? sale.meta : {};
+  const ss = superSaleOf(sales);
+  const s = ss ? ss.meta : {};
   const pick = key => s[key] || c[key];
   const r = d.ranking || { areas: [] };
 
@@ -539,11 +601,11 @@ function onFilterClick(apply) {
 (async function () {
   try {
     const d = await loadSale();
-    const sale = activeSale(d);
-    renderChrome(d, sale);
-    if (el('heroTitle')) renderTop(d, sale);
-    if (el('scheduleList')) renderSchedule(d, sale);
-    if (el('hotelSections')) renderHotels(d, sale);
+    const sales = activeSales(d);
+    renderChrome(d, sales);
+    if (el('heroTitle')) renderTop(d, sales);
+    if (el('scheduleList')) renderSchedule(d, sales);
+    if (el('hotelSections')) renderHotels(d, sales);
   } catch (err) {
     console.error(err);
     const box = el('loadError');

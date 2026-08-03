@@ -1,17 +1,19 @@
-/* 自動生成: node tools/sync-master.mjs <sale-data.json>
-   セール情報マスタ（スプレッドシート）の写し。直接編集しないこと。 */
+/* 自動生成: node tools/upgrade-master-v2.mjs（構造変更時の初期データ）
+   以降は node tools/sync-master.mjs が上書きする。直接編集しないこと。 */
 window.SALE_DATA = {
   "ok": true,
-  "updatedAt": "2026-07-31T02:22:42.011Z",
+  "syncedAt": "2026-08-03 13:45（構造変更時の初期データ）",
   "common": {
     "meta": {
       "sale_id": "common",
       "kind": "common",
-      "startDate": "",
-      "endDate": "",
+      "startAt": "",
+      "endAt": "",
+      "summary": "",
+      "url": "https://travel.rakuten.co.jp/camp/50luxday/top/?l-id=camp_50luxday_top",
+      "scheduleOpenAt": "",
       "name": "",
       "label": "",
-      "pageTitle": "",
       "heroEyebrow": "RAKUTEN TRAVEL AFFILIATE",
       "heroTitle": "毎月5と0のつく日は\n<span class=\"pct\">ポイントUP</span>",
       "heroSub": "エントリー＆予約でポイントアップ。毎月5・10・15・20・25・30日が狙い目です。\n旅行日が先でも、予約日をこの日に合わせるだけでお得になります。",
@@ -27,6 +29,7 @@ window.SALE_DATA = {
       "rankingNote": "UUUMが管理するインフルエンサーが楽天トラベルアフィリエイトを通じて読者・視聴者に紹介し、実際に予約が入ったホテルの集計データです。全体TOP10とエリア別TOP3を掲載しています。訴求するホテル選びの参考にご活用ください。",
       "footer": "楽天トラベルアフィリエイト 攻略サイト ／ UUUMマーケティング株式会社"
     },
+    "fiftyDuration": "72時間",
     "fiftyLinks": [
       {
         "icon": "🗓️",
@@ -200,9 +203,9 @@ window.SALE_DATA = {
       }
     ]
   },
-  "sale": null,
+  "sales": [],
   "ranking": {
-    "label": "直近3ヶ月（2026/04/30〜2026/07/30）の予約実績",
+    "label": "2025年6月スーパーSALE実績",
     "areas": [
       {
         "key": "top10",
@@ -210,103 +213,103 @@ window.SALE_DATA = {
         "hotels": [
           {
             "rank": 1,
-            "name": "ザ　ロイヤルパークホテル　舞浜リゾート　東京ベイ",
-            "note": "",
-            "hotelNo": "196513",
-            "area": "関東",
-            "reservations": 226,
-            "amount": 8500364,
-            "url": "https://travel.rakuten.co.jp/HOTEL/196513/?scid=af_trv_2026uurakuten"
-          },
-          {
-            "rank": 2,
-            "name": "グランドニッコー東京ベイ　舞浜",
-            "note": "",
-            "hotelNo": "179245",
-            "area": "関東",
-            "reservations": 210,
-            "amount": 9517896,
-            "url": "https://travel.rakuten.co.jp/HOTEL/179245/?scid=af_trv_2026uurakuten"
-          },
-          {
-            "rank": 3,
-            "name": "東京ベイ舞浜ホテル　ファーストリゾート",
-            "note": "",
-            "hotelNo": "27929",
-            "area": "関東",
-            "reservations": 133,
-            "amount": 4547917,
-            "url": "https://travel.rakuten.co.jp/HOTEL/27929/?scid=af_trv_2026uurakuten"
-          },
-          {
-            "rank": 4,
             "name": "ホテル近鉄ユニバーサル・シティ",
             "note": "",
             "hotelNo": "16654",
             "area": "関西",
-            "reservations": 129,
-            "amount": 4120745,
+            "reservations": "",
+            "amount": "",
             "url": "https://travel.rakuten.co.jp/HOTEL/16654/?scid=af_trv_2026uurakuten"
           },
           {
-            "rank": 5,
-            "name": "ＳＰＡ＆ＨＯＴＥＬ　舞浜ユーラシア",
+            "rank": 2,
+            "name": "グランドニッコー東京ベイ 舞浜",
             "note": "",
-            "hotelNo": "67868",
+            "hotelNo": "179245",
             "area": "関東",
-            "reservations": 118,
-            "amount": 3570296,
-            "url": "https://travel.rakuten.co.jp/HOTEL/67868/?scid=af_trv_2026uurakuten"
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/179245/?scid=af_trv_2026uurakuten"
           },
           {
-            "rank": 6,
-            "name": "ラ・ジェント・ホテル東京ベイ",
-            "note": "",
-            "hotelNo": "158612",
-            "area": "関東",
-            "reservations": 95,
-            "amount": 2491124,
-            "url": "https://travel.rakuten.co.jp/HOTEL/158612/?scid=af_trv_2026uurakuten"
-          },
-          {
-            "rank": 7,
+            "rank": 3,
             "name": "ホテルエミオン東京ベイ",
             "note": "",
             "hotelNo": "38529",
             "area": "関東",
-            "reservations": 85,
-            "amount": 3029663,
+            "reservations": "",
+            "amount": "",
             "url": "https://travel.rakuten.co.jp/HOTEL/38529/?scid=af_trv_2026uurakuten"
           },
           {
-            "rank": 8,
-            "name": "舞浜ビューホテル　ｂｙ　ＨＵＬＩＣ（旧：東京ベイ舞浜ホテル）",
-            "note": "",
+            "rank": 4,
+            "name": "舞浜ビューホテル by HULIC",
+            "note": "（旧：東京ベイ舞浜ホテル）",
             "hotelNo": "54127",
             "area": "関東",
-            "reservations": 60,
-            "amount": 3058468,
+            "reservations": "",
+            "amount": "",
             "url": "https://travel.rakuten.co.jp/HOTEL/54127/?scid=af_trv_2026uurakuten"
           },
           {
-            "rank": 9,
+            "rank": 5,
             "name": "リーベルホテル大阪",
             "note": "",
             "hotelNo": "172378",
             "area": "関西",
-            "reservations": 55,
-            "amount": 2073672,
+            "reservations": "",
+            "amount": "",
             "url": "https://travel.rakuten.co.jp/HOTEL/172378/?scid=af_trv_2026uurakuten"
           },
           {
-            "rank": 10,
-            "name": "プレジャーリゾート伊豆赤沢温泉（赤沢温泉ホテル）",
+            "rank": 6,
+            "name": "三井ガーデンホテル プラナ東京ベイ",
             "note": "",
-            "hotelNo": "107696",
-            "area": "東海・北陸",
-            "reservations": 54,
-            "amount": 3121566,
-            "url": "https://travel.rakuten.co.jp/HOTEL/107696/?scid=af_trv_2026uurakuten"
+            "hotelNo": "67046",
+            "area": "関東",
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/67046/?scid=af_trv_2026uurakuten"
+          },
+          {
+            "rank": 7,
+            "name": "ラ・ジェント・ホテル東京ベイ",
+            "note": "",
+            "hotelNo": "158612",
+            "area": "関東",
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/158612/?scid=af_trv_2026uurakuten"
+          },
+          {
+            "rank": 8,
+            "name": "オリエンタルホテル東京ベイ",
+            "note": "",
+            "hotelNo": "1238",
+            "area": "関東",
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/1238/?scid=af_trv_2026uurakuten"
+          },
+          {
+            "rank": 9,
+            "name": "シェラトン・グランデ・トーキョーベイ・ホテル",
+            "note": "",
+            "hotelNo": "27896",
+            "area": "関東",
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/27896/?scid=af_trv_2026uurakuten"
+          },
+          {
+            "rank": 10,
+            "name": "東京ベイ舞浜ホテル ファーストリゾート",
+            "note": "",
+            "hotelNo": "27929",
+            "area": "関東",
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/27929/?scid=af_trv_2026uurakuten"
           }
         ]
       },
@@ -316,33 +319,33 @@ window.SALE_DATA = {
         "hotels": [
           {
             "rank": 1,
-            "name": "ニッコースタイルニセコ　ＨＡＮＡＺＯＮＯ",
+            "name": "リッチモンドホテル仙台",
             "note": "",
-            "hotelNo": "192248",
+            "hotelNo": "4934",
             "area": "北海道・東北",
-            "reservations": 32,
-            "amount": 1068819,
-            "url": "https://travel.rakuten.co.jp/HOTEL/192248/?scid=af_trv_2026uurakuten"
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/4934/?scid=af_trv_2026uurakuten"
           },
           {
             "rank": 2,
-            "name": "リージョニア ｂｙ クインテッサ 札幌駅前",
+            "name": "ホテルエミシア札幌",
             "note": "",
-            "hotelNo": "198721",
+            "hotelNo": "901",
             "area": "北海道・東北",
-            "reservations": 18,
-            "amount": 342070,
-            "url": "https://travel.rakuten.co.jp/HOTEL/198721/?scid=af_trv_2026uurakuten"
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/901/?scid=af_trv_2026uurakuten"
           },
           {
             "rank": 3,
-            "name": "ホテル　ナトゥールヴァルト富良野",
+            "name": "ニューオータニイン札幌",
             "note": "",
-            "hotelNo": "75270",
+            "hotelNo": "163",
             "area": "北海道・東北",
-            "reservations": 14,
-            "amount": 738674,
-            "url": "https://travel.rakuten.co.jp/HOTEL/75270/?scid=af_trv_2026uurakuten"
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/163/?scid=af_trv_2026uurakuten"
           }
         ]
       },
@@ -352,33 +355,33 @@ window.SALE_DATA = {
         "hotels": [
           {
             "rank": 1,
-            "name": "ザ　ロイヤルパークホテル　舞浜リゾート　東京ベイ",
-            "note": "",
-            "hotelNo": "196513",
-            "area": "関東",
-            "reservations": 226,
-            "amount": 8500364,
-            "url": "https://travel.rakuten.co.jp/HOTEL/196513/?scid=af_trv_2026uurakuten"
-          },
-          {
-            "rank": 2,
-            "name": "グランドニッコー東京ベイ　舞浜",
+            "name": "グランドニッコー東京ベイ 舞浜",
             "note": "",
             "hotelNo": "179245",
             "area": "関東",
-            "reservations": 210,
-            "amount": 9517896,
+            "reservations": "",
+            "amount": "",
             "url": "https://travel.rakuten.co.jp/HOTEL/179245/?scid=af_trv_2026uurakuten"
           },
           {
-            "rank": 3,
-            "name": "東京ベイ舞浜ホテル　ファーストリゾート",
+            "rank": 2,
+            "name": "ホテルエミオン東京ベイ",
             "note": "",
-            "hotelNo": "27929",
+            "hotelNo": "38529",
             "area": "関東",
-            "reservations": 133,
-            "amount": 4547917,
-            "url": "https://travel.rakuten.co.jp/HOTEL/27929/?scid=af_trv_2026uurakuten"
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/38529/?scid=af_trv_2026uurakuten"
+          },
+          {
+            "rank": 3,
+            "name": "舞浜ビューホテル by HULIC",
+            "note": "（旧：東京ベイ舞浜ホテル）",
+            "hotelNo": "54127",
+            "area": "関東",
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/54127/?scid=af_trv_2026uurakuten"
           }
         ]
       },
@@ -388,33 +391,33 @@ window.SALE_DATA = {
         "hotels": [
           {
             "rank": 1,
-            "name": "プレジャーリゾート伊豆赤沢温泉（赤沢温泉ホテル）",
+            "name": "あてま温泉 当間高原リゾート ベルナティオ",
             "note": "",
-            "hotelNo": "107696",
+            "hotelNo": "13487",
             "area": "東海・北陸",
-            "reservations": 54,
-            "amount": 3121566,
-            "url": "https://travel.rakuten.co.jp/HOTEL/107696/?scid=af_trv_2026uurakuten"
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/13487/?scid=af_trv_2026uurakuten"
           },
           {
             "rank": 2,
+            "name": "黒部・宇奈月温泉 やまのは（オリックスホテルズ＆リゾーツ）",
+            "note": "",
+            "hotelNo": "9591",
+            "area": "東海・北陸",
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/9591/?scid=af_trv_2026uurakuten"
+          },
+          {
+            "rank": 3,
             "name": "グランドメルキュール八ヶ岳リゾート＆スパ",
             "note": "",
             "hotelNo": "7759",
             "area": "東海・北陸",
-            "reservations": 35,
-            "amount": 2358539,
+            "reservations": "",
+            "amount": "",
             "url": "https://travel.rakuten.co.jp/HOTEL/7759/?scid=af_trv_2026uurakuten"
-          },
-          {
-            "rank": 3,
-            "name": "あてま温泉　当間高原リゾート　ベルナティオ",
-            "note": "",
-            "hotelNo": "13487",
-            "area": "東海・北陸",
-            "reservations": 20,
-            "amount": 1360590,
-            "url": "https://travel.rakuten.co.jp/HOTEL/13487/?scid=af_trv_2026uurakuten"
           }
         ]
       },
@@ -428,8 +431,8 @@ window.SALE_DATA = {
             "note": "",
             "hotelNo": "16654",
             "area": "関西",
-            "reservations": 129,
-            "amount": 4120745,
+            "reservations": "",
+            "amount": "",
             "url": "https://travel.rakuten.co.jp/HOTEL/16654/?scid=af_trv_2026uurakuten"
           },
           {
@@ -438,19 +441,19 @@ window.SALE_DATA = {
             "note": "",
             "hotelNo": "172378",
             "area": "関西",
-            "reservations": 55,
-            "amount": 2073672,
+            "reservations": "",
+            "amount": "",
             "url": "https://travel.rakuten.co.jp/HOTEL/172378/?scid=af_trv_2026uurakuten"
           },
           {
             "rank": 3,
-            "name": "ホテルユニバーサルポート",
+            "name": "ホテルユニバーサルポートヴィータ",
             "note": "",
-            "hotelNo": "38281",
+            "hotelNo": "166138",
             "area": "関西",
-            "reservations": 38,
-            "amount": 1506511,
-            "url": "https://travel.rakuten.co.jp/HOTEL/38281/?scid=af_trv_2026uurakuten"
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/166138/?scid=af_trv_2026uurakuten"
           }
         ]
       },
@@ -460,33 +463,33 @@ window.SALE_DATA = {
         "hotels": [
           {
             "rank": 1,
-            "name": "ホテル川六　エルステージ高松",
+            "name": "ホテルグランヴィア広島サウスゲート",
             "note": "",
-            "hotelNo": "12614",
+            "hotelNo": "192812",
             "area": "中国・四国",
-            "reservations": 11,
-            "amount": 191761,
-            "url": "https://travel.rakuten.co.jp/HOTEL/12614/?scid=af_trv_2026uurakuten"
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/192812/?scid=af_trv_2026uurakuten"
           },
           {
             "rank": 2,
-            "name": "メルキュール高知土佐リゾート＆スパ",
+            "name": "ホテル道後やや",
             "note": "",
-            "hotelNo": "8724",
+            "hotelNo": "108156",
             "area": "中国・四国",
-            "reservations": 10,
-            "amount": 389665,
-            "url": "https://travel.rakuten.co.jp/HOTEL/8724/?scid=af_trv_2026uurakuten"
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/108156/?scid=af_trv_2026uurakuten"
           },
           {
             "rank": 3,
-            "name": "大江戸温泉物語　ホテルレオマの森",
+            "name": "アオアヲナルトリゾート",
             "note": "",
-            "hotelNo": "28098",
+            "hotelNo": "6123",
             "area": "中国・四国",
-            "reservations": 9,
-            "amount": 470312,
-            "url": "https://travel.rakuten.co.jp/HOTEL/28098/?scid=af_trv_2026uurakuten"
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/6123/?scid=af_trv_2026uurakuten"
           }
         ]
       },
@@ -496,37 +499,36 @@ window.SALE_DATA = {
         "hotels": [
           {
             "rank": 1,
-            "name": "フェニックス・シーガイア・オーシャン・タワー",
-            "note": "",
-            "hotelNo": "5173",
-            "area": "九州・沖縄",
-            "reservations": 37,
-            "amount": 1474251,
-            "url": "https://travel.rakuten.co.jp/HOTEL/5173/?scid=af_trv_2026uurakuten"
-          },
-          {
-            "rank": 2,
-            "name": "グランドメルキュール沖縄残波岬リゾート",
-            "note": "",
-            "hotelNo": "30045",
-            "area": "九州・沖縄",
-            "reservations": 25,
-            "amount": 3372853,
-            "url": "https://travel.rakuten.co.jp/HOTEL/30045/?scid=af_trv_2026uurakuten"
-          },
-          {
-            "rank": 3,
-            "name": "オリエンタルホテル　沖縄リゾート＆スパ",
+            "name": "オリエンタルホテル 沖縄リゾート＆スパ",
             "note": "",
             "hotelNo": "182630",
             "area": "九州・沖縄",
-            "reservations": 21,
-            "amount": 1649939,
+            "reservations": "",
+            "amount": "",
             "url": "https://travel.rakuten.co.jp/HOTEL/182630/?scid=af_trv_2026uurakuten"
+          },
+          {
+            "rank": 2,
+            "name": "カフーリゾートフチャク コンド・ホテル",
+            "note": "",
+            "hotelNo": "78239",
+            "area": "九州・沖縄",
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/78239/?scid=af_trv_2026uurakuten"
+          },
+          {
+            "rank": 3,
+            "name": "琉球ホテル＆リゾート 名城ビーチ",
+            "note": "",
+            "hotelNo": "183412",
+            "area": "九州・沖縄",
+            "reservations": "",
+            "amount": "",
+            "url": "https://travel.rakuten.co.jp/HOTEL/183412/?scid=af_trv_2026uurakuten"
           }
         ]
       }
     ]
-  },
-  "syncedAt": "2026-07-31 11:22"
+  }
 };

@@ -48,12 +48,14 @@ else {
   }
 }
 if (!data.ranking || !Array.isArray(data.ranking.areas)) problems.push('ranking.areas がありません');
-// sale は「開催中のセールが無い」＝ null が正常。ある場合だけ中身を見る
-if (data.sale) {
-  if (!data.sale.meta || !data.sale.meta.sale_id) problems.push('sale.meta.sale_id がありません');
-  if (!Array.isArray(data.sale.phases)) problems.push('sale.phases がありません');
-  if (!data.sale.schedule || !Array.isArray(data.sale.schedule.days)) problems.push('sale.schedule.days がありません');
-}
+// sales は「開催中のセールが無い」＝ 空配列が正常
+if (!Array.isArray(data.sales)) problems.push('sales が配列ではありません');
+else data.sales.forEach((s, i) => {
+  if (!s.meta || !s.meta.sale_id) problems.push(`sales[${i}].meta.sale_id がありません`);
+  if (s.meta && s.meta.kind === 'supersale' && !s.detail) {
+    problems.push(`sales[${i}]（${s.meta.sale_id}）は種別=supersale なのに詳細がありません`);
+  }
+});
 if (problems.length) {
   console.error('データが不完全なので中断します:');
   problems.forEach(p => console.error('  - ' + p));
@@ -79,14 +81,15 @@ const repair = (obj, key, fn, where) => {
   if (after !== obj[key]) { repaired.push(`${where}: ${obj[key]} → ${after}`); obj[key] = after; }
 };
 
-if (data.sale) {
-  repair(data.sale.meta, 'label', toMonthLabel, 'sales.期別ラベル');
-  (data.sale.schedule.days || []).forEach(d => repair(d, 'date', toMonthDay, 'schedule.日付'));
-  (data.sale.phases || []).forEach(p => {
+(data.sales || []).forEach(s => {
+  repair(s.meta, 'label', toMonthLabel, 'sales.期別ラベル');
+  if (!s.detail) return;
+  (s.detail.schedule?.days || []).forEach(d => repair(d, 'date', toMonthDay, 'schedule.日付'));
+  (s.detail.phases || []).forEach(p => {
     repair(p, 'date', toMonthDay, 'phases.日付');
-    (p.subs || []).forEach(s => repair(s, 'date', toMonthDay, 'phase_subs.日付'));
+    (p.subs || []).forEach(x => repair(x, 'date', toMonthDay, 'phase_subs.日付'));
   });
-}
+});
 repair(data.common.meta, 'label', toMonthLabel, 'sales.期別ラベル');
 
 // syncedAt はGAS側で日本時間が入る。無ければここで補う
@@ -111,15 +114,18 @@ if (repaired.length) {
 }
 
 const c = data.common;
-const s = data.sale;
-const planCount = s ? (s.links?.plan || []).reduce((n, g) => n + g.items.length, 0) : 0;
+const saleLines = (data.sales || []).map(s => {
+  const m = s.meta;
+  const head = `    ${m.kind === 'supersale' ? '[詳細]' : '[簡易]'} ${m.name || m.sale_id}（${m.startAt} 〜 ${m.endAt}）`;
+  if (!s.detail) return head;
+  const plan = (s.detail.links?.plan || []).reduce((n, g) => n + g.items.length, 0);
+  return head + `\n           タイムライン ${s.detail.phases.length} 件 ／ 施策リンク ${plan} 件 ／ スケジュール ${s.detail.schedule.days.length} 日分`;
+});
 
 console.log(`assets/sale-data.js を更新しました
 
-  常設        5と0の日 ${c.fiftyLinks.length} 件 ／ いつでも ${c.alwaysLinks.length} 件 ／ コピー案 ${c.fiftyCopies.length} 本
-  開催中セール ${s
-    ? `${s.meta.sale_id}（${s.meta.startDate}〜${s.meta.endDate}）タイムライン ${s.phases.length} 件 ／ リンク ${planCount} 件 ／ ${s.schedule.days.length} 日分`
-    : 'なし（期間中のセールが無いか、開始日がまだ来ていません）'}
+  常設        5と0の日 ${c.fiftyLinks.length} 件（${c.fiftyDuration || '開催時間の記載なし'}）／ 常時 ${c.alwaysLinks.length} 件 ／ コピー案 ${c.fiftyCopies.length} 本
+  今月のセール ${data.sales.length ? '\n' + saleLines.join('\n') : 'なし（期間中のセールが無いか、開始日時がまだ来ていません）'}
   ランキング   ${ranking} 件（${data.ranking.label || '-'}）
   同期日時     ${data.syncedAt}
 

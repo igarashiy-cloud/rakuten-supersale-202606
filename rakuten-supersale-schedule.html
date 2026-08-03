@@ -203,6 +203,43 @@
     /* 開催中セールの帯：赤の主張を落とし、緑の中でのアクセントに */
     .sale-banner { background:linear-gradient(135deg,var(--green) 0%,var(--green-l) 100%);
       box-shadow:0 4px 14px rgba(14,122,85,.2); }
+
+    /* ── ①その月開催のセール：1行で書いた簡易セールのカード ── */
+    .month-sales { display:grid; gap:.8rem; margin-bottom:2rem; }
+    .sale-card { display:block; text-decoration:none; background:#fff; border:1px solid var(--line);
+      border-left:4px solid var(--green-l); border-radius:1rem; padding:1.1rem 1.3rem;
+      box-shadow:0 2px 10px rgba(0,0,0,.05); transition:transform .15s, box-shadow .15s; }
+    .sale-card:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(14,122,85,.12); }
+    .sale-card.is-super { border-left-color:var(--gold); background:linear-gradient(135deg,#fff 0%,#FCF8EC 100%); }
+    .sale-card-top { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; margin-bottom:.5rem; }
+    .sale-card-tag { background:var(--green-bg); color:var(--green); font-size:.68rem; font-weight:900;
+      padding:.18rem .6rem; border-radius:1rem; white-space:nowrap; }
+    .sale-card-tag.is-super { background:var(--gold); color:#fff; }
+    .sale-card-period { font-size:.76rem; color:#8AA096; font-weight:700; }
+    .sale-card-name { font-size:1.05rem; font-weight:900; color:#0F3427; line-height:1.4; }
+    .sale-card-summary { font-size:.85rem; color:#4A6B5C; line-height:1.7; margin-top:.4rem; }
+    .sale-card-foot { margin-top:.7rem; }
+    .sale-card-open { font-size:.78rem; font-weight:900; color:var(--green-l); }
+
+    /* ── ③5と0の日 ── */
+    .fifty-lead { display:flex; align-items:center; gap:.7rem; flex-wrap:wrap; margin:-.4rem 0 .9rem; }
+    .fifty-duration { background:var(--teal); color:#fff; font-size:.72rem; font-weight:900;
+      padding:.2rem .7rem; border-radius:1rem; white-space:nowrap; }
+    .fifty-days { display:flex; gap:.45rem; flex-wrap:wrap; margin-bottom:1rem; }
+    .fifty-day { display:inline-flex; flex-direction:column; align-items:center; min-width:3.1rem;
+      background:#fff; border:1px solid var(--line); border-radius:.6rem; padding:.35rem .5rem;
+      font-size:.82rem; font-weight:900; color:#2E4A3D; }
+    .fifty-day small { font-size:.62rem; font-weight:700; color:#9AAFA4; margin-top:.1rem; }
+    .fifty-day.is-past { opacity:.4; }
+    .fifty-day.is-today { background:var(--green); border-color:var(--green); color:#fff; }
+    .fifty-day.is-today small { color:rgba(255,255,255,.75); }
+    .fifty-day.is-next { border-color:var(--teal); border-width:2px; color:var(--teal-d); }
+
+    /* 投稿コピー案 */
+    .copy-cards { display:grid; gap:.7rem; margin-bottom:2rem; }
+    .copy-card { background:#fff; border:1px solid var(--line); border-radius:.9rem; padding:1rem 1.15rem; }
+    .copy-card-theme { font-size:.85rem; font-weight:900; color:#0F3427; margin-bottom:.5rem; }
+    .copy-card-foot { margin-top:.6rem; display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
   </style>
 </head>
 <body>

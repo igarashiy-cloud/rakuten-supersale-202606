@@ -51,8 +51,10 @@ const SHEETS = {
 
 /** 各シートの列名（master-csv のヘッダーと一致させること） */
 const COLUMNS = {
-  sales: ['sale_id', '公開', '種別', '開始日', '終了日', 'セール名', '期別ラベル', 'ページタイトル',
-    'hero_eyebrow', 'hero_title', 'hero_sub', 'hero_note', 'cta_label', 'cta_url', '公式URL',
+  // 左から7列が毎月触るところ。9列目以降はスーパーSALEと常設行だけが使う
+  sales: ['sale_id', '公開', '種別', 'セール名', '開始日時', '終了日時', 'ひとこと説明', 'セールURL',
+    'スケジュール公開日', '期別ラベル', '5と0の日開催時間',
+    'hero_eyebrow', 'hero_title', 'hero_sub', 'hero_note', 'cta_label', 'cta_url',
     'スケジュール期間', 'チケット訴求',
     'ランキング見出し', 'ランキング副題', 'ランキング説明タイトル', 'ランキング説明', 'フッター'],
   phases: ['sale_id', '表示順', '日付', '時刻', '色', 'フェーズ名', 'フェーズ背景色', 'フェーズ文字色',
@@ -189,14 +191,14 @@ function getSalePayload_(saleId, skipCache) {
     throw new Error('sales シートに sale_id = common の行がありません（常設ページ用の1行が必要です）');
   }
 
-  const saleRow = pickSaleRow_(rows, saleId);
+  const saleRows = pickSaleRows_(rows, saleId);
 
   const payload = {
     ok: true,
     updatedAt: new Date().toISOString(),
     common: buildCommon_(commonRow),
-    sale: saleRow ? buildSale_(saleRow) : null,
-    ranking: buildRankingBlock_(saleRow ? String(saleRow['sale_id']) : ''),
+    sales: saleRows.map(buildSale_),
+    ranking: buildRankingBlock_(''),
   };
 
   cachePut_(cacheKey, JSON.stringify(payload));
@@ -204,23 +206,23 @@ function getSalePayload_(saleId, skipCache) {
 }
 
 /**
- * 出すべきセールの行を選ぶ。
- * sale_id 指定があればそれ、無ければ「終了日がまだ来ていないセール」のうち開始が早いもの。
+ * 出すべきセールの行を選ぶ。同じ月に複数のセールが走ることがあるので配列で返す。
+ * sale_id 指定があればその1件だけ。
  */
-function pickSaleRow_(rows, saleId) {
-  const sales = rows.filter(r => String(r['種別'] || 'sale') === 'sale');
-  if (saleId) return sales.filter(r => String(r['sale_id']) === saleId)[0] || null;
+function pickSaleRows_(rows, saleId) {
+  const sales = rows.filter(r => String(r['種別'] || 'sale') !== COMMON_ID);
+  if (saleId) return sales.filter(r => String(r['sale_id']) === saleId);
 
-  const today = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd');
-  const candidates = sales.filter(r => {
-    const end = String(r['終了日'] || '');
-    const start = String(r['開始日'] || '');
-    if (end && end < today) return false;                       // 終わったセールは出さない
-    if (!EXPORT_UPCOMING && start && start > today) return false; // 未発表のセールは書き出さない
+  const now = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd HH:mm');
+  return sales.filter(r => {
+    const end = String(r['終了日時'] || '');
+    const start = String(r['開始日時'] || '');
+    if (end && end < now) return false;                        // 終わったセールは出さない
+    if (!EXPORT_UPCOMING && start && start > now) return false; // 未発表のセールは書き出さない
     return true;
+  }).sort(function (a, b) {
+    return String(a['開始日時']).localeCompare(String(b['開始日時']));
   });
-  candidates.sort((a, b) => String(a['開始日']).localeCompare(String(b['開始日'])));
-  return candidates[0] || null;
 }
 
 /** 常設ブロック。5と0の日のリンクと、いつでも使えるリンク、汎用コピー */
@@ -228,15 +230,27 @@ function buildCommon_(row) {
   const links = sortBy_(rowsFor_(SHEETS.links, COMMON_ID), '表示順');
   return {
     meta: saleMeta_(row),
+    // 5と0の日は月によって48時間だったり72時間だったりする
+    fiftyDuration: String(row['5と0の日開催時間'] || ''),
     fiftyLinks: links.filter(r => r['区分'] === 'fifty').map(toLink_),
     alwaysLinks: links.filter(r => r['区分'] === 'always').map(toLink_),
-    // 5と0の日カレンダーで使い回すコピー案。日付はページ側で自動計算する
+    // 5と0の日の投稿コピー案。日付はページ側で自動計算する
     fiftyCopies: sortBy_(rowsFor_(SHEETS.schedule, COMMON_ID), '表示順').map(scheduleDay_),
   };
 }
 
-/** 開催中のセールブロック */
+/**
+ * セール1件ぶん。
+ * 種別が supersale の行だけ、タイムラインや投稿スケジュールなどの詳細を付ける。
+ * 毎月の普通のセールは sales シートの1行だけで完結する（カード1枚で出る）。
+ */
 function buildSale_(row) {
+  const meta = saleMeta_(row);
+  if (meta.kind !== 'supersale') return { meta: meta, detail: null };
+  return { meta: meta, detail: buildSaleDetail_(row) };
+}
+
+function buildSaleDetail_(row) {
   const id = String(row['sale_id']);
   const at = name => rowsFor_(name, id);
 
@@ -261,7 +275,6 @@ function buildSale_(row) {
   });
 
   return {
-    meta: saleMeta_(row),
     phases: phases,
     links: { plan: planGroups },
     points: sortBy_(at(SHEETS.points), '表示順').map(r => ({
@@ -298,12 +311,15 @@ function saleMeta_(row) {
   return {
     sale_id: String(row['sale_id']),
     kind: String(row['種別'] || 'sale'),
-    startDate: String(row['開始日'] || ''),
-    endDate: String(row['終了日'] || ''),
-    name: row['セール名'], label: row['期別ラベル'], pageTitle: row['ページタイトル'],
+    startAt: String(row['開始日時'] || ''),
+    endAt: String(row['終了日時'] || ''),
+    summary: row['ひとこと説明'],
+    url: row['セールURL'],
+    scheduleOpenAt: String(row['スケジュール公開日'] || ''),
+    name: row['セール名'], label: row['期別ラベル'],
     heroEyebrow: row['hero_eyebrow'], heroTitle: row['hero_title'], heroSub: row['hero_sub'],
     heroNote: row['hero_note'], ctaLabel: row['cta_label'], ctaUrl: row['cta_url'],
-    officialUrl: row['公式URL'], schedulePeriod: row['スケジュール期間'],
+    officialUrl: row['セールURL'], schedulePeriod: row['スケジュール期間'],
     ticketLead: row['チケット訴求'],
     rankingTitle: row['ランキング見出し'], rankingSub: row['ランキング副題'],
     rankingNoteTitle: row['ランキング説明タイトル'], rankingNote: row['ランキング説明'],
@@ -379,7 +395,13 @@ function buildRankingBlock_(saleId) {
  * ここに無い列の日付は yyyy-MM-dd。
  */
 const DATE_FORMATS = {
-  sales: { '期別ラベル': 'yyyy年M月' },
+  sales: {
+    '期別ラベル': 'yyyy年M月',
+    // 開始日時・終了日時は時刻まで見て出し分けるので、時刻ごと文字列にする
+    '開始日時': 'yyyy-MM-dd HH:mm',
+    '終了日時': 'yyyy-MM-dd HH:mm',
+    'スケジュール公開日': 'yyyy-MM-dd',
+  },
   phases: { '日付': 'M/d' },
   phase_subs: { '日付': 'M/d' },
   schedule: { '日付': 'M/d' },

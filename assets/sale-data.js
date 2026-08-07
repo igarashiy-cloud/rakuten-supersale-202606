@@ -1,7 +1,7 @@
 /* 自動生成: スプレッドシートのメニューから公開。直接編集しないこと。 */
 window.SALE_DATA = {
   "ok": true,
-  "updatedAt": "2026-08-03T23:51:25.306Z",
+  "updatedAt": "2026-08-07T04:48:32.587Z",
   "common": {
     "meta": {
       "sale_id": "common",
@@ -327,6 +327,34 @@ window.SALE_DATA = {
         "ctaLabel": "",
         "ctaUrl": "",
         "officialUrl": "https://travel.rakuten.co.jp/kaigai/campaign/korea/",
+        "schedulePeriod": "",
+        "ticketLead": "",
+        "rankingTitle": "",
+        "rankingSub": "",
+        "rankingNoteTitle": "",
+        "rankingNote": "",
+        "footer": ""
+      },
+      "detail": null
+    },
+    {
+      "meta": {
+        "sale_id": "2026-08-gw",
+        "kind": "sale",
+        "startAt": "2026-08-06 10:00",
+        "endAt": "2026-08-21 09:59",
+        "summary": "JAL限定 最大10,000円クーポン",
+        "url": "https://travel.rakuten.co.jp/package/jal/sale/202608/",
+        "scheduleOpenAt": "",
+        "name": "hahaha",
+        "label": "",
+        "heroEyebrow": "",
+        "heroTitle": "",
+        "heroSub": "",
+        "heroNote": "",
+        "ctaLabel": "",
+        "ctaUrl": "",
+        "officialUrl": "https://travel.rakuten.co.jp/package/jal/sale/202608/",
         "schedulePeriod": "",
         "ticketLead": "",
         "rankingTitle": "",
@@ -665,5 +693,5 @@ window.SALE_DATA = {
       }
     ]
   },
-  "syncedAt": "2026-08-04 08:51"
+  "syncedAt": "2026-08-07 13:48"
 };
